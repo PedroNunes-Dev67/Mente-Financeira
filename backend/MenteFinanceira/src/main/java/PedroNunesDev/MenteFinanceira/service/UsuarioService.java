@@ -94,4 +94,11 @@ public class UsuarioService {
                     );
                 }).orElseThrow(() -> new RuntimeException());
     }
+
+    public void delete(Long id){
+
+        Usuario usuario = repository.findById(id).orElseThrow(() -> new RuntimeException());
+
+        repository.delete(usuario);
+    }
 }
