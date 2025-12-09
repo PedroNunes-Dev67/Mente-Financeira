@@ -4,6 +4,7 @@ import PedroNunesDev.MenteFinanceira.model.enums.FinancaStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,7 @@ public class Financa {
     private String titulo;
     private Integer valor;
     private FinancaStatus status;
+    private LocalDate vencimento;
 
     @JsonIgnore
     @ManyToOne
@@ -29,11 +31,12 @@ public class Financa {
     public Financa() {
     }
 
-    public Financa(String titulo, Integer valor, FinancaStatus status, Usuario usuario) {
+    public Financa(String titulo, Integer valor, FinancaStatus status, Usuario usuario, LocalDate vencimento) {
         this.titulo = titulo;
         this.valor = valor;
         this.status = status;
         this.usuario = usuario;
+        this.vencimento = vencimento;
     }
 
     public Long getId_financa() {
@@ -68,12 +71,21 @@ public class Financa {
         this.status = status;
     }
 
+    @JsonIgnore
     public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public LocalDate getVencimento() {
+        return vencimento;
+    }
+
+    public void setVencimento(LocalDate vencimento) {
+        this.vencimento = vencimento;
     }
 
     @Override
