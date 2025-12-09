@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class Categoria implements Serializable {
     @Column(name = "nome_categoria")
     private String nome;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private Set<Financa> financas = new HashSet<>();
 
