@@ -22,6 +22,10 @@ public class Financa {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
     public Financa() {
     }
 
