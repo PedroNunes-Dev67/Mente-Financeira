@@ -26,9 +26,9 @@ public class FinancaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novaFinanca);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Financa>> buscarTodasFinancas(){
+    @GetMapping("/me")
+    public ResponseEntity<List<Financa>> buscarTodasFinancasPorUsuario(){
 
-        return ResponseEntity.ok(financaService.buscandoFinancas());
+        return ResponseEntity.ok(financaService.buscarFinancasPorUsuario());
     }
 }

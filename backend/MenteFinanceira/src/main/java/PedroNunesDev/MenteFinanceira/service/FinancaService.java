@@ -43,7 +43,7 @@ public class FinancaService {
         ));
     }
 
-    public List<Financa> buscandoFinancas(){
+    public List<Financa> buscarFinancasPorUsuario(){
 
         Usuario usuarioAuth = (Usuario) SecurityContextHolder
                 .getContext()
