@@ -15,9 +15,8 @@ public class Financa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_financa;
     private String titulo;
-    private Integer valor;
+    private Double valor;
     private FinancaStatus status;
-    private LocalDate vencimento;
 
     @JsonIgnore
     @ManyToOne
@@ -31,12 +30,12 @@ public class Financa {
     public Financa() {
     }
 
-    public Financa(String titulo, Integer valor, FinancaStatus status, Usuario usuario, LocalDate vencimento) {
+    public Financa(String titulo, Double valor, FinancaStatus status, Usuario usuario,  Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
         this.status = status;
         this.usuario = usuario;
-        this.vencimento = vencimento;
+        this.categoria = categoria;
     }
 
     public Long getId_financa() {
@@ -55,11 +54,11 @@ public class Financa {
         this.titulo = titulo;
     }
 
-    public Integer getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
@@ -80,12 +79,12 @@ public class Financa {
         this.usuario = usuario;
     }
 
-    public LocalDate getVencimento() {
-        return vencimento;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setVencimento(LocalDate vencimento) {
-        this.vencimento = vencimento;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override

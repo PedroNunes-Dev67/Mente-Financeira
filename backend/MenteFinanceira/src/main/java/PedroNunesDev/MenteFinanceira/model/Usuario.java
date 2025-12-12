@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.model;
 
 import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario implements UserDetails {
 
     @Id
@@ -60,6 +61,7 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getSenha() {
         return senha;
     }
@@ -68,6 +70,7 @@ public class Usuario implements UserDetails {
         this.senha = senha;
     }
 
+    @JsonIgnore
     public UsuarioRole getRole() {
         return role;
     }
@@ -83,11 +86,16 @@ public class Usuario implements UserDetails {
         return Objects.equals(id, usuario.id);
     }
 
+    public List<Financa> getList() {
+        return list;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UsuarioRole.ADMIN){
@@ -99,31 +107,37 @@ public class Usuario implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return senha;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
