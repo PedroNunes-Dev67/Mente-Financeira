@@ -11,11 +11,10 @@ import PedroNunesDev.MenteFinanceira.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -65,5 +64,21 @@ public class UsuarioService {
                             usuario.getEmail()
                     );
                 }).orElseThrow(() -> new RuntimeException());
+    }
+
+    public UsuarioDTOResponse me(){
+
+        Usuario usuarioAuth = (Usuario) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Usuario usuario = repository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+
+        return new UsuarioDTOResponse(
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getNome()
+        );
     }
 }
