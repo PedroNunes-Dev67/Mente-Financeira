@@ -30,25 +30,25 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDTOResponse> login(@RequestBody @Valid LoginDTO loginDTO){
+
         String token = usuarioService.login(loginDTO);
+
         return ResponseEntity.ok(new TokenDTOResponse(token));
     }
 
     @PostMapping("/cadastro")
     public ResponseEntity<UsuarioDTOResponse> cadastrarUsuario(@RequestBody @Valid UsuarioDTORequest usuarioDTORequest){
+
         UsuarioDTOResponse usuario = usuarioService.cadastrarUsuario(usuarioDTORequest);
 
         if (usuario == null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-        return ResponseEntity.created(createdUri(usuario.id())).body(usuario);
-    }
-
-    private URI createdUri(Object id){
-        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTOResponse> updateUsuario(@PathVariable Long id, @RequestBody @Valid SenhaDTO senhaDTO){
+
         UsuarioDTOResponse usuarioDTOResponse = usuarioService.updateUsuario(id, senhaDTO);
 
         return ResponseEntity.ok(usuarioDTOResponse);
