@@ -19,20 +19,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTOResponse> findById(@PathVariable Long id){
-        UsuarioDTOResponse usuario = usuarioService.findById(id);
-
-        return ResponseEntity.ok(usuario);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<UsuarioDTOResponse>> findAll(){
-
-        List<UsuarioDTOResponse> list = usuarioService.findAll();
-        return ResponseEntity.ok(list);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<TokenDTOResponse> login(@RequestBody @Valid LoginDTO loginDTO){
         String token = usuarioService.login(loginDTO);
@@ -53,18 +39,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTOResponse> updateUsuario(@RequestBody @Valid SenhaDTO senhaDTO,
-                                                            @PathVariable Long id){
-        UsuarioDTOResponse usuarioDTOResponse = usuarioService.updateUsuario(senhaDTO, id);
+    public ResponseEntity<UsuarioDTOResponse> updateUsuario(@PathVariable Long id, @RequestBody @Valid SenhaDTO senhaDTO){
+        UsuarioDTOResponse usuarioDTOResponse = usuarioService.updateUsuario(id, senhaDTO);
 
         return ResponseEntity.ok(usuarioDTOResponse);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-
-        usuarioService.delete(id);
-
-        return ResponseEntity.ok().build();
     }
 }

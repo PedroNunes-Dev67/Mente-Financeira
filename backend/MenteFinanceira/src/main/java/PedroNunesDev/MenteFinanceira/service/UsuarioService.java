@@ -27,34 +27,6 @@ public class UsuarioService {
     @Autowired
     private TokenService tokenService;
 
-    public UsuarioDTOResponse findById(Long id){
-
-         return repository.findById(id)
-                .map(usuario -> {
-                    return new UsuarioDTOResponse(
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getEmail()
-                    );
-                }).orElseThrow(() -> new RuntimeException());
-    }
-
-    public List<UsuarioDTOResponse> findAll(){
-
-        List<UsuarioDTOResponse> list = new ArrayList<>();
-
-         list = repository.findAll()
-                 .stream().map(usuario -> {
-                     return new UsuarioDTOResponse(
-                             usuario.getId(),
-                             usuario.getNome(),
-                             usuario.getEmail()
-                     );
-                 }).toList();
-
-         return list;
-    }
-
     public UsuarioDTOResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
         if (repository.findByEmail(usuarioDTORequest.email()) != null) return null;
@@ -76,7 +48,7 @@ public class UsuarioService {
         return token;
     }
 
-    public UsuarioDTOResponse updateUsuario(SenhaDTO senhaDTO, Long id) {
+    public UsuarioDTOResponse updateUsuario(Long id, SenhaDTO senhaDTO) {
 
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
@@ -93,12 +65,5 @@ public class UsuarioService {
                             usuario.getEmail()
                     );
                 }).orElseThrow(() -> new RuntimeException());
-    }
-
-    public void delete(Long id){
-
-        Usuario usuario = repository.findById(id).orElseThrow(() -> new RuntimeException());
-
-        repository.delete(usuario);
     }
 }
