@@ -3,6 +3,7 @@ package PedroNunesDev.MenteFinanceira.controller;
 import PedroNunesDev.MenteFinanceira.dto.*;
 import PedroNunesDev.MenteFinanceira.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,14 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioDTOResponse> me(){
+
+        UsuarioDTOResponse usuarioDTOResponse = usuarioService.me();
+
+        return ResponseEntity.ok(usuarioDTOResponse);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<TokenDTOResponse> login(@RequestBody @Valid LoginDTO loginDTO){
