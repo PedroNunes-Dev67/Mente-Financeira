@@ -31,4 +31,12 @@ public class FinancaController {
 
         return ResponseEntity.ok(financaService.buscarFinancasPorUsuario());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Financa> pagamentoFinanca(@PathVariable Long id){
+
+        Financa financa = financaService.pagamentoFinanca(id);
+
+        return ResponseEntity.ok(financa);
+    }
 }

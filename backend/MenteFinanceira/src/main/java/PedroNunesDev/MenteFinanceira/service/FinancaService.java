@@ -38,6 +38,7 @@ public class FinancaService {
                 financaDTORequest.titulo(),
                 financaDTORequest.valor(),
                 FinancaStatus.PENDENTE,
+                financaDTORequest.diaDePagamento(),
                 usuario,
                 categoria
         ));
@@ -53,5 +54,13 @@ public class FinancaService {
         Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
 
         return usuario.getList();
+    }
+
+    public Financa pagamentoFinanca(Long id){
+
+        Financa financa = financaRepository.findById(id).orElseThrow(() -> new RuntimeException());
+
+        financa.setStatus(FinancaStatus.PAGO);
+        return financaRepository.save(financa);
     }
 }

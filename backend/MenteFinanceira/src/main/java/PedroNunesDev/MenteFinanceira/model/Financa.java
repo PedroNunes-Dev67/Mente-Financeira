@@ -17,6 +17,7 @@ public class Financa {
     private String titulo;
     private Double valor;
     private FinancaStatus status;
+    private Integer diaDePagamento;
 
     @JsonIgnore
     @ManyToOne
@@ -30,10 +31,11 @@ public class Financa {
     public Financa() {
     }
 
-    public Financa(String titulo, Double valor, FinancaStatus status, Usuario usuario,  Categoria categoria) {
+    public Financa(String titulo, Double valor, FinancaStatus status,Integer diaDePagamento, Usuario usuario,  Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
         this.status = status;
+        this.diaDePagamento = diaDePagamento;
         this.usuario = usuario;
         this.categoria = categoria;
     }
@@ -85,6 +87,14 @@ public class Financa {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Integer getDiaDePagamento() {
+        return diaDePagamento;
+    }
+
+    public void setDiaDePagamento(Integer diaDePagamento) {
+        this.diaDePagamento = diaDePagamento;
     }
 
     @Override

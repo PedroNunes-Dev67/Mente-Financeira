@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 public record FinancaDTORequest(
         @NotBlank String titulo,
         @NotNull Double valor,
+        @NotNull Integer diaDePagamento,
         @NotNull Long id_categoria
 ) {
 }
