@@ -1,0 +1,95 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+#principal{
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+.titulo{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: green;
+}
+
+#formulario{
+    background-size: cover;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 20px 20px;
+    min-width: 300px;
+    width: auto;
+    background-color: white;
+    color: black;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 3px;
+}
+
+#inSubmit{
+    margin-top: 15px;
+    cursor: pointer;
+    height: 35px;
+    border: none;
+    background-color: green;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+#inSubmit:hover{
+    transform: scale(1.08);
+}
+
+.inputs{
+    height: 23px;
+    min-width: 280px;
+    border: solid 2px green;
+    border-radius: 7px;
+}
+
+#logo{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-top: 50px;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+#opcao{
+    display: flex;
+    gap: 3px;
+    margin-top: 13px;
+    width: 100%;
+    margin-bottom: 13px;
+}
+
+.hrd{
+    width: 100%;
+}
+#tituloText{
+    text-align: center;
+}
+#esqueciSenha{
+    margin-top: 8px;
+}
+#esqueciSenha a{
+    font-size: 14px;
+    color: green;
+    text-decoration: none;
+}
