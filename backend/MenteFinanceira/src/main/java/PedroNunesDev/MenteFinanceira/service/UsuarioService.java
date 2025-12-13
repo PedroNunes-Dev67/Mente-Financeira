@@ -1,9 +1,6 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.LoginDTO;
-import PedroNunesDev.MenteFinanceira.dto.SenhaDTO;
-import PedroNunesDev.MenteFinanceira.dto.UsuarioDTORequest;
-import PedroNunesDev.MenteFinanceira.dto.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.dto.*;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
@@ -25,6 +22,8 @@ public class UsuarioService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private BCryptPasswordEncoder bcrypt;
 
     public UsuarioDTOResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
@@ -47,24 +46,6 @@ public class UsuarioService {
         return token;
     }
 
-    public UsuarioDTOResponse updateUsuario(Long id, SenhaDTO senhaDTO) {
-
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-
-
-        return repository.findById(id)
-                .filter(usuario -> !bcrypt.matches(senhaDTO.senha(), usuario.getSenha()))
-                .map(usuario -> {
-                    usuario.setSenha(senhaDTO.senha());
-                    repository.save(usuario);
-
-                    return new UsuarioDTOResponse(
-                            usuario.getId(),
-                            usuario.getNome(),
-                            usuario.getEmail()
-                    );
-                }).orElseThrow(() -> new RuntimeException());
-    }
 
     public UsuarioDTOResponse me(){
 
@@ -80,5 +61,16 @@ public class UsuarioService {
                 usuario.getEmail(),
                 usuario.getNome()
         );
+    }
+
+    public String validarEmail(EmailDTO emailDTO){
+
+        Usuario usuario = (Usuario) repository.findByEmail(emailDTO.email());
+
+        if (usuario == null) throw new RuntimeException();
+
+        String token = tokenService.genereteToken(usuario);
+
+        return token;
     }
 }
