@@ -47,4 +47,12 @@ public class FinancaController {
 
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/me/pendentes")
+    public ResponseEntity<List<Financa>> financasPendetes(){
+
+        List<Financa> list = financaService.financasPendentes();
+
+        return ResponseEntity.ok(list);
+    }
 }

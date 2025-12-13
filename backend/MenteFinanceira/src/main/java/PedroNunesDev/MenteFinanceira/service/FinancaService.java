@@ -82,17 +82,7 @@ public class FinancaService {
                 .filter(financa -> financa.getCategoria() == categoria).toList();
     }
 
-    public void atualizarFinancas(){
-
-        LocalDate paramentro = LocalDate.now();
-
-        String paramentroString = paramentro.toString();
-
-        paramentroString = paramentroString.substring(0,8);
-
-        paramentroString = paramentroString+"01";
-
-        LocalDate paramentroAtualizado = LocalDate.parse(paramentroString);
+    public List<Financa> financasPendentes(){
 
         Usuario usuarioAuth = (Usuario) SecurityContextHolder
                 .getContext()
@@ -101,18 +91,22 @@ public class FinancaService {
 
         Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
 
-            usuario.getList()
-                .stream()
-                .filter(financa -> financa.getStatus() == FinancaStatus.PAGO &&
-                        LocalDate.now().equals(paramentroAtualizado))
-                .forEach(financa -> atualizar(financa));
+        return usuario.getList()
+                .stream().filter(financa -> financa.getStatus() == FinancaStatus.PENDENTE).toList();
 
     }
 
-    private Financa atualizar(Financa financa){
+    public List<Financa> financasPagas(){
 
-        financa.setStatus(FinancaStatus.PENDENTE);
+        Usuario usuarioAuth = (Usuario) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        return financaRepository.save(financa);
+        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+
+        return usuario.getList()
+                .stream().filter(financa -> financa.getStatus() == FinancaStatus.PAGO).toList();
+
     }
 }
