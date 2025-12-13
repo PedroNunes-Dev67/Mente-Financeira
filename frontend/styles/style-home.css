@@ -18,13 +18,12 @@ body{
 }
 
 #formulario{
-    background-size: cover;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 20px 20px 20px;
+    padding: 10px 30px 30px 30px;
     min-width: 300px;
     width: auto;
     background-color: white;
@@ -53,7 +52,7 @@ body{
 }
 
 .inputs{
-    height: 23px;
+    height: 30px;
     min-width: 280px;
     border: solid 2px green;
     border-radius: 7px;
@@ -63,7 +62,8 @@ body{
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin-top: 50px;
+    margin-top: 40px;
+    margin-bottom: 0;
 }
 .container{
     display: flex;
@@ -91,5 +91,13 @@ body{
 #esqueciSenha a{
     font-size: 14px;
     color: green;
-    text-decoration: none;
+}
+
+@media(max-width:760px){
+
+    #formulario{
+        font-size: 14px;
+        min-width: 200px;
+        padding: 5px 20px 20px 20px;
+    }
 }
