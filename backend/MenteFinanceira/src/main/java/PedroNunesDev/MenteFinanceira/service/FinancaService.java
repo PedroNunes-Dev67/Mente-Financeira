@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -61,6 +62,57 @@ public class FinancaService {
         Financa financa = financaRepository.findById(id).orElseThrow(() -> new RuntimeException());
 
         financa.setStatus(FinancaStatus.PAGO);
+        return financaRepository.save(financa);
+    }
+
+    public List<Financa> financaPorCategoria(Long id){
+
+        Usuario usuarioAuth = (Usuario) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+
+        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException());
+
+        List<Financa> listaDefinancas = usuario.getList();
+
+        return listaDefinancas.stream()
+                .filter(financa -> financa.getCategoria() == categoria).toList();
+    }
+
+    public void atualizarFinancas(){
+
+        LocalDate paramentro = LocalDate.now();
+
+        String paramentroString = paramentro.toString();
+
+        paramentroString = paramentroString.substring(0,8);
+
+        paramentroString = paramentroString+"01";
+
+        LocalDate paramentroAtualizado = LocalDate.parse(paramentroString);
+
+        Usuario usuarioAuth = (Usuario) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+
+            usuario.getList()
+                .stream()
+                .filter(financa -> financa.getStatus() == FinancaStatus.PAGO &&
+                        LocalDate.now().equals(paramentroAtualizado))
+                .forEach(financa -> atualizar(financa));
+
+    }
+
+    private Financa atualizar(Financa financa){
+
+        financa.setStatus(FinancaStatus.PENDENTE);
+
         return financaRepository.save(financa);
     }
 }

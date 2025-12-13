@@ -39,4 +39,12 @@ public class FinancaController {
 
         return ResponseEntity.ok(financa);
     }
+
+    @GetMapping("/me/categoria/{id}")
+    public ResponseEntity<List<Financa>> financasPorCategoria(@PathVariable Long id){
+
+        List<Financa> list = financaService.financaPorCategoria(id);
+
+        return ResponseEntity.ok(list);
+    }
 }
