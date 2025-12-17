@@ -38,6 +38,11 @@ public class UsuarioService {
 
     public String login(LoginDTO loginDTO){
 
+        Usuario usuario = (Usuario) repository.findByEmail(loginDTO.email());
+
+        if (usuario == null) throw new RuntimeException();
+        else if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
+
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
         var authentication = authenticationManager.authenticate(usernamePassword);
 

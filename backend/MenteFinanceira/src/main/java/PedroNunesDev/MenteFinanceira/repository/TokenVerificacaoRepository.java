@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface TokenVerificacaoRepository extends JpaRepository<TokenVerificacao, Long> {
 
     Optional<TokenVerificacao> findByToken(String token);
+
+    Optional<TokenVerificacao> findByEmail(String email);
 }
