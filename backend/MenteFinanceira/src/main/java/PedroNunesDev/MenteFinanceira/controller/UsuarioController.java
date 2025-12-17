@@ -40,14 +40,4 @@ public class UsuarioController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
-
-    @PostMapping("/auth/email")
-    public ResponseEntity<TokenDTOResponse> validarEmail(@RequestBody @Valid EmailDTO emailDTO){
-
-        String token = usuarioService.validarEmail(emailDTO);
-
-        return ResponseEntity.ok(new TokenDTOResponse(token));
-    }
-
-
 }

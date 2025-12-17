@@ -62,15 +62,4 @@ public class UsuarioService {
                 usuario.getNome()
         );
     }
-
-    public String validarEmail(EmailDTO emailDTO){
-
-        Usuario usuario = (Usuario) repository.findByEmail(emailDTO.email());
-
-        if (usuario == null) throw new RuntimeException();
-
-        String token = tokenService.genereteToken(usuario);
-
-        return token;
-    }
 }

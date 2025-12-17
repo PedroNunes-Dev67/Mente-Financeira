@@ -56,7 +56,7 @@ public class FinancaController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/me/pendentes")
+    @GetMapping("/me/pagas")
     public ResponseEntity<List<Financa>> financasPagas(){
 
         List<Financa> list = financaService.financasPagas();
