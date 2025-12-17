@@ -23,6 +23,7 @@ public class Usuario implements UserDetails {
     private String email;
     private String senha;
     private UsuarioRole role;
+    private boolean verificacaoEmail;
 
     @OneToMany(mappedBy = "usuario")
     private List<Financa> list;
@@ -35,6 +36,7 @@ public class Usuario implements UserDetails {
         this.email = email;
         this.senha = senha;
         this.role = role;
+        setVerificacaoEmail(false);
     }
 
     public Long getId() {
@@ -77,6 +79,14 @@ public class Usuario implements UserDetails {
 
     public void setRole(UsuarioRole role) {
         this.role = role;
+    }
+
+    public boolean isVerificacaoEmail() {
+        return verificacaoEmail;
+    }
+
+    public void setVerificacaoEmail(boolean verificacaoEmail) {
+        this.verificacaoEmail = verificacaoEmail;
     }
 
     @Override
