@@ -18,18 +18,15 @@ public class TokenVerificacao {
     private boolean ativo;
     private LocalDateTime duracao;
 
-    private String nome;
-    private String email;
+    private Long idUsuario;
 
     public TokenVerificacao() {
     }
 
-    public TokenVerificacao(String token, boolean ativo, LocalDateTime duracao, String nome, String email) {
+    public TokenVerificacao(String token, boolean ativo, LocalDateTime duracao, Long id) {
         this.token = token;
         this.ativo = ativo;
         this.duracao = duracao;
-        this.nome = nome;
-        this.email = email;
     }
 
     public Long getId() {
@@ -64,20 +61,12 @@ public class TokenVerificacao {
         this.duracao = duracao;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override

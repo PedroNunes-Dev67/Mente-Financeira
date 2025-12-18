@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,33 +21,23 @@ public class TokenVerificacaoService {
 
     public TokenVerificacao gerarTokenDeVerificacao(Usuario usuario){
 
-        TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoRepository.findByEmail(usuario.getEmail())
-                .orElse(null);
-
-        if (tokenVerificacaoExistente == null) {
             String token = UUID.randomUUID().toString();
 
             TokenVerificacao tokenVerificacao = new TokenVerificacao(
                     token,
                     false,
                     LocalDateTime.now().plusMinutes(30),
-                    usuario.getNome(),
-                    usuario.getEmail()
+                    usuario.getId()
             );
 
             return tokenVerificacaoRepository.save(tokenVerificacao);
-        }
-        else {
-            TokenVerificacao tokenVerificacao = validarTokenDeVerificacao(tokenVerificacaoExistente.getToken());
-        }
-
     }
 
     public TokenVerificacao validarTokenDeVerificacao(String token){
 
         TokenVerificacao tokenVerificacao = tokenVerificacaoRepository.findByToken(token).orElse(null);
 
-        if (token == null){
+        if (tokenVerificacao == null){
             return null;
         }
         else if(tokenVerificacao.isAtivo()){
@@ -56,7 +47,27 @@ public class TokenVerificacaoService {
             return null;
         }
 
+        return confirmarToken(tokenVerificacao);
+    }
+
+    public TokenVerificacao confirmarToken(TokenVerificacao tokenVerificacao){
+
         tokenVerificacao.setAtivo(true);
         return tokenVerificacaoRepository.save(tokenVerificacao);
+    }
+
+    public TokenVerificacao analisarTokenVerificacaoUsuario(Usuario usuario){
+
+        List<TokenVerificacao> tokenVerificacaoExistentes = tokenVerificacaoRepository.findByIdUsuario(usuario.getId());
+
+        if (tokenVerificacaoExistentes.isEmpty()){
+            return null;
+        }
+        else{
+            return tokenVerificacaoExistentes
+                    .stream()
+                    .filter(token -> !token.isAtivo() && !LocalDateTime.now().isAfter(token.getDuracao()))
+                    .findFirst().orElse(null);
+        }
     }
 }
