@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.*;
+import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
@@ -17,28 +18,78 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
     @Autowired
+    private TokenVerificacaoService tokenVerificacaoService;
+    @Autowired
     private BCryptPasswordEncoder bcrypt;
 
-    public UsuarioDTOResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
+    public TokenVerificacao cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
-        if (repository.findByEmail(usuarioDTORequest.email()) != null) return null;
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(usuarioDTORequest.email());
 
-        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDTORequest.senha());
-        Usuario usuario = new Usuario(usuarioDTORequest.nome(), usuarioDTORequest.email(), senhaCriptografada, UsuarioRole.USUARIO);
+        if (usuario == null){
 
-        repository.save(usuario);
-        return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+            String senha = bcrypt.encode(usuarioDTORequest.senha());
+
+            usuario = new Usuario(
+                    usuarioDTORequest.nome(),
+                    usuarioDTORequest.email(),
+                    senha,
+                    UsuarioRole.USUARIO
+            );
+
+            usuario = usuarioRepository.save(usuario);
+
+            TokenVerificacao tokenVerificacao = gerarToken(usuario);
+
+            return tokenVerificacao;
+        }
+        else{
+            TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoService.analisarTokenVerificacaoUsuario(usuario);
+
+            if (tokenVerificacaoExistente == null){
+
+                return gerarToken(usuario);
+
+            }
+
+            return tokenVerificacaoExistente;
+        }
+    }
+
+    public TokenVerificacao gerarToken(Usuario usuario){
+
+        return tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
+    }
+
+    public UsuarioDTOResponse validarTokenVerificao(String token){
+
+        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(token);
+
+        if (tokenVerificacao == null) throw new RuntimeException();
+
+        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getId())
+                .orElseThrow(() -> new RuntimeException());
+
+        usuario.setVerificacaoEmail(true);
+
+        usuario = usuarioRepository.save(usuario);
+
+        return new UsuarioDTOResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail()
+        );
     }
 
     public String login(LoginDTO loginDTO){
 
-        Usuario usuario = (Usuario) repository.findByEmail(loginDTO.email());
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email());
 
         if (usuario == null) throw new RuntimeException();
         else if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
@@ -59,7 +110,7 @@ public class UsuarioService {
                 .getAuthentication()
                 .getPrincipal();
 
-        Usuario usuario = repository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
 
         return new UsuarioDTOResponse(
                 usuario.getId(),

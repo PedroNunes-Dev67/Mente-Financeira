@@ -27,6 +27,7 @@ public class TokenVerificacao {
         this.token = token;
         this.ativo = ativo;
         this.duracao = duracao;
+        this.idUsuario = id;
     }
 
     public Long getId() {

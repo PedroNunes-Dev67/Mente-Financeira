@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.*;
+import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,19 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<UsuarioDTOResponse> cadastrarUsuario(@RequestBody @Valid UsuarioDTORequest usuarioDTORequest){
+    public ResponseEntity<TokenVerificacao> cadastrarUsuario(@RequestBody @Valid UsuarioDTORequest usuarioDTORequest){
 
-        UsuarioDTOResponse usuario = usuarioService.cadastrarUsuario(usuarioDTORequest);
+        TokenVerificacao tokenVerificacao = usuarioService.cadastrarUsuario(usuarioDTORequest);
 
-        if (usuario == null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.ok(tokenVerificacao);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+    }
+
+    @PutMapping("/cadastro/auth")
+    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestParam String token){
+
+        UsuarioDTOResponse usuario = usuarioService.validarTokenVerificao(token);
+
+        return ResponseEntity.ok(usuario);
     }
 }
