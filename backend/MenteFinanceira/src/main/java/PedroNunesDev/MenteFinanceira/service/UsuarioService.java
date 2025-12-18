@@ -67,9 +67,9 @@ public class UsuarioService {
         return tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
     }
 
-    public UsuarioDTOResponse validarTokenVerificao(String token){
+    public UsuarioDTOResponse validarTokenVerificao(TokenVerificacaoDTO tokenVerificacaoDTO){
 
-        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(token);
+        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTO);
 
         if (tokenVerificacao == null) throw new RuntimeException();
 

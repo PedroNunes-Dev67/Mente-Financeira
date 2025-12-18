@@ -41,10 +41,10 @@ public class UsuarioController {
 
     }
 
-    @PutMapping("/cadastro/auth")
-    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestParam String token){
+    @PostMapping("/cadastro/auth")
+    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestBody TokenVerificacaoDTO tokenVerificacaoDTO){
 
-        UsuarioDTOResponse usuario = usuarioService.validarTokenVerificao(token);
+        UsuarioDTOResponse usuario = usuarioService.validarTokenVerificao(tokenVerificacaoDTO);
 
         return ResponseEntity.ok(usuario);
     }
