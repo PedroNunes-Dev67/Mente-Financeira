@@ -18,7 +18,7 @@
     cursor: pointer;
     height: 35px;
     border: none;
-    background-color: green;
+    background: transparent;
     font-size: 16px;
     font-weight: bold;
     transition: all 0.3s ease;
@@ -27,7 +27,25 @@
 }
 #voltarALogin:hover{
     transform: scale(1.09);
-    color: white;
+}
+.termos-check{
+    margin-top: 17px;
+}
+#inSenha{
+    min-width: 240px;
+    width: auto;
+}
+#mostrarSenha{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#mostrarSenha:hover{
+    opacity: 0.7;
 }
 @media(max-width:760px){
     body{
@@ -59,6 +77,11 @@
                 <div class="container">
                     <img src="../assets/images/cadeado.png" alt="icone de Senha">
                     <input type="password" required id="inSenha" class="inputs">
+                    <button type="button" id="mostrarSenha"><img src="../assets/images/eye.png" alt="olho" id="olhoSenha"></button>
+                </div>
+                <div class="termos-check">
+                    <input type="checkbox">
+                    <label>Aceito os termos de política e privacidade.</label>
                 </div>
                 <input type="submit" id="inSubmit" value="Cadastrar" class="inputs">
                 <span id="spanResp"></span>

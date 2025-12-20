@@ -28,3 +28,23 @@ function voltarALogin(){
 
     window.location.href="../index.html"
 }
+
+const button = document.getElementById('mostrarSenha');
+
+button.addEventListener('click', (e) => {
+
+    const input = document.getElementById('inSenha');
+
+    const olho = document.getElementById('olhoSenha');
+
+    if (input.type === "password"){
+        input.type = "text"
+        olho.src = '../assets/images/hidden.png'
+    }
+    else{
+        input.type = "password"
+        olho.src = '../assets/images/eye.png'
+    }
+
+    input.focus();
+})

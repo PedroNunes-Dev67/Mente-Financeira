@@ -55,8 +55,15 @@ body{
 .inputs{
     height: 30px;
     min-width: 280px;
-    border: solid 2px green;
     border-radius: 7px;
+    transition: all 0.3s ease;
+    border: solid 2px black;
+}
+.inputs:focus{
+    transform: scale(1.02);
+    box-shadow: 0 0 5px rgba(0, 102, 255, 0.4);
+    outline: none;
+    border: solid 2px green;
 }
 
 #logo{
