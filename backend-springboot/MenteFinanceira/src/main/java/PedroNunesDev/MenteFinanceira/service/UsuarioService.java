@@ -73,7 +73,7 @@ public class UsuarioService {
 
         if (tokenVerificacao == null) throw new RuntimeException();
 
-        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getId())
+        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException());
 
         usuario.setVerificacaoEmail(true);
