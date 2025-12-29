@@ -8,14 +8,14 @@ form.addEventListener('submit', async (e) => {
     const emailUsuario = document.getElementById('inEmail').value;
     const senhaUsuario = document.getElementById('inSenha').value;
 
-    const usuarioRequestDTO = {
+    const usuarioDTORequest = {
         nome: nomeUsuario,
         email: emailUsuario,
         senha: senhaUsuario 
     }
 
     try{
-        const response = await axios.post('http://localhost:8080/usuarios/cadastro', usuarioRequestDTO);
+        const response = await axios.post('http://localhost:8080/usuarios/cadastro', usuarioDTORequest);
 
         window.location.href="envio-de-email.html";
     }

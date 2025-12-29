@@ -3,7 +3,7 @@
     margin-top: 30px;
 }
 #voltarALogin{
-    margin-top: 20px;
+    margin-top: 15px;
     cursor: pointer;
     height: 35px;
     border: none;
@@ -23,22 +23,27 @@
 .termos-check input{
     width: 16px;
     height: 16px;
-}
-#inSenha{
-    min-width: 240px;
-    width: auto;
+    cursor: pointer;
 }
 #mostrarSenha{
-    background-color: transparent;
+    background-color: white;
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: absolute;
+    right: 4%;
 }
 #mostrarSenha:hover{
     opacity: 0.7;
+}
+#formulario{
+    padding-bottom: 11px;
+}
+#containerSenha{
+    position: relative;
 }
 @media(max-width:760px){
     body{
