@@ -1,10 +1,8 @@
 package PedroNunesDev.MenteFinanceira.model;
 
-import PedroNunesDev.MenteFinanceira.model.enums.FinancaStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -16,8 +14,8 @@ public class Financa {
     private Long id_financa;
     private String titulo;
     private Double valor;
-    private FinancaStatus status;
     private Integer diaDePagamento;
+    private boolean recorrente;
 
     @JsonIgnore
     @ManyToOne
@@ -31,11 +29,11 @@ public class Financa {
     public Financa() {
     }
 
-    public Financa(String titulo, Double valor, FinancaStatus status,Integer diaDePagamento, Usuario usuario,  Categoria categoria) {
+    public Financa(String titulo, Double valor, Integer diaDePagamento,boolean recorrente, Usuario usuario,  Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
-        this.status = status;
         this.diaDePagamento = diaDePagamento;
+        this.recorrente = recorrente;
         this.usuario = usuario;
         this.categoria = categoria;
     }
@@ -64,14 +62,6 @@ public class Financa {
         this.valor = valor;
     }
 
-    public FinancaStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(FinancaStatus status) {
-        this.status = status;
-    }
-
     @JsonIgnore
     public Usuario getUsuario() {
         return usuario;
@@ -95,6 +85,14 @@ public class Financa {
 
     public void setDiaDePagamento(Integer diaDePagamento) {
         this.diaDePagamento = diaDePagamento;
+    }
+
+    public boolean isRecorrente() {
+        return recorrente;
+    }
+
+    public void setRecorrente(boolean recorrente) {
+        this.recorrente = recorrente;
     }
 
     @Override

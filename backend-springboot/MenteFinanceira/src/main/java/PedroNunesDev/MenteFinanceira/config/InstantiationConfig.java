@@ -45,8 +45,8 @@ public class InstantiationConfig implements CommandLineRunner {
 
         categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4));
 
-        Financa financa1 = new Financa("Academia", 75.0, FinancaStatus.PENDENTE, 15, usuario1, categoria1);
-        Financa financa2 = new Financa("HBO Max", 29.9, FinancaStatus.PENDENTE, 22, usuario1, categoria4);
+        Financa financa1 = new Financa("Academia", 75.0, 15, true, usuario1, categoria1);
+        Financa financa2 = new Financa("HBO Max", 29.9, 22, true, usuario1, categoria4);
 
         financaRepository.saveAll(Arrays.asList(financa1,financa2));
 
