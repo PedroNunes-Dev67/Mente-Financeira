@@ -3,11 +3,14 @@ package PedroNunesDev.MenteFinanceira.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 
-public record FinancaDTORequest(
+
+public record DespesaDTORequest(
         @NotBlank String titulo,
-        @NotNull Double valor,
+        @NotNull BigDecimal valor,
         @NotNull Integer diaDePagamento,
-        @NotNull Long id_categoria
+        @NotNull Long id_categoria,
+        @NotBlank String tipoDespesa
 ) {
 }

@@ -14,13 +14,13 @@ public class Categoria implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_categoria;
+    private Long idCategoria;
     @Column(name = "nome_categoria")
     private String nome;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoria")
-    private Set<Financa> financas = new HashSet<>();
+    private Set<Despesa> despesas = new HashSet<>();
 
     public Categoria() {
     }
@@ -29,12 +29,12 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public Long getId_categoria() {
-        return id_categoria;
+    public Long getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getNome() {
@@ -45,19 +45,20 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public Set<Financa> getFinancas() {
-        return financas;
+    @JsonIgnore
+    public Set<Despesa> getDespesas() {
+        return despesas;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Categoria categoria = (Categoria) o;
-        return Objects.equals(id_categoria, categoria.id_categoria);
+        return Objects.equals(idCategoria, categoria.idCategoria);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id_categoria);
+        return Objects.hashCode(idCategoria);
     }
 }

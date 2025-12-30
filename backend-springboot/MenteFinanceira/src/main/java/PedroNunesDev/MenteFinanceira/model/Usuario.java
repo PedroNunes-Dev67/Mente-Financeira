@@ -26,7 +26,7 @@ public class Usuario implements UserDetails {
     private boolean verificacaoEmail;
 
     @OneToMany(mappedBy = "usuario")
-    private List<Financa> list;
+    private List<Despesa> despesas;
 
     public Usuario() {
     }
@@ -96,8 +96,8 @@ public class Usuario implements UserDetails {
         return Objects.equals(id, usuario.id);
     }
 
-    public List<Financa> getList() {
-        return list;
+    public List<Despesa> getDespesas() {
+        return despesas;
     }
 
     @Override

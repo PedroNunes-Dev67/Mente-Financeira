@@ -41,7 +41,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro/auth")
-    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestBody TokenVerificacaoDTO tokenVerificacaoDTO){
+    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestBody @Valid TokenVerificacaoDTO tokenVerificacaoDTO){
 
         UsuarioDTOResponse usuario = usuarioService.validarTokenVerificao(tokenVerificacaoDTO);
 
