@@ -29,7 +29,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(configurationCors()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/categorias/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/categorias/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -17,10 +17,18 @@ form.addEventListener('submit', async (e) => {
     try{
         const response = await axios.post('http://localhost:8080/usuarios/cadastro', usuarioDTORequest);
 
-        window.location.href="envio-de-email.html";
+        const verificacao = {
+            nome: nomeUsuario,
+            email: emailUsuario,
+            token: response.data.token
+        }
+
+        const {message} = await axios.post('http://localhost:3000/email-verificacao', verificacao);
+        window.location.href="envio-de-email.html"
+
     }
     catch(error){
-        console.log('error ao conectar ao servidor.');
+        console.log('error ao conectar ao spring: ',error);
     }
 })
 

@@ -25,7 +25,7 @@ public class FinancaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public Financa cadastrarFinanca(FinancaDTORequest financaDTORequest){
+    /*public Financa cadastrarFinanca(FinancaDTORequest financaDTORequest){
 
         Usuario usuario = (Usuario) SecurityContextHolder
                 .getContext()
@@ -108,5 +108,5 @@ public class FinancaService {
         return usuario.getList()
                 .stream().filter(financa -> financa.getStatus() == FinancaStatus.PAGO).toList();
 
-    }
+    }*/
 }

@@ -17,7 +17,7 @@ public class FinancaController {
 
     @Autowired
     private FinancaService financaService;
-
+    /*
     @PostMapping
     public ResponseEntity<Financa> cadastrarFinanca(@RequestBody @Valid FinancaDTORequest financaDTORequest){
 
@@ -62,5 +62,5 @@ public class FinancaController {
         List<Financa> list = financaService.financasPagas();
 
         return ResponseEntity.ok(list);
-    }
+    }*/
 }
