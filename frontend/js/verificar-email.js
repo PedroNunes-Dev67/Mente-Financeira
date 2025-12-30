@@ -22,7 +22,7 @@ validarEmailBtn.addEventListener('click', async (e) => {
 
         document.getElementById('respVerificacao').innerText='E-mail verificado com sucesso!💵🚀'
 
-        document.getElementById('respNome').innerText=`Bem-vindo ao Mente Financeira ${nome}`
+        document.getElementById('respNome').innerText=`Bem-vindo ao <strong class="titulo">Mente Financeira</strong>,  ${nome}`
 
         validarEmailBtn.disabled = true;
     }
