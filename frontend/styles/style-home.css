@@ -1,0 +1,17 @@
+#principal{
+    flex-direction: row;
+}
+#painelEsquerdo{
+    min-height: 100vh;
+    height: auto;
+    width: 17%;
+    background-color: rgb(76, 77, 78);
+    text-align: center;
+    position: fixed;
+}
+#painelDireito{
+    min-height: 100vh;
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
