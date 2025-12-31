@@ -24,12 +24,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 50vh;
+    min-height: 65vh;
 }
 #navBtn{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: baseline;
     align-items: baseline;
     width: 220px;
     position: fixed;
@@ -42,7 +42,10 @@
     transition: all 0.3s ease;
     background-color: transparent;
     cursor: pointer;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
 }
 .links:hover{
     transform: scale(1.05);
@@ -61,18 +64,26 @@
     transform: translateY(-5px);
     transition: all 0.3s ease;
 }
-#navSub a{
+#navSub button{
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 26px;
 }
 #navSub.ativo {
     max-height: 120px; 
     opacity: 1;
     transform: translateY(0);
 }
-#btnDespesa{
-    background-color: transparent;
-    border: none;
-    padding: 0;
+#rodape{
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    height: 18vh;
+    gap: 40px;
+}
+#rodape a{
+    text-decoration: none;
+    color: white;
+    margin: 0;
+    font-size: 16px;
 }
 
