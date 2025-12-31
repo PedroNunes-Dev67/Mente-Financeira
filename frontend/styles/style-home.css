@@ -14,4 +14,65 @@
     height: auto;
     width: 100%;
     text-align: center;
+    margin-left: 320px;
 }
+#logo{
+    margin-top: 0;
+}
+#navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 50vh;
+}
+#navBtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    width: 220px;
+    position: fixed;
+}
+.links{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.links:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    color: green;
+}
+#navSub{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+#navSub a{
+    font-size: 16px;
+    margin-left: 10px;
+}
+#navSub.ativo {
+    max-height: 120px; 
+    opacity: 1;
+    transform: translateY(0);
+}
+#btnDespesa{
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
