@@ -4,9 +4,7 @@ import PedroNunesDev.MenteFinanceira.model.Pagamento_Despesa;
 import PedroNunesDev.MenteFinanceira.service.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,13 @@ public class PagamentoController {
         List<Pagamento_Despesa> list = pagamentoService.todosPagamentosUsuario();
 
         return ResponseEntity.ok(list);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pagamento_Despesa> pagamentoDespesa(@PathVariable Long id){
+
+        Pagamento_Despesa pagamento = pagamentoService.pagamentoDespesa(id);
+
+        return ResponseEntity.ok(pagamento);
     }
 }

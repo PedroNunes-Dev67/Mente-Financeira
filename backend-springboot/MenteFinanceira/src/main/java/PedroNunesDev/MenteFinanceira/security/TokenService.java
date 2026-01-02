@@ -48,6 +48,6 @@ public class TokenService {
     }
 
     private Instant tokenExpired(){
-        return Instant.now().plusSeconds(7200);
+        return Instant.now().plusSeconds(1296000);
     }
 }

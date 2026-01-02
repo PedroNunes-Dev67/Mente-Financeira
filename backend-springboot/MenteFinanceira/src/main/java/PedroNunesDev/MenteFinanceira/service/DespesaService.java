@@ -55,21 +55,6 @@ public class DespesaService {
         return usuario.getDespesas();
     }
 
-    public Pagamento_Despesa pagamentoDespesa(Long id){
-
-        Usuario usuarioAuth = getUsuarioContext();
-
-        Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(id, usuarioAuth).orElseThrow(() -> new RuntimeException());
-
-        if (despesa.getDespesaStatus() == DespesaStatus.PAGO) throw new RuntimeException();
-
-        despesa.setDespesaStatus(DespesaStatus.PAGO);
-        despesa = despesaRepository.save(despesa);
-
-        Pagamento_Despesa pagamento_despesa = new Pagamento_Despesa(LocalDate.now(), despesa);
-        return pagamentoRepository.save(pagamento_despesa);
-    }
-
     public List<Despesa> despesasPorCategoria(Long id){
 
         Usuario usuarioAuth = getUsuarioContext();

@@ -33,14 +33,6 @@ public class DespesaController {
         return ResponseEntity.ok(despesaService.buscarDespesasPorUsuario());
     }
 
-    @PutMapping("/pagamento/{id}")
-    public ResponseEntity<Pagamento_Despesa> pagamentoDespesa(@PathVariable Long id){
-
-        Pagamento_Despesa pagamento = despesaService.pagamentoDespesa(id);
-
-        return ResponseEntity.ok(pagamento);
-    }
-
     @GetMapping("/me/categoria/{id}")
     public ResponseEntity<List<Despesa>> despesasPorCategoria(@PathVariable Long id){
 
