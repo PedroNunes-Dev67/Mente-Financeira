@@ -21,18 +21,17 @@
 }
 #navbar{
     display: flex;
-    justify-content: center;
+    justify-content: baseline;
     align-items: center;
     flex-direction: column;
     min-height: 65vh;
 }
-#navBtn{
+.navBtn{
     display: flex;
     flex-direction: column;
     justify-content: baseline;
     align-items: baseline;
     width: 220px;
-    position: fixed;
 }
 .links{
     text-decoration: none;
@@ -62,11 +61,11 @@
 
     transform: translateY(-5px);
     transition: all 0.3s ease;
-    width: 100%;
+    width: 230px;
 }
 #navSub button{
     font-size: 16px;
-    margin-left: 26px;
+    margin-left: 20px;
 }
 #navSub.ativo {
     max-height: 120px; 
@@ -76,10 +75,24 @@
 .opcoes{
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: baseline;
+    gap: 12px;
     margin-bottom: 20px;
+    padding: 12px;
+    background-color: white;
+    border-radius: 12px;
+    width: 220px;
+}
+.opcoes button{
+    color: black;
 }
 .btnEsc{
     margin-bottom: 18px;
+    font-weight: bold;
+}
+#rodape{
+    margin-top: 50px;
+}
+.spanRodape{
+    font-weight: bold;
 }
