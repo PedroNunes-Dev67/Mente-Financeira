@@ -9,6 +9,14 @@ const btnConfig = document.getElementById('btnConfig');
 const navSub1 = document.getElementById('navSub1');
 const navSub2 = document.getElementById('navSub2');
 
+const despesa = {
+    titulo:"Academia",
+    diaDePagamento: "20/01",
+    categoria: "Saúde",
+    valor:75.0,
+    status: 'Pendente'
+}
+
 btnDespesa.addEventListener('click', () => {
 
     navSub.classList.toggle('ativo');
@@ -28,11 +36,11 @@ btnDashboard.addEventListener('click' ,() => {
                               </div>
                               <div class="dashPrincipal">
                                 <div class="dashDivEsq">
-                                    <div class="divEsqSon"></div>
-                                    <div class="divEsqSon"></div>
+                                    <div class="divEsqSon"><img src="../assets/images/grafico_horizontal1.png" alt=""></div>
+                                    <div class="divEsqSon"><img src="../assets/images/grafico_horizontal2.png" alt=""></div>
                                 </div>
                                 <div class="dashDivDir">
-                        
+                                    <img src="../assets/images/grafico_pizza.jpg" alt="">
                                 </div>
                             </div>`
 
@@ -66,10 +74,43 @@ btnSuporte.addEventListener('click' ,() => {
 
 navSub1.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
-                                <h1>Despesas mensais</h1>
-                               </div>`
-;
+    painelDireito.innerHTML = ` <div id="cabecalho">
+                                    <h1>Despesas mensais</h1>
+                                    <p>Categoria | Status | Data</p>
+                                </div>
+                                <div class="despesaDiv">
+                                    <div class="despesa">
+                                        <div>
+                                            <p>Data de pagamento</p><hr>
+                                            <p>${despesa.diaDePagamento}</p>
+                                        </div>
+                                        <div>
+                                            <p>Titulo</p><hr>
+                                            <p>${despesa.titulo}</p>
+                                        </div>
+                                        <div>
+                                            <p>Categoria</p><hr>
+                                            <p>${despesa.categoria}</p>
+                                        </div>
+                                        <div>
+                                            <p>Valor</p><hr>
+                                            <p>R$${despesa.valor}</p>
+                                        </div>
+                                        <div>
+                                            <p>Status</p><hr>
+                                            <p>${despesa.status}</p>
+                                        </div>
+                                        <div>
+                                            <p>Pagar</p>
+                                        </div>
+                                        <div>
+                                            <p>Excluir</p>
+                                        </div>
+                                        <div>
+                                            <p>Atualizar</p>
+                                        </div>
+                                    </div>
+                                </div>`;
 
 });
 
@@ -77,11 +118,20 @@ navSub2.addEventListener('click' ,() => {
 
     painelDireito.innerHTML = `<div id="cabecalho">
                                 <h1>Despesas cotidianas</h1>
-                               </div>`
+                                <p>Categoria | Status | Data</p>
+                               </div>` 
 ;
 
 });
 
+navSub3.addEventListener('click' ,() => {
+
+    painelDireito.innerHTML = `<div id="cabecalho">
+                                <h1>Total de gastos mensal</h1>
+                               </div>`
+;
+
+});
 
 document.querySelectorAll('.links').forEach((e,i) => {
 
