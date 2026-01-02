@@ -1,5 +1,6 @@
 #principal{
     flex-direction: row;
+    background-color: rgb(76, 77, 78);
 }
 #painelEsquerdo{
     min-height: 100vh;
@@ -14,7 +15,16 @@
     height: auto;
     width: 100%;
     text-align: center;
-    margin-left: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: baseline;
+    flex-direction: column;
+    margin-left: 350px;
+    border-radius: 28px 0 0 28px ;
+    background-color: black;
+}
+#painelDireito h1{
+    margin-top: 30px;
 }
 #logo{
     margin-top: 0;
@@ -35,7 +45,7 @@
 }
 .links{
     text-decoration: none;
-    color: white;
+    color: black;
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
     transition: all 0.3s ease;
@@ -49,6 +59,10 @@
     transform: scale(1.05);
     transition: all 0.3s ease;
     color: green;
+}
+.links:active{
+    transform: scale(0.9);
+    transition: all 0.3s ease;
 }
 #navSub{
     display: flex;
@@ -89,10 +103,83 @@
 .btnEsc{
     margin-bottom: 18px;
     font-weight: bold;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+.btnEsc:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    color: green;
 }
 #rodape{
     margin-top: 50px;
 }
 .spanRodape{
     font-weight: bold;
+}
+.dashDivEsq{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 60vh;
+    gap: 25px;
+}
+.divEsqSon{
+    width: 90%;
+    height: 280px;
+    background-color: white;
+    margin-left: 40px;
+    border-radius: 14px;
+}
+.divEsqSon img{
+    width: 580px;
+    height: 280px;
+}
+.dashDivDir{
+    width: 90%;
+    min-height: 62vh;
+    background-color: white;
+    margin-right: 40px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#cabecalho{
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 70px;
+    width: 90%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+#cabecalho h1{
+    margin: 0;
+    margin-top: 50px;
+    font-size: 60px;
+}
+.dashPrincipal{
+    width: 90%;     
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    background-color: rgb(76, 77, 78);
+    border-radius: 12px;
+}
+.btnClicado{
+    color: green;
+    transform: scale(1.05);
+}
+.btnClicado div{
+    background-color: rgba(255, 255, 255, 0.596);
 }
