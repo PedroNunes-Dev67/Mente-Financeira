@@ -1,11 +1,11 @@
 #principal{
     flex-direction: row;
-    background-color: rgb(76, 77, 78);
+    background-color: rgb(24, 24, 24);
     position: relative;
 }
 #painelEsquerdo{
     width: 350px;
-    background-color: rgb(76, 77, 78);
+    background-color: rgb(24, 24, 24);
     text-align: center;
     position: fixed;
     min-height: 100vh;
@@ -23,7 +23,7 @@
     flex-direction: column;
     margin-left: 356px;
     border-radius: 28px 0 0 28px ;
-    background-color: black;
+    background-color: rgb(15, 14, 14);
 }
 #logo{
     margin: 0;
@@ -154,13 +154,13 @@
 .divEsqSon{
     width: 90%;
     min-height: 29vh;
-    background-color: white;
+    background-color: rgb(179, 176, 176);
     border-radius: 14px;
 }
 .dashDivDir{
     width: 90%;
     min-height: 62vh;
-    background-color: white;
+    background-color: rgb(179, 176, 176);
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -169,11 +169,9 @@
 .cabecalho{
     font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 50px;
-    width: 80%;
+    width: 90%;
     display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    flex-shrink: 0;
+    align-items: center;
 }
 .cabecalho h1{
     margin: 0;
@@ -190,7 +188,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: rgb(76, 77, 78);
+    background-color: rgb(46, 45, 45);
     border-radius: 12px;
 }
 .btnClicado{
@@ -205,8 +203,8 @@
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
-    width: 80%;
-    background-color:  rgb(76, 77, 78);;
+    width: 90%;
+    background-color:  rgb(46, 45, 45);;
     padding: 20px;
     border-radius: 18px;
     gap: 20px;
@@ -218,10 +216,58 @@
 .despesa{
     width: 98%;
     padding: 10px;
-    background-color: white;
+    background-color: rgb(179, 176, 176);
     color: black;
     border-radius: 12px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+.divBtnAdd{
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    width: 50%;
+    height: 133px;
+    gap: 20px;
+}
+#btnFiltro{
+    background-color: rgb(85, 85, 209);
+    width: 100px;
+}
+#btnFiltro:hover{
+    background-color: rgb(113, 113, 230);
+}
+.btn-Opcoes-Des{
+    background-color: rgb(21, 112, 21);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+.btn-Opcoes-Des:hover{
+    background-color: rgb(73, 155, 73);
+    transition: all 0.3s ease;
+}
+.btn-Opcoes-Des:active{
+    transform: scale(0.9);
+}
+.divTextos{
+    width: 50%;
+}
+#btnExcluir{
+    background-color: rgb(204, 42, 42);
+}
+#btnExcluir:hover{
+    background-color: rgb(212, 72, 72);
+}
+#btnAtualizar{
+    background-color: rgb(187, 139, 51);
+}
+#btnAtualizar:hover{
+    background-color: rgb(216, 174, 95);
 }

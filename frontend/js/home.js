@@ -120,16 +120,26 @@ btnSuporte.addEventListener('click' ,() => {
 
 navSub1.addEventListener('click' ,() => {
 
+    painelDireito.innerHTML = "";
+
     const divCabecalho = document.createElement('div');
     const despesaDiv = document.createElement('div');
 
     divCabecalho.classList.add('cabecalho');
     despesaDiv.classList.add('despesaDiv');
-    
-    divCabecalho.innerHTML = `<h1>Despesas mensais</h1> 
-                                <p>Categoria | Status | Data</p>`
 
-    painelDireito.innerHTML = "";
+    const divTextos = document.createElement('div');
+    divTextos.classList.add('divTextos');
+    divTextos.innerHTML = `<h1>Despesas mensais</h1>`
+    
+    const divBtn = document.createElement('div');
+
+    divBtn.classList.add('divBtnAdd');
+    
+    divBtn.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btnFiltro">Filtros</button>
+    <button type="button" id="btnAdd" class="btn-Opcoes-Des">Adicionar despesa</button>`
+
+    divCabecalho.append(divTextos,divBtn);
 
     painelDireito.append(divCabecalho,despesaDiv);
 
@@ -155,7 +165,7 @@ navSub1.addEventListener('click' ,() => {
 
         for(let i =0 ; i<3; i++){
             const campo = document.createElement('div');
-            campo.innerHTML = `${listaOpcoes[i]}`
+            campo.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
             card.appendChild(campo);
         }
 
