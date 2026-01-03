@@ -1,49 +1,53 @@
 #principal{
     flex-direction: row;
     background-color: rgb(76, 77, 78);
+    position: relative;
 }
 #painelEsquerdo{
-    min-height: 100vh;
-    height: auto;
-    width: 17%;
+    width: 350px;
     background-color: rgb(76, 77, 78);
     text-align: center;
     position: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
 }
 #painelDireito{
-    min-height: 100vh;
-    height: auto;
+    height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: baseline;
     flex-direction: column;
-    margin-left: 350px;
+    margin-left: 356px;
     border-radius: 28px 0 0 28px ;
     background-color: black;
 }
-#painelDireito h1{
-    margin-top: 30px;
-}
 #logo{
-    margin-top: 0;
+    margin: 0;
 }
 #navbar{
     display: flex;
-    justify-content: baseline;
     align-items: center;
     flex-direction: column;
-    min-height: 65vh;
+    padding: 0 15px;
+    flex: 1;
+    margin-top: 30px;
+}
+#navbar h3{
+    margin-top: 0;
 }
 .navBtn{
     display: flex;
     flex-direction: column;
-    justify-content: baseline;
-    align-items: baseline;
-    width: 220px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 15px;
 }
 .links{
-    text-decoration: none;
     color: black;
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
@@ -53,6 +57,9 @@
     background-color: transparent;
     border: none;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .links:hover{
     transform: scale(1.05);
@@ -90,7 +97,7 @@
     align-items: center;
     justify-content: baseline;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 12px;
     background-color: white;
     border-radius: 12px;
@@ -118,63 +125,71 @@
     transition: all 0.3s ease;
     color: green;
 }
-#rodape{
-    margin-top: 50px;
+.divRodape{
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.rodape{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
 }
 .spanRodape{
     font-weight: bold;
+}
+.pRodape{
+    margin: 0;
 }
 .dashDivEsq{
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    min-height: 60vh;
+    min-height: 60%;
     gap: 25px;
 }
 .divEsqSon{
     width: 90%;
-    height: 280px;
+    min-height: 29vh;
     background-color: white;
-    margin-left: 40px;
     border-radius: 14px;
-}
-.divEsqSon img{
-    width: 580px;
-    height: 280px;
 }
 .dashDivDir{
     width: 90%;
     min-height: 62vh;
     background-color: white;
-    margin-right: 40px;
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-#cabecalho{
+.cabecalho{
     font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 70px;
-    width: 90%;
+    margin-bottom: 50px;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: baseline;
+    flex-shrink: 0;
 }
-#cabecalho h1{
+.cabecalho h1{
     margin: 0;
-    margin-top: 50px;
+    margin-top: 45px;
     font-size: 60px;
 }
-#cabecalho p{
+.cabecalho p{
     font-weight: bold;
+    margin: 0;
 }
 .dashPrincipal{
     width: 90%;     
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 70vh;
+    padding: 20px;
     background-color: rgb(76, 77, 78);
     border-radius: 12px;
 }
@@ -186,22 +201,27 @@
     background-color: rgba(255, 255, 255, 0.596);
 }
 .despesaDiv{
-    min-height: 70vh;
-    height: auto;
-    width: 82%;
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+    width: 80%;
     background-color:  rgb(76, 77, 78);;
     padding: 20px;
-    padding-bottom: 0;
     border-radius: 18px;
+    gap: 20px;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 20px;
 }
 .despesa{
-    width: 98.7%;
+    width: 98%;
     padding: 10px;
     background-color: white;
     color: black;
     border-radius: 12px;
     display: flex;
-    justify-content: baseline;
+    justify-content: space-around;
     align-items: center;
-    gap: 100px;
 }

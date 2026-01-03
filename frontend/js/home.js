@@ -9,13 +9,59 @@ const btnConfig = document.getElementById('btnConfig');
 const navSub1 = document.getElementById('navSub1');
 const navSub2 = document.getElementById('navSub2');
 
-const despesa = {
-    titulo:"Academia",
+const listaDespesa = [
+    {
     diaDePagamento: "20/01",
+    titulo:"Academia",
     categoria: "Saúde",
     valor:75.0,
     status: 'Pendente'
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
+},
+{
+    diaDePagamento:"20/01",
+    titulo:"Mercado",
+    categoria:"Alimentação",
+    valor:600.0,
+    status:"Pago"
 }
+]
+
+const titulos = ["Data de pagamneto", "Titulo", "Categoria","Valor","Status"]
 
 btnDespesa.addEventListener('click', () => {
 
@@ -31,13 +77,13 @@ btnDespesa.addEventListener('click', () => {
 
 btnDashboard.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Dashboard</h1>
                               </div>
                               <div class="dashPrincipal">
                                 <div class="dashDivEsq">
-                                    <div class="divEsqSon"><img src="../assets/images/grafico_horizontal1.png" alt=""></div>
-                                    <div class="divEsqSon"><img src="../assets/images/grafico_horizontal2.png" alt=""></div>
+                                    <div class="divEsqSon"></div>
+                                    <div class="divEsqSon"></div>
                                 </div>
                                 <div class="dashDivDir">
                                     <img src="../assets/images/grafico_pizza.jpg" alt="">
@@ -48,7 +94,7 @@ btnDashboard.addEventListener('click' ,() => {
 
 btnHistorico.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Histórico</h1>
                                </div>`
 
@@ -56,7 +102,7 @@ btnHistorico.addEventListener('click' ,() => {
 
 btnConfig.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Configurações</h1>
                                </div>`
 ;
@@ -65,7 +111,7 @@ btnConfig.addEventListener('click' ,() => {
 
 btnSuporte.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Suporte</h1>
                                </div>`
 ;
@@ -74,49 +120,52 @@ btnSuporte.addEventListener('click' ,() => {
 
 navSub1.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = ` <div id="cabecalho">
-                                    <h1>Despesas mensais</h1>
-                                    <p>Categoria | Status | Data</p>
-                                </div>
-                                <div class="despesaDiv">
-                                    <div class="despesa">
-                                        <div>
-                                            <p>Data de pagamento</p><hr>
-                                            <p>${despesa.diaDePagamento}</p>
-                                        </div>
-                                        <div>
-                                            <p>Titulo</p><hr>
-                                            <p>${despesa.titulo}</p>
-                                        </div>
-                                        <div>
-                                            <p>Categoria</p><hr>
-                                            <p>${despesa.categoria}</p>
-                                        </div>
-                                        <div>
-                                            <p>Valor</p><hr>
-                                            <p>R$${despesa.valor}</p>
-                                        </div>
-                                        <div>
-                                            <p>Status</p><hr>
-                                            <p>${despesa.status}</p>
-                                        </div>
-                                        <div>
-                                            <p>Pagar</p>
-                                        </div>
-                                        <div>
-                                            <p>Excluir</p>
-                                        </div>
-                                        <div>
-                                            <p>Atualizar</p>
-                                        </div>
-                                    </div>
-                                </div>`;
+    const divCabecalho = document.createElement('div');
+    const despesaDiv = document.createElement('div');
 
+    divCabecalho.classList.add('cabecalho');
+    despesaDiv.classList.add('despesaDiv');
+    
+    divCabecalho.innerHTML = `<h1>Despesas mensais</h1> 
+                                <p>Categoria | Status | Data</p>`
+
+    painelDireito.innerHTML = "";
+
+    painelDireito.append(divCabecalho,despesaDiv);
+
+    listaDespesa.forEach(despesa => {
+
+        const card = document.createElement('div');
+        card.classList.add('despesa');
+
+        let sum = 0;
+        Object.entries(despesa).forEach(([chave, valor]) => {
+
+            
+            const campo = document.createElement('div');
+            campo.innerHTML = `<p>${titulos[sum]}</p> 
+                                <p>${valor}</p>`
+
+            sum += 1;
+            card.appendChild(campo);
+        })
+
+
+        const listaOpcoes = ["Pagar", "Excluir", "Atualizar"]
+
+        for(let i =0 ; i<3; i++){
+            const campo = document.createElement('div');
+            campo.innerHTML = `${listaOpcoes[i]}`
+            card.appendChild(campo);
+        }
+
+        despesaDiv.appendChild(card);
+    });
 });
 
 navSub2.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Despesas cotidianas</h1>
                                 <p>Categoria | Status | Data</p>
                                </div>` 
@@ -126,7 +175,7 @@ navSub2.addEventListener('click' ,() => {
 
 navSub3.addEventListener('click' ,() => {
 
-    painelDireito.innerHTML = `<div id="cabecalho">
+    painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Total de gastos mensal</h1>
                                </div>`
 ;
