@@ -218,6 +218,7 @@
     padding: 10px;
     background-color: rgb(179, 176, 176);
     color: black;
+    font-weight: bold;
     border-radius: 12px;
     display: flex;
     justify-content: space-around;
@@ -257,7 +258,7 @@
     transform: scale(0.9);
 }
 .divTextos{
-    width: 50%;
+    width: 70%;
 }
 #btnExcluir{
     background-color: rgb(204, 42, 42);

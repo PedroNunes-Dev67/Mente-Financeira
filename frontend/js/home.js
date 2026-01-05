@@ -177,7 +177,6 @@ navSub2.addEventListener('click' ,() => {
 
     painelDireito.innerHTML = `<div class="cabecalho">
                                 <h1>Despesas cotidianas</h1>
-                                <p>Categoria | Status | Data</p>
                                </div>` 
 ;
 
