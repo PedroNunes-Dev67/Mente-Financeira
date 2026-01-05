@@ -13,7 +13,7 @@ public class Pagamento_Despesa {
     private Long id;
     private LocalDate diaPagamento;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_despesa")
     private Despesa despesa;
 

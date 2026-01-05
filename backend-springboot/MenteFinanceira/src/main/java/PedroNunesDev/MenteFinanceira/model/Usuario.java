@@ -25,7 +25,7 @@ public class Usuario implements UserDetails {
     private UsuarioRole role;
     private boolean verificacaoEmail;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Despesa> despesas;
 
     public Usuario() {

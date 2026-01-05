@@ -24,15 +24,15 @@ public class Despesa {
 
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "despesa")
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pagamento_Despesa> pagamentos;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 

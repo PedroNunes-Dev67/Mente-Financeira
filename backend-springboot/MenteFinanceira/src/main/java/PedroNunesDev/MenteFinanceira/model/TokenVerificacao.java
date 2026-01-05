@@ -1,9 +1,6 @@
 package PedroNunesDev.MenteFinanceira.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,6 +15,8 @@ public class TokenVerificacao {
     private boolean ativo;
     private LocalDateTime duracao;
 
+    @ManyToOne
+    @JoinColumn
     private Long idUsuario;
 
     public TokenVerificacao() {
