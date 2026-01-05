@@ -168,14 +168,14 @@
 }
 .cabecalho{
     font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     width: 90%;
     display: flex;
     align-items: center;
 }
 .cabecalho h1{
     margin: 0;
-    margin-top: 45px;
+    margin-top: 30px;
     font-size: 60px;
 }
 .cabecalho p{
@@ -230,7 +230,7 @@
     justify-content: end;
     width: 50%;
     height: 133px;
-    gap: 20px;
+    gap: 15px;
 }
 #btnFiltro{
     background-color: rgb(85, 85, 209);
@@ -242,10 +242,10 @@
 .btn-Opcoes-Des{
     background-color: rgb(21, 112, 21);
     color: white;
-    padding: 10px;
+    padding: 8px;
     border: none;
     border-radius: 6px;
-    font-size: 17px;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
@@ -271,4 +271,12 @@
 }
 #btnAtualizar:hover{
     background-color: rgb(216, 174, 95);
+}
+#btnFiltroPagas{
+    background-color: transparent;
+    padding: 0;
+}
+#btnFiltroPendentes{
+    background-color: transparent;
+    padding: 0;
 }

@@ -136,12 +136,28 @@ navSub1.addEventListener('click' ,() => {
 
     divBtn.classList.add('divBtnAdd');
     
-    divBtn.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btnFiltro">Filtros</button>
+    divBtn.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btnFiltroPagas">Pagas</button> | <button type="button" class="btn-Opcoes-Des" id="btnFiltroPendentes">Pendentes</button>
+    <button type="button" class="btn-Opcoes-Des" id="btnFiltro">Filtros</button>
     <button type="button" id="btnAdd" class="btn-Opcoes-Des">Adicionar despesa</button>`
 
     divCabecalho.append(divTextos,divBtn);
 
     painelDireito.append(divCabecalho,despesaDiv);
+
+    mostrarPendentes(despesaDiv);
+
+    document.getElementById('btnFiltroPagas').addEventListener('click', () => {
+        mostrarPagas(despesaDiv);
+    });
+
+    document.getElementById('btnFiltroPendentes').addEventListener('click', () => {
+        mostrarPendentes(despesaDiv);
+    })
+});
+
+function mostrarPagas(div){
+
+    div.innerHTML = "";
 
     listaDespesa.forEach(despesa => {
 
@@ -149,29 +165,59 @@ navSub1.addEventListener('click' ,() => {
         card.classList.add('despesa');
 
         let sum = 0;
-        Object.entries(despesa).forEach(([chave, valor]) => {
 
-            
-            const campo = document.createElement('div');
-            campo.innerHTML = `<p>${titulos[sum]}</p> 
-                                <p>${valor}</p>`
+        if(despesa.status === 'Pago'){
+            Object.entries(despesa).forEach(([chave, valor]) => {
 
-            sum += 1;
-            card.appendChild(campo);
-        })
+                
+                const campo = document.createElement('div');
+                campo.innerHTML = `<p>${titulos[sum]}</p> 
+                                    <p>${valor}</p>`
 
+                sum += 1;
+                card.appendChild(campo);
+            })
 
-        const listaOpcoes = ["Pagar", "Excluir", "Atualizar"]
-
-        for(let i =0 ; i<3; i++){
-            const campo = document.createElement('div');
-            campo.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
-            card.appendChild(campo);
+            div.appendChild(card);
         }
+    });    
+}
 
-        despesaDiv.appendChild(card);
-    });
-});
+function mostrarPendentes(div){
+
+    div.innerHTML = "";
+
+    listaDespesa.forEach(despesa => {
+
+        const card = document.createElement('div');
+        card.classList.add('despesa');
+
+        let sum = 0;
+
+        if(despesa.status === 'Pendente'){
+            Object.entries(despesa).forEach(([chave, valor]) => {
+
+                
+                const campo = document.createElement('div');
+                campo.innerHTML = `<p>${titulos[sum]}</p> 
+                                    <p>${valor}</p>`
+
+                sum += 1;
+                card.appendChild(campo);
+            })
+
+            const listaOpcoes = ["Pagar", "Excluir", "Atualizar"]
+
+            for(let i =0 ; i<3; i++){
+                const campo = document.createElement('div');
+                campo.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
+                card.appendChild(campo);
+            }
+
+            div.appendChild(card);
+        }
+    });    
+}
 
 navSub2.addEventListener('click' ,() => {
 
