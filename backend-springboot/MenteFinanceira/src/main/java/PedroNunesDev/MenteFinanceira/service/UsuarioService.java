@@ -30,7 +30,7 @@ public class UsuarioService {
 
     public TokenVerificacao cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
-        Usuario usuario = (Usuario) usuarioRepository.findByEmail(usuarioDTORequest.email());
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(usuarioDTORequest.email()).orElse(null);
 
         if (usuario == null){
 
@@ -89,10 +89,10 @@ public class UsuarioService {
 
     public String login(LoginDTO loginDTO){
 
-        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email());
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
 
-        if (usuario == null) throw new RuntimeException();
-        else if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
+
+        if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
         var authentication = authenticationManager.authenticate(usernamePassword);
