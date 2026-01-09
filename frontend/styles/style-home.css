@@ -102,6 +102,7 @@
     background-color: white;
     border-radius: 12px;
     width: 220px;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.041);
 }
 .opcoes button{
     color: black;
@@ -180,7 +181,7 @@
 }
 .cabecalho p{
     font-weight: bold;
-    margin: 0;
+    font-size: 18px;
 }
 .dashPrincipal{
     width: 90%;     
@@ -190,6 +191,7 @@
     padding: 20px;
     background-color: rgb(46, 45, 45);
     border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(46, 45, 45, 0.35);
 }
 .btnClicado{
     color: green;
@@ -204,7 +206,7 @@
     justify-content: baseline;
     align-items: center;
     width: 90%;
-    background-color:  rgb(46, 45, 45);;
+    background-color:  rgb(46, 45, 45);
     padding: 20px;
     border-radius: 18px;
     gap: 20px;
@@ -212,6 +214,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 20px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.40);
 }
 .despesa{
     width: 98%;
@@ -223,6 +226,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    box-shadow: 0 6px 18px rgba(179, 176, 176, 0.10);
 }
 .divBtnAdd{
     display: flex;
@@ -235,6 +239,7 @@
 #btnFiltro{
     background-color: rgb(85, 85, 209);
     width: 100px;
+    box-shadow: 0 8px 22px rgba(85, 85, 209, 0.10);
 }
 #btnFiltro:hover{
     background-color: rgb(113, 113, 230);
@@ -249,6 +254,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
+    box-shadow: 0 8px 22px rgba(73, 155, 73, 0.12);
 }
 .btn-Opcoes-Des:hover{
     background-color: rgb(73, 155, 73);
@@ -262,21 +268,29 @@
 }
 #btnExcluir{
     background-color: rgb(204, 42, 42);
+    box-shadow: 0 8px 22px rgba(204, 42, 42, 0.12);
 }
 #btnExcluir:hover{
     background-color: rgb(212, 72, 72);
 }
 #btnAtualizar{
     background-color: rgb(187, 139, 51);
+    box-shadow: 0 8px 22px rgba(187, 139, 51, 0.12);
 }
 #btnAtualizar:hover{
     background-color: rgb(216, 174, 95);
 }
 #btnFiltroPagas{
-    background-color: transparent;
-    padding: 0;
+    background-color: rgb(15, 14, 14);
+    padding-bottom: 0;
+    box-shadow: none;
 }
 #btnFiltroPendentes{
-    background-color: transparent;
-    padding: 0;
+    background-color: rgb(15, 14, 14);
+    padding-bottom: 0;
+    box-shadow: none;
+}
+.filtroAtivo{
+    text-decoration: underline;
+    color: rgb(21, 112, 21);
 }

@@ -86,7 +86,7 @@ btnDashboard.addEventListener('click' ,() => {
                                     <div class="divEsqSon"></div>
                                 </div>
                                 <div class="dashDivDir">
-                                    <img src="../assets/images/grafico_pizza.jpg" alt="">
+                                    
                                 </div>
                             </div>`
 
@@ -130,7 +130,7 @@ navSub1.addEventListener('click' ,() => {
 
     const divTextos = document.createElement('div');
     divTextos.classList.add('divTextos');
-    divTextos.innerHTML = `<h1>Despesas mensais</h1>`
+    divTextos.innerHTML = `<h1>Despesas mensais</h1> <p>Janeiro de 2026</p>`
     
     const divBtn = document.createElement('div');
 
@@ -143,15 +143,26 @@ navSub1.addEventListener('click' ,() => {
     divCabecalho.append(divTextos,divBtn);
 
     painelDireito.append(divCabecalho,despesaDiv);
-
+    
+    const btnFiltroPagas = document.getElementById('btnFiltroPagas');
+    
+    const btnFiltroPendentes = document.getElementById('btnFiltroPendentes');
+    
     mostrarPendentes(despesaDiv);
+    btnFiltroPendentes.classList.add('filtroAtivo')
 
-    document.getElementById('btnFiltroPagas').addEventListener('click', () => {
+    btnFiltroPagas.addEventListener('click', () => {
         mostrarPagas(despesaDiv);
+
+        btnFiltroPagas.classList.add('filtroAtivo')
+        btnFiltroPendentes.classList.remove('filtroAtivo')
     });
 
-    document.getElementById('btnFiltroPendentes').addEventListener('click', () => {
+    btnFiltroPendentes.addEventListener('click', () => {
         mostrarPendentes(despesaDiv);
+
+        btnFiltroPendentes.classList.add('filtroAtivo')
+        btnFiltroPagas.classList.remove('filtroAtivo')
     })
 });
 

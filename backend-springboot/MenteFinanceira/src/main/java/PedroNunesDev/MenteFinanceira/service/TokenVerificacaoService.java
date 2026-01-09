@@ -48,10 +48,12 @@ public class TokenVerificacaoService {
             return null;
         }
 
-        return confirmarToken(tokenVerificacao);
+        confirmarToken(tokenVerificacao);
+
+        return tokenVerificacao;
     }
 
-    public TokenVerificacao confirmarToken(TokenVerificacao tokenVerificacao){
+    private TokenVerificacao confirmarToken(TokenVerificacao tokenVerificacao){
 
         tokenVerificacao.setAtivo(true);
         return tokenVerificacaoRepository.save(tokenVerificacao);

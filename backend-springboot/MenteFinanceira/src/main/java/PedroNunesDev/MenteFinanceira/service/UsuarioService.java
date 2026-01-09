@@ -5,11 +5,7 @@ import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
-import PedroNunesDev.MenteFinanceira.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +16,11 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
     private TokenVerificacaoService tokenVerificacaoService;
     @Autowired
     private BCryptPasswordEncoder bcrypt;
+    @Autowired
+    private AuthService authService;
 
     public TokenVerificacao cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
@@ -45,7 +39,7 @@ public class UsuarioService {
 
             usuario = usuarioRepository.save(usuario);
 
-            TokenVerificacao tokenVerificacao = gerarToken(usuario);
+            TokenVerificacao tokenVerificacao = tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
             return tokenVerificacao;
         }
@@ -54,7 +48,7 @@ public class UsuarioService {
 
             if (tokenVerificacaoExistente == null){
 
-                return gerarToken(usuario);
+                return tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
             }
 
@@ -62,60 +56,16 @@ public class UsuarioService {
         }
     }
 
-    public TokenVerificacao gerarToken(Usuario usuario){
+    public TokenVerificacaoDTO login(LoginDTO loginDTO){
 
-        return tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
+        String token = authService.validarLogin(loginDTO);
+
+        return new TokenVerificacaoDTO(token);
     }
-
-    public UsuarioDTOResponse validarTokenVerificao(TokenVerificacaoDTO tokenVerificacaoDTO){
-
-        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTO);
-
-        if (tokenVerificacao == null) throw new RuntimeException();
-
-        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getIdUsuario())
-                .orElseThrow(() -> new RuntimeException());
-
-        usuario.setVerificacaoEmail(true);
-
-        usuario = usuarioRepository.save(usuario);
-
-        return new UsuarioDTOResponse(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail()
-        );
-    }
-
-    public String login(LoginDTO loginDTO){
-
-        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
-
-
-        if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
-
-        var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
-        var authentication = authenticationManager.authenticate(usernamePassword);
-
-        String token = tokenService.genereteToken((Usuario) authentication.getPrincipal());
-
-        return token;
-    }
-
 
     public UsuarioDTOResponse me(){
 
-        Usuario usuarioAuth = (Usuario) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
-
-        return new UsuarioDTOResponse(
-                usuario.getId(),
-                usuario.getEmail(),
-                usuario.getNome()
-        );
+        return authService.me();
     }
+
 }

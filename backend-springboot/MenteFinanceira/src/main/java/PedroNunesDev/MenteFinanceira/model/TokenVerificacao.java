@@ -15,8 +15,6 @@ public class TokenVerificacao {
     private boolean ativo;
     private LocalDateTime duracao;
 
-    @ManyToOne
-    @JoinColumn
     private Long idUsuario;
 
     public TokenVerificacao() {

@@ -24,11 +24,11 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTOResponse> login(@RequestBody @Valid LoginDTO loginDTO){
+    public ResponseEntity<TokenVerificacaoDTO> login(@RequestBody @Valid LoginDTO loginDTO){
 
-        String token = usuarioService.login(loginDTO);
+        TokenVerificacaoDTO token = usuarioService.login(loginDTO);
 
-        return ResponseEntity.ok(new TokenDTOResponse(token));
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/cadastro")
@@ -37,14 +37,5 @@ public class UsuarioController {
         TokenVerificacao tokenVerificacao = usuarioService.cadastrarUsuario(usuarioDTORequest);
 
         return ResponseEntity.ok(tokenVerificacao);
-
-    }
-
-    @PostMapping("/cadastro/auth")
-    public ResponseEntity<UsuarioDTOResponse> validarTokenVerificacao(@RequestBody @Valid TokenVerificacaoDTO tokenVerificacaoDTO){
-
-        UsuarioDTOResponse usuario = usuarioService.validarTokenVerificao(tokenVerificacaoDTO);
-
-        return ResponseEntity.ok(usuario);
     }
 }
