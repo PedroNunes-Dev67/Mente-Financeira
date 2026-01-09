@@ -3,11 +3,13 @@ package PedroNunesDev.MenteFinanceira.controller;
 import PedroNunesDev.MenteFinanceira.dto.*;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.service.UsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Usuario Controller", description = "Controlador de todas as funções relacionadas ao usuário")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {

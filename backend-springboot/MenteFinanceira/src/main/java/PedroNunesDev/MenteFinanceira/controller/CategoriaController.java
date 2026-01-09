@@ -3,6 +3,7 @@ package PedroNunesDev.MenteFinanceira.controller;
 import PedroNunesDev.MenteFinanceira.dto.CategoriaDTO;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.service.CategoriaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@Tag(name = "Categoria Controller", description = "Controlador de todas as funções relacionadas as categorias")
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
