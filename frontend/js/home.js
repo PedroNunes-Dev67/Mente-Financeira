@@ -11,46 +11,32 @@ const navSub2 = document.getElementById('navSub2');
 
 const listaDespesa = [
     {
-    diaDePagamento: "20/01",
-    titulo:"Academia",
-    categoria: "Saúde",
-    valor:75.0,
+    diaDePagamento: "28/01",
+    titulo:"Faculdade",
+    categoria: "Educação",
+    valor:504.27,
     status: 'Pendente'
 },
 {
-    diaDePagamento:"20/01",
-    titulo:"Mercado",
-    categoria:"Alimentação",
-    valor:600.0,
-    status:"Pago"
+    diaDePagamento: "30/01",
+    titulo:"Cartão",
+    categoria: "Despesas Mensais",
+    valor:200.50,
+    status: 'Pendente'
 },
 {
-    diaDePagamento:"20/01",
-    titulo:"Mercado",
-    categoria:"Alimentação",
-    valor:600.0,
-    status:"Pago"
+    diaDePagamento:"30/01",
+    titulo:"Plano da Claro",
+    categoria:"Planos/Streaming",
+    valor:40.0,
+    status:"Pendente"
 },
 {
-    diaDePagamento:"20/01",
-    titulo:"Mercado",
-    categoria:"Alimentação",
-    valor:600.0,
-    status:"Pago"
-},
-{
-    diaDePagamento:"20/01",
-    titulo:"Mercado",
-    categoria:"Alimentação",
-    valor:600.0,
-    status:"Pago"
-},
-{
-    diaDePagamento:"20/01",
-    titulo:"Mercado",
-    categoria:"Alimentação",
-    valor:600.0,
-    status:"Pago"
+    diaDePagamento: "30/01",
+    titulo:"Seguro da moto",
+    categoria: "Despesas Mensais",
+    valor:50.00,
+    status: 'Pendente'
 },
 {
     diaDePagamento:"20/01",
@@ -60,8 +46,6 @@ const listaDespesa = [
     status:"Pago"
 }
 ]
-
-const titulos = ["Data de pagamneto", "Titulo", "Categoria","Valor","Status"]
 
 btnDespesa.addEventListener('click', () => {
 
@@ -142,24 +126,47 @@ navSub1.addEventListener('click' ,() => {
 
     divCabecalho.append(divTextos,divBtn);
 
+    const divNavBar = document.createElement('div');
+
+    const tiposTitulos = ['Data','Titulo','Categoria','Valor']
+
+    
+    for (let i = 0; i<4; i++){
+
+        var campoTitulo = document.createElement('div')
+        campoTitulo.classList.add('camposValoresDiv')
+        campoTitulo.innerHTML += `<h2>${tiposTitulos[i]}</h2>`
+        divNavBar.append(campoTitulo)
+    }
+
+    divNavBar.innerHTML +=`<div class="camposValoresDiv campoAcoes" id="campoAcoes"><h2>Ações</h2></div>`
+
+    divNavBar.classList.add('divNavBar')
+
+    const divDespesas = document.createElement('div');
+
+    divDespesas.classList.add('style-div-despesas')
+
+    despesaDiv.append(divNavBar, divDespesas)
+
     painelDireito.append(divCabecalho,despesaDiv);
     
     const btnFiltroPagas = document.getElementById('btnFiltroPagas');
     
     const btnFiltroPendentes = document.getElementById('btnFiltroPendentes');
     
-    mostrarPendentes(despesaDiv);
+    mostrarPendentes(divDespesas);
     btnFiltroPendentes.classList.add('filtroAtivo')
 
     btnFiltroPagas.addEventListener('click', () => {
-        mostrarPagas(despesaDiv);
+        mostrarPagas(divDespesas);
 
         btnFiltroPagas.classList.add('filtroAtivo')
         btnFiltroPendentes.classList.remove('filtroAtivo')
     });
 
     btnFiltroPendentes.addEventListener('click', () => {
-        mostrarPendentes(despesaDiv);
+        mostrarPendentes(divDespesas);
 
         btnFiltroPendentes.classList.add('filtroAtivo')
         btnFiltroPagas.classList.remove('filtroAtivo')
@@ -175,19 +182,27 @@ function mostrarPagas(div){
         const card = document.createElement('div');
         card.classList.add('despesa');
 
-        let sum = 0;
-
         if(despesa.status === 'Pago'){
             Object.entries(despesa).forEach(([chave, valor]) => {
 
-                
-                const campo = document.createElement('div');
-                campo.innerHTML = `<p>${titulos[sum]}</p> 
-                                    <p>${valor}</p>`
+                if(chave != 'status'){
+                    const campo = document.createElement('div');
+                    campo.classList.add('camposValoresDiv')
+                    campo.innerHTML = `<p>${valor}</p>`
 
-                sum += 1;
-                card.appendChild(campo);
+                    card.appendChild(campo);
+                }
             })
+
+            const listaOpcoes = ["Pagar", "Excluir", "Atualizar"]
+
+            let campo = document.createElement('div');
+            campo.classList.add('camposDeAcoes')
+
+            for(let i =1 ; i<3; i++){
+                campo.innerHTML += `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
+            }
+            card.appendChild(campo);
 
             div.appendChild(card);
         }
@@ -203,27 +218,28 @@ function mostrarPendentes(div){
         const card = document.createElement('div');
         card.classList.add('despesa');
 
-        let sum = 0;
-
         if(despesa.status === 'Pendente'){
             Object.entries(despesa).forEach(([chave, valor]) => {
 
-                
-                const campo = document.createElement('div');
-                campo.innerHTML = `<p>${titulos[sum]}</p> 
-                                    <p>${valor}</p>`
+                if (chave != 'status'){
+                    const campo = document.createElement('div');
+                    campo.classList.add('camposDespesa')
+                    campo.classList.add('camposValoresDiv')
+                    campo.innerHTML = `<p>${valor}</p>`
 
-                sum += 1;
-                card.appendChild(campo);
+                    card.appendChild(campo);
+                }
             })
 
             const listaOpcoes = ["Pagar", "Excluir", "Atualizar"]
 
+            let campo = document.createElement('div');
+            campo.classList.add('camposDeAcoes')
+
             for(let i =0 ; i<3; i++){
-                const campo = document.createElement('div');
-                campo.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
-                card.appendChild(campo);
+                campo.innerHTML += `<button type="button" class="btn-Opcoes-Des" id="btn${listaOpcoes[i]}">${listaOpcoes[i]}</button>`
             }
+            card.appendChild(campo);
 
             div.appendChild(card);
         }
@@ -248,6 +264,7 @@ navSub3.addEventListener('click' ,() => {
 
 });
 
+//Faz animação de quando clica em um dos btn da navbar lateral
 document.querySelectorAll('.links').forEach((e,i) => {
 
     e.addEventListener('click', () => {
@@ -257,6 +274,20 @@ document.querySelectorAll('.links').forEach((e,i) => {
         })
 
         e.classList.add('btnClicado');
+        
+    })
+})
+
+//Faz animação de quando clica em um dos btn de escohla de despesas da navbar lateral
+document.querySelectorAll('.btnEsc').forEach((e,i) => {
+
+    e.addEventListener('click', () => {
+
+        document.querySelectorAll('.btnEsc').forEach((ele, ind) => {
+            ele.classList.remove('filtroAtivo');
+        })
+
+        e.classList.add('filtroAtivo');
         
     })
 })

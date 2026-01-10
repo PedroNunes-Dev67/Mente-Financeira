@@ -1,6 +1,6 @@
 
 #inSubmit{
-    margin-top: 30px;
+    margin-top: 20px;
 }
 #voltarALogin{
     margin-top: 15px;
@@ -16,6 +16,11 @@
 }
 #voltarALogin:hover{
     transform: scale(1.09);
+}
+#tituloText p{
+    font-size: 35px;
+    margin: 0;
+    margin-bottom: 10px;
 }
 .termos-check{
     margin-top: 17px;

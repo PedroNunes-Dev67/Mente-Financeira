@@ -219,7 +219,7 @@
 .despesa{
     width: 98%;
     padding: 10px;
-    background-color: rgb(179, 176, 176);
+    background-color: rgb(129, 127, 127);
     color: black;
     font-weight: bold;
     border-radius: 12px;
@@ -293,4 +293,36 @@
 .filtroAtivo{
     text-decoration: underline;
     color: rgb(21, 112, 21);
+}
+.divNavBar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98%;
+}
+.style-div-despesas{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 20px;
+}
+.camposDeAcoes{
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.camposValoresDiv{
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 18px;
+}
+.camposValoresDiv h2{
+    margin: 0;
+}
+.campoAcoes{
+    padding-right: 14px;
 }
