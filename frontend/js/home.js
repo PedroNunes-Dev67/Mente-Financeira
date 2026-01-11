@@ -122,7 +122,7 @@ navSub1.addEventListener('click' ,() => {
     
     divBtn.innerHTML = `<button type="button" class="btn-Opcoes-Des" id="btnFiltroPagas">Pagas</button> | <button type="button" class="btn-Opcoes-Des" id="btnFiltroPendentes">Pendentes</button>
     <button type="button" class="btn-Opcoes-Des" id="btnFiltro">Filtros</button>
-    <button type="button" id="btnAdd" class="btn-Opcoes-Des">Adicionar despesa</button>`
+    <button type="button" id="btnAdd" onClick="adicionarDespesa()" class="btn-Opcoes-Des">Adicionar despesa</button>`
 
     divCabecalho.append(divTextos,divBtn);
 
@@ -291,5 +291,54 @@ document.querySelectorAll('.btnEsc').forEach((e,i) => {
         
     })
 })
+
+//Funcao de adicionar uma despesa
+function adicionarDespesa(){
+
+    const modal_overlay = document.createElement('div');
+
+    modal_overlay.classList.add('modal_overlay');
+    modal_overlay.classList.add('ativoModal')
+    modal_overlay.id='modalDespesa';
+
+    const divModal = document.createElement('div');
+    divModal.classList.add('modal')
+
+    divModal.innerHTML=" "
+
+    divModal.innerHTML=`
+                <h2> ➕ Adicionar despesa</h2>
+                <input type="text" placeholder="Titulo">
+                <input type="number" placeholder="Dia de pagamento">
+                <input type="number" placeholder="Valor">
+                <select>
+                    <option value="">Categoria</option>
+                    <option value="Alimentação">Alimentação</option>
+                    <option value="Saúde">Saúde</option>
+                    <option value="Despesas mensais">Despesas mensais</option>
+                </select>`
+
+    const divAcoes = document.createElement('div');
+
+    divAcoes.classList.add('acoes');
+
+    divAcoes.innerHTML=`
+                <button id="btnCancelar" type="button">Cancelar</button>
+                <button id="btnSalvar" type="button">Salvar</button>`
+
+    divModal.append(divAcoes);
+
+    modal_overlay.append(divModal);
+
+    painelDireito.append(modal_overlay)
+
+
+    document.getElementById('btnCancelar').addEventListener('click', () => {
+
+        modal_overlay.classList.remove('ativoModal')
+
+        painelDireito.removeChild(modal_overlay)
+    })
+}
 
 

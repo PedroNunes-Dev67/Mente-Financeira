@@ -312,6 +312,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    gap: 5px;
 }
 .camposValoresDiv{
     width: 98%;
@@ -324,5 +325,49 @@
     margin: 0;
 }
 .campoAcoes{
-    padding-right: 14px;
+    padding-right: 25px;
+}
+
+
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 500;
+
+  width: 200vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: none; /* começa escondido */
+  align-items: center;
+  justify-content: center;
+  color: black;
+
+  z-index: 999;
+}
+
+.modal_overlay.ativoModal {
+  display: flex;
+}
+
+.modal {
+  background: #979393;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; 
+  height: 250px;
+  
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-left: 60px;
+}
+#btnSalvar{
+    font-size: 16px;
+    border: none;
+    padding: 0 12px;
+    background-color: rgb(21, 112, 21);
+    color:white;
 }
