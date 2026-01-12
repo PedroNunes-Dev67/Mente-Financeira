@@ -3,7 +3,6 @@ package PedroNunesDev.MenteFinanceira.service;
 import PedroNunesDev.MenteFinanceira.dto.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
-import PedroNunesDev.MenteFinanceira.model.Pagamento_Despesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
@@ -16,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -138,7 +136,7 @@ public class DespesaService {
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE);
     }
-    
+
     private Usuario getUsuarioContext(){
 
         Usuario usuarioAuth = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
