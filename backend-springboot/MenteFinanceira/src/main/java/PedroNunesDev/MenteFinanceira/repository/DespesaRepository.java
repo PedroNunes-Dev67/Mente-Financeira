@@ -21,4 +21,6 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
     List<Despesa> findByTipoDespesaAndUsuario(TipoDespesa tipoDespesa, Usuario usuario);
 
     List<Despesa> findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa tipoDespesa, Usuario usuario, DespesaStatus despesaStatus);
+
+    List<Despesa> findByUsuario(Usuario usuario);
 }

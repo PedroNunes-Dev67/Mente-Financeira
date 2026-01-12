@@ -53,7 +53,7 @@ public class DespesaService {
 
         Usuario usuario = getUsuarioContext();
 
-        return usuario.getDespesas();
+        return despesaRepository.findByUsuario(usuario);
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +71,9 @@ public class DespesaService {
 
         Usuario usuario = getUsuarioContext();
 
-        return usuario.getDespesas()
+        List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
+
+        return listaDeDespesas
                 .stream()
                 .filter(des -> des.getDespesaStatus() == DespesaStatus.PENDENTE)
                 .toList();
@@ -82,7 +84,9 @@ public class DespesaService {
 
         Usuario usuario = getUsuarioContext();
 
-        return usuario.getDespesas()
+        List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
+
+        return listaDeDespesas
                 .stream()
                 .filter(des -> des.getDespesaStatus() == DespesaStatus.PAGO)
                 .toList();
