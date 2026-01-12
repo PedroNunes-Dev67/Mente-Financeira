@@ -75,33 +75,33 @@ public class DespesaController {
     }
 
     @GetMapping("/me/nao-recorrente/pagas")
-    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPagas(){
+    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPagas();
+        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPagas(pagina,items);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/me/nao-recorrente/pendentes")
-    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPendentes(){
+    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPendentes();
+        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPendentes(pagina,items);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/me/recorrente/pendentes")
-    public ResponseEntity<List<Despesa>> despesasRecorrentesPendentes(){
+    public ResponseEntity<List<Despesa>> despesasRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPendentes();
+        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPendentes(pagina,items);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/me/recorrente/pagas")
-    public ResponseEntity<List<Despesa>> despesasRecorrentesPagas(){
+    public ResponseEntity<List<Despesa>> despesasRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPagas();
+        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPagas(pagina,items);
 
         return ResponseEntity.ok(list);
     }

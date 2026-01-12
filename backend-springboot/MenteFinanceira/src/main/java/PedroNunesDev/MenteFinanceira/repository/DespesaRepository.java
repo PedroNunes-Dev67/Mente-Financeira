@@ -5,6 +5,8 @@ import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
 
     List<Despesa> findByTipoDespesaAndUsuario(TipoDespesa tipoDespesa, Usuario usuario);
 
-    List<Despesa> findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa tipoDespesa, Usuario usuario, DespesaStatus despesaStatus);
+    Page<Despesa> findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa tipoDespesa, Usuario usuario, DespesaStatus despesaStatus, Pageable pageable);
 
     List<Despesa> findByUsuario(Usuario usuario);
 }

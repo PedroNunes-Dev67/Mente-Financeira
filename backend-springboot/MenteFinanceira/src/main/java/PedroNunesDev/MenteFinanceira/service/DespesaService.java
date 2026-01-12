@@ -11,6 +11,7 @@ import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,35 +111,35 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasNaoRecorrentesUsuarioPagas(){
+    public List<Despesa> despesasNaoRecorrentesUsuarioPagas(int pagina, int items){
 
         Usuario usuario = getUsuarioContext();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO);
+        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasNaoRecorrentesUsuarioPendentes(){
+    public List<Despesa> despesasNaoRecorrentesUsuarioPendentes(int pagina, int items){
 
         Usuario usuario = getUsuarioContext();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE);
+        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasRecorrentesUsuarioPagas(){
+    public List<Despesa> despesasRecorrentesUsuarioPagas(int pagina, int items){
 
         Usuario usuario = getUsuarioContext();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO);
+        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasRecorrentesUsuarioPendentes(){
+    public List<Despesa> despesasRecorrentesUsuarioPendentes(int pagina, int items){
 
         Usuario usuario = getUsuarioContext();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE);
+        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
     }
 
     private Usuario getUsuarioContext(){
