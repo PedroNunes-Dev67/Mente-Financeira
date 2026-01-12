@@ -308,23 +308,28 @@ function adicionarDespesa(){
 
     divModal.innerHTML=`
                 <h2> ➕ Adicionar despesa</h2>
-                <input type="text" placeholder="Titulo">
-                <input type="number" placeholder="Dia de pagamento">
-                <input type="number" placeholder="Valor">
-                <select>
-                    <option value="">Categoria</option>
-                    <option value="Alimentação">Alimentação</option>
-                    <option value="Saúde">Saúde</option>
-                    <option value="Despesas mensais">Despesas mensais</option>
-                </select>`
+                <div id="divOpcoesDeCriacao">
+                    <form id="formDespesa">
+                        <input type="text" placeholder="Titulo" id="inTitulo" required>
+                        <input type="number" placeholder="Dia de pagamento" step="1" min="1" max="31" id="inDia" required>
+                        <input type="number" placeholder="Valor" step="0.01" min="0.1" id="inValor" required>
+                        <select id="selectionDeCategorias" required>
+                            <option value="Categoria">Categoria</option>
+                            <option value="Alimentação">Alimentação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Despesas mensais">Despesas mensais</option>
+                        </select>
+                        <input type="submit" value="Salvar" id="btnSalvar" class="btn-Opcoes-Des">
+                    </form>
+                </div>`
 
     const divAcoes = document.createElement('div');
 
     divAcoes.classList.add('acoes');
 
     divAcoes.innerHTML=`
-                <button id="btnCancelar" type="button">Cancelar</button>
-                <button id="btnSalvar" type="button">Salvar</button>`
+                <button id="btnCancelar" class="btn-Opcoes-Des" type="button">Cancelar</button>
+                <p id="respDespesaSucesso"</p>`
 
     divModal.append(divAcoes);
 
@@ -339,6 +344,56 @@ function adicionarDespesa(){
 
         painelDireito.removeChild(modal_overlay)
     })
+
+    document.getElementById('formDespesa').addEventListener('submit', (e) => {
+
+        e.preventDefault();
+
+        const titulo = document.getElementById('inTitulo').value;
+        const diaDePagamento = document.getElementById('inDia').value;
+        const valor = document.getElementById('inValor').value;
+        const selection = document.getElementById('selectionDeCategorias');
+        const categoria = selection.value;
+
+        const despesa = {
+            diaDePagamento: diaDePagamento+"/01",
+            titulo:titulo,
+            categoria: categoria,
+            valor:valor,
+            status: "Pendente"
+        }
+
+        const tamanhoListaAntes = listaDespesa.length;
+
+        listaDespesa.push(despesa);
+
+        modal_overlay.classList.remove('ativoModal')
+
+        painelDireito.removeChild(modal_overlay)
+    })
+}
+
+function salvarDespesa(){
+
+    const titulo = document.getElementById('inTitulo').value;
+    const diaDePagamento = document.getElementById('inDia').value;
+    const valor = document.getElementById('inValor').value;
+    const selection = document.getElementById('selectionDeCategorias');
+    const categoria = selection.value;
+
+    const despesa = {
+        diaDePagamento: diaDePagamento,
+        titulo:titulo,
+        categoria:categoria,
+        valor:valor,
+        status: "Pendente"
+    }
+
+    const tamanhoListaAntes = listaDespesa.length;
+
+    listaDespesa.push(despesa);
+
+    
 }
 
 

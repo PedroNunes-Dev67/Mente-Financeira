@@ -350,24 +350,53 @@
 .modal_overlay.ativoModal {
   display: flex;
 }
-
 .modal {
-  background: #979393;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px; 
-  height: 250px;
-  
+    background-color: rgb(177, 176, 176);
+    padding: 20px;
+    border-radius: 8px;
+    width: 350px; 
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 2px 2px 5px rgba(177, 176, 176, 0.123);
 }
-
-.modal h2 {
-    margin-top: 0;
-    margin-left: 60px;
+#divOpcoesDeCriacao{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#divOpcoesDeCriacao input{
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+#selectionDeCategorias{
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+#btnCancelar{
+    background-color:rgb(204, 42, 42);
+    margin-top: 5px;
 }
 #btnSalvar{
-    font-size: 16px;
-    border: none;
-    padding: 0 12px;
-    background-color: rgb(21, 112, 21);
-    color:white;
+    margin-top: 15px;
+    width: 100%;
+    height: 40px;
+    padding: 0;
+}
+#divOpcoesDeCriacao form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#inDia{
+    width: 100%;
 }
