@@ -8,6 +8,7 @@ import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -22,6 +23,7 @@ public class UsuarioService {
     @Autowired
     private AuthService authService;
 
+    @Transactional
     public TokenVerificacao cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(usuarioDTORequest.email()).orElse(null);
@@ -44,6 +46,7 @@ public class UsuarioService {
             return tokenVerificacao;
         }
         else{
+            //Pega algum possivel token que ainda está para uso
             TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoService.analisarTokenVerificacaoUsuario(usuario);
 
             if (tokenVerificacaoExistente == null){

@@ -14,6 +14,7 @@ import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +31,7 @@ public class DespesaService {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
+    @Transactional
     public Despesa cadastrarDespesa(DespesaDTORequest financaDTORequest){
 
         Usuario usuario = getUsuarioContext();
@@ -48,6 +50,7 @@ public class DespesaService {
         ));
     }
 
+    @Transactional
     public List<Despesa> buscarDespesasPorUsuario(){
 
         Usuario usuario = getUsuarioContext();
@@ -55,6 +58,7 @@ public class DespesaService {
         return usuario.getDespesas();
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasPorCategoria(Long id){
 
         Usuario usuarioAuth = getUsuarioContext();
@@ -64,6 +68,7 @@ public class DespesaService {
         return despesaRepository.findByUsuarioAndCategoria(usuarioAuth,categoria);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasPendentes(){
 
         Usuario usuario = getUsuarioContext();
@@ -74,6 +79,7 @@ public class DespesaService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasPagas(){
 
         Usuario usuario = getUsuarioContext();
@@ -85,6 +91,7 @@ public class DespesaService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuario(){
 
         Usuario usuario = getUsuarioContext();
@@ -92,6 +99,7 @@ public class DespesaService {
         return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.RECORRENTE, usuario);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuario(){
 
         Usuario usuario = getUsuarioContext();
@@ -99,6 +107,7 @@ public class DespesaService {
         return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.NAO_RECORRENTE, usuario);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuarioPagas(){
 
         Usuario usuario = getUsuarioContext();
@@ -106,6 +115,7 @@ public class DespesaService {
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuarioPendentes(){
 
         Usuario usuario = getUsuarioContext();
@@ -113,6 +123,7 @@ public class DespesaService {
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuarioPagas(){
 
         Usuario usuario = getUsuarioContext();
@@ -120,12 +131,14 @@ public class DespesaService {
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO);
     }
 
+    @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuarioPendentes(){
 
         Usuario usuario = getUsuarioContext();
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE);
     }
+    
     private Usuario getUsuarioContext(){
 
         Usuario usuarioAuth = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

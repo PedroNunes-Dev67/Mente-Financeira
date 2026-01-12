@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService {
@@ -26,8 +27,10 @@ public class AuthService {
     @Autowired
     private TokenService tokenService;
 
+    @Transactional
     public UsuarioDTOResponse confirmarValidacaoDeEmail(TokenVerificacaoDTO tokenVerificacaoDTO){
 
+        //Passa pela validação de token para ver os criterios
         TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTO);
 
         if (tokenVerificacao == null) throw new RuntimeException();
@@ -40,11 +43,12 @@ public class AuthService {
         return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 
+    @Transactional
     public String validarLogin(LoginDTO loginDTO){
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
 
-
+        //Valida se o email ja foi verificado
         if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());

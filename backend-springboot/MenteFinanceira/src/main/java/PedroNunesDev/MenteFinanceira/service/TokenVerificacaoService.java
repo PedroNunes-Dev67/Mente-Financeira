@@ -7,6 +7,7 @@ import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class TokenVerificacaoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Transactional
     public TokenVerificacao gerarTokenDeVerificacao(Usuario usuario){
 
             String token = UUID.randomUUID().toString();
@@ -34,6 +36,7 @@ public class TokenVerificacaoService {
             return tokenVerificacaoRepository.save(tokenVerificacao);
     }
 
+    @Transactional
     public TokenVerificacao validarTokenDeVerificacao(TokenVerificacaoDTO tokenVerificacaoDTO){
 
         TokenVerificacao tokenVerificacao = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTO.token()).orElse(null);
@@ -53,12 +56,14 @@ public class TokenVerificacaoService {
         return tokenVerificacao;
     }
 
+    @Transactional
     private TokenVerificacao confirmarToken(TokenVerificacao tokenVerificacao){
 
         tokenVerificacao.setAtivo(true);
         return tokenVerificacaoRepository.save(tokenVerificacao);
     }
 
+    @Transactional(readOnly = true)
     public TokenVerificacao analisarTokenVerificacaoUsuario(Usuario usuario){
 
         List<TokenVerificacao> tokenVerificacaoExistentes = tokenVerificacaoRepository.findByIdUsuario(usuario.getId());
