@@ -143,7 +143,7 @@ navSub1.addEventListener('click' ,() => {
 
     divNavBar.classList.add('divNavBar')
 
-    const divDespesas = document.createElement('div');
+    var divDespesas = document.createElement('div');
 
     divDespesas.classList.add('style-div-despesas')
 
@@ -278,7 +278,7 @@ document.querySelectorAll('.links').forEach((e,i) => {
     })
 })
 
-//Faz animação de quando clica em um dos btn de escohla de despesas da navbar lateral
+//Faz animação de quando clica em um dos btn de escolha de despesas da navbar lateral
 document.querySelectorAll('.btnEsc').forEach((e,i) => {
 
     e.addEventListener('click', () => {

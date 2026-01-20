@@ -57,19 +57,13 @@ public class AuthService {
         return tokenService.genereteToken((Usuario) authentication.getPrincipal());
     }
 
-    public UsuarioDTOResponse me(){
+    public Usuario me(){
 
         Usuario usuarioAuth = (Usuario) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
 
-        Usuario usuario = usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
-
-        return new UsuarioDTOResponse(
-                usuario.getId(),
-                usuario.getEmail(),
-                usuario.getNome()
-        );
+        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
     }
 }
