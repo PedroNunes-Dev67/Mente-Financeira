@@ -29,11 +29,13 @@ public class DespesaService {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private PagamentoRepository pagamentoRepository;
+    @Autowired
+    private AuthService authService;
 
     @Transactional
     public Despesa cadastrarDespesa(DespesaDTORequest financaDTORequest){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         Categoria categoria = categoriaRepository.findById(financaDTORequest.id_categoria()).orElseThrow(() -> new RuntimeException());
 
@@ -52,7 +54,7 @@ public class DespesaService {
     @Transactional
     public List<Despesa> buscarDespesasPorUsuario(){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByUsuario(usuario);
     }
@@ -60,7 +62,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasPorCategoria(Long id){
 
-        Usuario usuarioAuth = getUsuarioContext();
+        Usuario usuarioAuth = authService.me();
 
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException());
 
@@ -70,7 +72,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasPendentes(){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
 
@@ -83,7 +85,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasPagas(){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
 
@@ -97,7 +99,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuario(){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.RECORRENTE, usuario);
     }
@@ -105,7 +107,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuario(){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.NAO_RECORRENTE, usuario);
     }
@@ -113,7 +115,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuarioPagas(int pagina, int items){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
     }
@@ -121,7 +123,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasNaoRecorrentesUsuarioPendentes(int pagina, int items){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
     }
@@ -129,7 +131,7 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuarioPagas(int pagina, int items){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
     }
@@ -137,15 +139,8 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public List<Despesa> despesasRecorrentesUsuarioPendentes(int pagina, int items){
 
-        Usuario usuario = getUsuarioContext();
+        Usuario usuario = authService.me();
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
-    }
-
-    private Usuario getUsuarioContext(){
-
-        Usuario usuarioAuth = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
     }
 }

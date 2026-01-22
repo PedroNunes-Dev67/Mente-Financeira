@@ -27,6 +27,8 @@ public class PagamentoService {
     private DespesaService despesaService;
     @Autowired
     private DespesaRepository despesaRepository;
+    @Autowired
+    private AuthService authService;
 
     public List<Pagamento_Despesa> todosPagamentosUsuario(){
 
@@ -47,7 +49,7 @@ public class PagamentoService {
 
     public Pagamento_Despesa pagamentoDespesa(Long id){
 
-        Usuario usuarioAuth = getUsuarioContext();
+        Usuario usuarioAuth = authService.me();
 
         Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(id, usuarioAuth).orElseThrow(() -> new RuntimeException());
 
@@ -66,12 +68,5 @@ public class PagamentoService {
         despesaRepository.save(despesa);
 
         return pagamentoRepository.save(new Pagamento_Despesa(LocalDate.now(), despesa));
-    }
-
-    private Usuario getUsuarioContext(){
-
-        Usuario usuarioAuth = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
     }
 }
