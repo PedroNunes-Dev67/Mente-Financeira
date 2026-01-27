@@ -2,7 +2,9 @@ package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
+import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.DespesaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "Despesa Controller",description = "Controlador de todas as funções relacionadas as despesas")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 @RestController
 @RequestMapping("/despesas")
 public class DespesaController {

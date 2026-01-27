@@ -2,7 +2,9 @@ package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.TokenVerificacaoDTO;
 import PedroNunesDev.MenteFinanceira.dto.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth Usuario Controller",description = "Controlador de todas as fuções relacionadas a autenticação do usuário")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 @RestController
 @RequestMapping("/auth")
 public class AuthUsuarioController {

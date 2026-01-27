@@ -2,7 +2,9 @@ package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.CategoriaDTO;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
+import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.CategoriaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Categoria Controller", description = "Controlador de todas as funções relacionadas as categorias")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {

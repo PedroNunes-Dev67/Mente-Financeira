@@ -1,5 +1,7 @@
 package PedroNunesDev.MenteFinanceira.security;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +22,10 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@SecurityScheme(name = SecurityConfiguration.SECURITY, type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 public class SecurityConfiguration {
+
+    public static final String SECURITY = "bearerSecurity";
 
     @Autowired
     private SecurityFilter securityFilter;
