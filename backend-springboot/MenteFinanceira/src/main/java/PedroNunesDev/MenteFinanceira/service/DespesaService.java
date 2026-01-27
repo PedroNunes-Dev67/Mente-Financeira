@@ -12,7 +12,6 @@ import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,12 +73,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
-
-        return listaDeDespesas
-                .stream()
-                .filter(des -> des.getDespesaStatus() == DespesaStatus.PENDENTE)
-                .toList();
+        return despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PENDENTE);
     }
 
     @Transactional(readOnly = true)
@@ -87,13 +81,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        List<Despesa> listaDeDespesas = despesaRepository.findByUsuario(usuario);
-
-        return listaDeDespesas
-                .stream()
-                .filter(des -> des.getDespesaStatus() == DespesaStatus.PAGO)
-                .toList();
-
+        return despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGO);
     }
 
     @Transactional(readOnly = true)
