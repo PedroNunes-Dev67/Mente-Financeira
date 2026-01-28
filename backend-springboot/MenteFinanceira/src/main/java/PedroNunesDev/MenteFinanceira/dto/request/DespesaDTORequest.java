@@ -1,4 +1,4 @@
-package PedroNunesDev.MenteFinanceira.dto;
+package PedroNunesDev.MenteFinanceira.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

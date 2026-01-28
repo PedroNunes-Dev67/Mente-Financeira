@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.CategoriaDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.CategoriaDTO;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

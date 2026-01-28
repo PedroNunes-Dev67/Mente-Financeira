@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
-import PedroNunesDev.MenteFinanceira.dto.CategoriaDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.CategoriaDTO;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.CategoriaService;

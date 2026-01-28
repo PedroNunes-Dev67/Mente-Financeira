@@ -1,7 +1,7 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
-import PedroNunesDev.MenteFinanceira.dto.TokenVerificacaoDTO;
-import PedroNunesDev.MenteFinanceira.dto.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

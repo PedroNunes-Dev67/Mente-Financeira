@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.DespesaDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;

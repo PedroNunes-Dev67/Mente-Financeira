@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
-import PedroNunesDev.MenteFinanceira.dto.DespesaDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.DespesaService;

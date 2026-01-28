@@ -1,8 +1,8 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.LoginDTO;
-import PedroNunesDev.MenteFinanceira.dto.TokenVerificacaoDTO;
-import PedroNunesDev.MenteFinanceira.dto.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 
 import PedroNunesDev.MenteFinanceira.model.Usuario;
