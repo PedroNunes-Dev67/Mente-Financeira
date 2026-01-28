@@ -4,7 +4,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record UsuarioDTORequest(
-        @NotBlank String nome,
-        @NotBlank @Email String email,
-        @NotBlank String senha)
+        @NotBlank(message = "Nome de usuário obrigatório")
+        String nome,
+        @NotBlank(message = "Email obrigatório")
+        @Email(message = "Email inválido")
+        String email,
+        @NotBlank(message = "Senha obrigatória")
+        String senha
+)
 {}

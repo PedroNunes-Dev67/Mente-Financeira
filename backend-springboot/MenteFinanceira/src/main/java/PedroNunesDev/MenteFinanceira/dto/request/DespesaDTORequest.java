@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 
 
 public record DespesaDTORequest(
-        @NotBlank String titulo,
-        @NotNull BigDecimal valor,
-        @NotNull Integer diaDePagamento,
-        @NotNull Long id_categoria,
-        @NotBlank String tipoDespesa
+        @NotBlank(message = "Titulo da despesa obrigatório") String titulo,
+        @NotNull(message = "Valor da despesa obrigatório") BigDecimal valor,
+        @NotNull(message = "Dia de pagamento da despesa obrigatório") Integer diaDePagamento,
+        @NotNull(message = "Id da categoria obrigatório") Long id_categoria,
+        @NotBlank(message = "Tipo da despesa obrigatório") String tipoDespesa
 ) {
 }
