@@ -31,19 +31,11 @@ public class PagamentoService {
 
     public List<Pagamento_Despesa> todosPagamentosUsuario(){
 
-        //Pego a lista de despesas do usuário
-        List<Despesa> listaDeDespesas = despesaService.despesasPagas();
+        Usuario usuario = authService.me();
 
-        List<Pagamento_Despesa> listaDePagamentos = new ArrayList<>();
-
-        //Percorro esta lista de despesas pegando outra lista de pagamentos, percorrendo ela e chamando um método para adicionar a lista de pagamentos
-        listaDeDespesas.stream().map(des -> des.getPagamentos()).forEach(pag -> pag.forEach(p -> pagamento(listaDePagamentos, p)));
+        List<Pagamento_Despesa> listaDePagamentos = pagamentoRepository.findPagamentosByUsuarioAndStatusDespesa(usuario, DespesaStatus.PAGO);
 
         return listaDePagamentos;
-    }
-
-    private void pagamento(List<Pagamento_Despesa> lista, Pagamento_Despesa pagamento_despesa){
-        lista.add(pagamento_despesa);
     }
 
     public Pagamento_Despesa pagamentoDespesa(Long id){

@@ -50,6 +50,9 @@ public class UsuarioService {
             return new TokenVerificacaoDtoResponse(tokenVerificacao.getToken());
         }
         else{
+
+            if (usuario.isVerificacaoEmail()) throw new RuntimeException();
+
             //Pega algum possivel token que ainda está para uso
             TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoService.analisarTokenVerificacaoUsuario(usuario);
 
@@ -76,5 +79,4 @@ public class UsuarioService {
         Usuario usuario = authService.me();
         return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
-
 }

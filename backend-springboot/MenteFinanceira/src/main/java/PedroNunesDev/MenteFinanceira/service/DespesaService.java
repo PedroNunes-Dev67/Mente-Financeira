@@ -8,8 +8,6 @@ import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
-import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
-import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,11 +21,7 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
     private CategoriaRepository categoriaRepository;
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
     @Autowired
     private AuthService authService;
 

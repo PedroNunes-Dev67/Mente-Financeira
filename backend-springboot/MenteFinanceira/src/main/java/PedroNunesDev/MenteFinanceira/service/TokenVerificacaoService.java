@@ -4,13 +4,13 @@ import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
-import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,8 +18,6 @@ public class TokenVerificacaoService {
 
     @Autowired
     private TokenVerificacaoRepository tokenVerificacaoRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Transactional
     public TokenVerificacao gerarTokenDeVerificacao(Usuario usuario){
@@ -39,28 +37,29 @@ public class TokenVerificacaoService {
     @Transactional
     public TokenVerificacao validarTokenDeVerificacao(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
-        TokenVerificacao tokenVerificacao = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTORequest.token()).orElse(null);
+        Optional<TokenVerificacao> tokenVerificacaoBuscado = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTORequest.token());
 
-        if (tokenVerificacao == null){
+        if (tokenVerificacaoBuscado.isEmpty()) return null;
+
+        TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoBuscado.get();
+
+        if (tokenVerificacaoExistente.isAtivo()){
             return null;
         }
-        else if(tokenVerificacao.isAtivo()){
-            return null;
-        }
-        else if(LocalDateTime.now().isAfter(tokenVerificacao.getDuracao())){
+        else if (LocalDateTime.now().isAfter(tokenVerificacaoExistente.getDuracao())){
             return null;
         }
 
-        confirmarToken(tokenVerificacao);
+        confirmarToken(tokenVerificacaoExistente);
 
-        return tokenVerificacao;
+        return tokenVerificacaoExistente;
     }
 
     @Transactional
-    private TokenVerificacao confirmarToken(TokenVerificacao tokenVerificacao){
+    private void confirmarToken(TokenVerificacao tokenVerificacao){
 
         tokenVerificacao.setAtivo(true);
-        return tokenVerificacaoRepository.save(tokenVerificacao);
+        tokenVerificacaoRepository.save(tokenVerificacao);
     }
 
     @Transactional(readOnly = true)
