@@ -1,8 +1,9 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
-import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.request.UsuarioDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.TokenVerificacaoDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -27,7 +28,7 @@ public class UsuarioService {
     private AuthService authService;
 
     @Transactional
-    public TokenVerificacao cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
+    public TokenVerificacaoDtoResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(usuarioDTORequest.email()).orElse(null);
 
@@ -46,7 +47,7 @@ public class UsuarioService {
 
             TokenVerificacao tokenVerificacao = tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
-            return tokenVerificacao;
+            return new TokenVerificacaoDtoResponse(tokenVerificacao.getToken());
         }
         else{
             //Pega algum possivel token que ainda está para uso
@@ -54,19 +55,20 @@ public class UsuarioService {
 
             if (tokenVerificacaoExistente == null){
 
-                return tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
+                TokenVerificacao tokenVerificacao = tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
+                return new TokenVerificacaoDtoResponse(tokenVerificacao.getToken());
             }
 
-            return tokenVerificacaoExistente;
+            return new TokenVerificacaoDtoResponse(tokenVerificacaoExistente.getToken());
         }
     }
 
-    public TokenVerificacaoDTO login(LoginDTO loginDTO){
+    public TokenVerificacaoDTORequest login(LoginDTO loginDTO){
 
         String token = authService.validarLogin(loginDTO);
 
-        return new TokenVerificacaoDTO(token);
+        return new TokenVerificacaoDTORequest(token);
     }
 
     public UsuarioDTOResponse me(){

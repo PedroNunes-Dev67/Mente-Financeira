@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
@@ -37,9 +37,9 @@ public class TokenVerificacaoService {
     }
 
     @Transactional
-    public TokenVerificacao validarTokenDeVerificacao(TokenVerificacaoDTO tokenVerificacaoDTO){
+    public TokenVerificacao validarTokenDeVerificacao(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
-        TokenVerificacao tokenVerificacao = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTO.token()).orElse(null);
+        TokenVerificacao tokenVerificacao = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTORequest.token()).orElse(null);
 
         if (tokenVerificacao == null){
             return null;

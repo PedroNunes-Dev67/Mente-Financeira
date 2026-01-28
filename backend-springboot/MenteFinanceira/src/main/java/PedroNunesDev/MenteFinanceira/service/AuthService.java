@@ -1,7 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
-import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 
@@ -28,10 +28,10 @@ public class AuthService {
     private TokenService tokenService;
 
     @Transactional
-    public UsuarioDTOResponse confirmarValidacaoDeEmail(TokenVerificacaoDTO tokenVerificacaoDTO){
+    public UsuarioDTOResponse confirmarValidacaoDeEmail(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
         //Passa pela validação de token para ver os criterios
-        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTO);
+        TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTORequest);
 
         if (tokenVerificacao == null) throw new RuntimeException();
 

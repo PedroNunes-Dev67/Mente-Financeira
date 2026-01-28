@@ -1,6 +1,6 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
-import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.AuthService;
@@ -24,9 +24,9 @@ public class AuthUsuarioController {
     private AuthService authService;
 
     @PostMapping
-    public ResponseEntity<UsuarioDTOResponse> validarTokenValidacaoEmail(@RequestBody @Valid TokenVerificacaoDTO tokenVerificacaoDTO){
+    public ResponseEntity<UsuarioDTOResponse> validarTokenValidacaoEmail(@RequestBody @Valid TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
-        UsuarioDTOResponse usuarioDTOResponse = authService.confirmarValidacaoDeEmail(tokenVerificacaoDTO);
+        UsuarioDTOResponse usuarioDTOResponse = authService.confirmarValidacaoDeEmail(tokenVerificacaoDTORequest);
 
         return ResponseEntity.ok(usuarioDTOResponse);
     }
