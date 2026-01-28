@@ -1,4 +1,4 @@
-package PedroNunesDev.MenteFinanceira.exception.model;
+package PedroNunesDev.MenteFinanceira.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
