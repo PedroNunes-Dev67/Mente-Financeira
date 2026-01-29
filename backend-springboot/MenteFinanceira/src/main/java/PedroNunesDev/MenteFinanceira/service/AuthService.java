@@ -3,6 +3,8 @@ package PedroNunesDev.MenteFinanceira.service;
 import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
 import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
+import PedroNunesDev.MenteFinanceira.exception.UsuarioNaoVerificadoException;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -33,10 +35,10 @@ public class AuthService {
         //Passa pela validação de token para ver os criterios
         TokenVerificacao tokenVerificacao = tokenVerificacaoService.validarTokenDeVerificacao(tokenVerificacaoDTORequest);
 
-        if (tokenVerificacao == null) throw new RuntimeException();
+        //Busca usuário pelo ID contido no Token
+        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getIdUsuario()).orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
 
-        Usuario usuario = usuarioRepository.findById(tokenVerificacao.getIdUsuario()).orElseThrow(() -> new RuntimeException());
-
+        //Atualiza para usuário verificado
         usuario.setVerificacaoEmail(true);
         usuarioRepository.save(usuario);
 
@@ -46,10 +48,10 @@ public class AuthService {
     @Transactional
     public String validarLogin(LoginDTO loginDTO){
 
-        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
         //Valida se o email ja foi verificado
-        if (!usuario.isVerificacaoEmail()) throw new RuntimeException();
+        if (!usuario.isVerificacaoEmail()) throw new UsuarioNaoVerificadoException("Usuário não verificado");
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
         var authentication = authenticationManager.authenticate(usernamePassword);
@@ -64,6 +66,6 @@ public class AuthService {
                 .getAuthentication()
                 .getPrincipal();
 
-        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new RuntimeException());
+        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
     }
 }

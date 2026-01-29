@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
+import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -30,7 +31,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        Categoria categoria = categoriaRepository.findById(financaDTORequest.id_categoria()).orElseThrow(() -> new RuntimeException());
+        Categoria categoria = categoriaRepository.findById(financaDTORequest.id_categoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
 
         return despesaRepository.save(new Despesa(
@@ -57,7 +58,7 @@ public class DespesaService {
 
         Usuario usuarioAuth = authService.me();
 
-        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         return despesaRepository.findByUsuarioAndCategoria(usuarioAuth,categoria);
     }
