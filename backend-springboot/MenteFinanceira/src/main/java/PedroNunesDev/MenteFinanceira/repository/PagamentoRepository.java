@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface PagamentoRepository extends JpaRepository<Pagamento_Despesa,Long> {
 
-    @Query("SELECT p FROM Pagamento_Despesa p join p.despesa d where d.usuario = :usuario and d.despesaStatus = :status")
+    @Query("SELECT p FROM Pagamento_Despesa p join fetch p.despesa d where d.usuario = :usuario and d.despesaStatus = :status")
     List<Pagamento_Despesa> findPagamentosByUsuarioAndStatusDespesa(@Param("usuario") Usuario usuario,@Param("status") DespesaStatus despesaStatus);
 }
