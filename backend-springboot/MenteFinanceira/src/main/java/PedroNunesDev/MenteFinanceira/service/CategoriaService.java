@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.CategoriaDTO;
+import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
 import PedroNunesDev.MenteFinanceira.exception.ConflitoRecursosException;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
@@ -17,29 +18,36 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public Categoria findById(Long id){
+    public CategoriaDtoResponse findById(Long id){
 
-        return categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+        Categoria categoriaBuscada = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
+        return new CategoriaDtoResponse(categoriaBuscada.getIdCategoria(), categoriaBuscada.getNome());
     }
 
-    public List<Categoria> findAll(){
+    public List<CategoriaDtoResponse> findAll(){
 
-        return categoriaRepository.findAll();
+        return categoriaRepository.findAll()
+                .stream()
+                .map(categoria -> {
+                    return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
+                }).toList();
     }
 
     @Transactional
-    public Categoria createCategoria(CategoriaDTO categoriaDTO){
+    public CategoriaDtoResponse createCategoria(CategoriaDTO categoriaDTO){
 
         if (categoriaRepository.findByNome(categoriaDTO.nome()).isPresent()) throw new ConflitoRecursosException("Categoria já cadastrada");
 
         Categoria categoria = new Categoria(categoriaDTO.nome());
 
-        return categoriaRepository.save(categoria);
+        categoriaRepository.save(categoria);
+
+        return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
     }
 
     @Transactional
-    public Categoria updateCategoria(Long id, CategoriaDTO categoriaDTO){
+    public CategoriaDtoResponse updateCategoria(Long id, CategoriaDTO categoriaDTO){
 
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
@@ -47,13 +55,15 @@ public class CategoriaService {
 
         categoria.setNome(categoriaDTO.nome());
 
-        return categoriaRepository.save(categoria);
+        categoriaRepository.save(categoria);
+
+        return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
     }
 
     @Transactional
     public void deleteCategoria(Long id){
 
-        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         categoriaRepository.delete(categoria);
     }
