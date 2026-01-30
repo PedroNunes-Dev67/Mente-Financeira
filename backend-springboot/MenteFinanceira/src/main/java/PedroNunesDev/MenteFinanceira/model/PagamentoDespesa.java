@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "pagamento_despesa")
-public class Pagamento_Despesa {
+public class PagamentoDespesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +17,10 @@ public class Pagamento_Despesa {
     @JoinColumn(name = "id_despesa")
     private Despesa despesa;
 
-    public Pagamento_Despesa() {
+    public PagamentoDespesa() {
     }
 
-    public Pagamento_Despesa(LocalDate diaPagamento, Despesa despesa) {
+    public PagamentoDespesa(LocalDate diaPagamento, Despesa despesa) {
         this.diaPagamento = diaPagamento;
         this.despesa = despesa;
     }

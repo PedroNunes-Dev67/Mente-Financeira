@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class Despesa {
 
     @JsonIgnore
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Pagamento_Despesa> pagamentos;
+    private List<PagamentoDespesa> pagamentos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria")
@@ -113,7 +114,7 @@ public class Despesa {
         this.despesaStatus = despesaStatus;
     }
 
-    public List<Pagamento_Despesa> getPagamentos() {
+    public List<PagamentoDespesa> getPagamentos() {
         return pagamentos;
     }
 
