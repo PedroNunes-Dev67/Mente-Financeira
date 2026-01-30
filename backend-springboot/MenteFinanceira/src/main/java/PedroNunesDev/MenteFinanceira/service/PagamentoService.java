@@ -1,5 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
+import PedroNunesDev.MenteFinanceira.exception.ConflitoRecursosException;
+import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -41,9 +43,9 @@ public class PagamentoService {
 
         Usuario usuarioAuth = authService.me();
 
-        Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(id, usuarioAuth).orElseThrow(() -> new RuntimeException());
+        Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(id, usuarioAuth).orElseThrow(() -> new ResourceNotFoundException("Despesa não encontrada"));
 
-        if (despesa.getDespesaStatus() == DespesaStatus.PAGO) throw new RuntimeException();
+        if (despesa.getDespesaStatus() == DespesaStatus.PAGO) throw new ConflitoRecursosException("O pagamento desta despesa já foi efetuado");
 
         PagamentoDespesa pagamento = salvarPagamento(despesa);
 

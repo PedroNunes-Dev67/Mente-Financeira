@@ -1,6 +1,8 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
+import PedroNunesDev.MenteFinanceira.exception.RecursoInvalidoException;
+import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
@@ -39,15 +41,15 @@ public class TokenVerificacaoService {
 
         Optional<TokenVerificacao> tokenVerificacaoBuscado = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTORequest.token());
 
-        if (tokenVerificacaoBuscado.isEmpty()) return null;
+        if (tokenVerificacaoBuscado.isEmpty()) throw new ResourceNotFoundException("Token de verificação não encontrado");
 
         TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoBuscado.get();
 
         if (tokenVerificacaoExistente.isAtivo()){
-            return null;
+            throw new RecursoInvalidoException("Token de verificação já está ativo");
         }
         else if (LocalDateTime.now().isAfter(tokenVerificacaoExistente.getDuracao())){
-            return null;
+            throw new RecursoInvalidoException("Token de verificação está expirado");
         }
 
         confirmarToken(tokenVerificacaoExistente);
