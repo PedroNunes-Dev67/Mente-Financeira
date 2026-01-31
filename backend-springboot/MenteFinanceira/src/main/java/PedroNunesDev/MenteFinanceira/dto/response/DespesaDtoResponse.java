@@ -13,8 +13,8 @@ public record DespesaDtoResponse(
         BigDecimal valor,
         TipoDespesa tipoDespesa,
         DespesaStatus despesaStatus,
-        UsuarioDTOResponse usuarioDTOResponse,
-        CategoriaDtoResponse categoriaDtoResponse,
+        UsuarioDTOResponse usuario,
+        CategoriaDtoResponse categoria,
         List<PagamentoDespesa> pagamentoDespesas
 ) {
 }

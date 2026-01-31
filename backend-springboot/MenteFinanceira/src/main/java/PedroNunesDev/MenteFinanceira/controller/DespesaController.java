@@ -1,6 +1,7 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.DespesaService;
@@ -24,9 +25,9 @@ public class DespesaController {
     private DespesaService despesaService;
 
     @PostMapping
-    public ResponseEntity<Despesa> cadastrarFinanca(@RequestBody @Valid DespesaDTORequest despesaDTORequest){
+    public ResponseEntity<DespesaDtoResponse> cadastrarFinanca(@RequestBody @Valid DespesaDTORequest despesaDTORequest){
 
-        Despesa novaDespesa = despesaService.cadastrarDespesa(despesaDTORequest);
+        DespesaDtoResponse novaDespesa = despesaService.cadastrarDespesa(despesaDTORequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novaDespesa);
     }

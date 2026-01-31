@@ -1,6 +1,9 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
+import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
+import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
@@ -27,22 +30,33 @@ public class DespesaService {
     private AuthService authService;
 
     @Transactional
-    public Despesa cadastrarDespesa(DespesaDTORequest financaDTORequest){
+    public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest financaDTORequest){
 
         Usuario usuario = authService.me();
 
         Categoria categoria = categoriaRepository.findById(financaDTORequest.id_categoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-
-        return despesaRepository.save(new Despesa(
+        Despesa despesa = new Despesa(
                 financaDTORequest.titulo(),
                 financaDTORequest.valor(),
                 financaDTORequest.diaDePagamento(),
                 TipoDespesa.valueOf(financaDTORequest.tipoDespesa()),
                 DespesaStatus.PENDENTE,
                 usuario,
-                categoria
-        ));
+                categoria);
+
+        despesaRepository.save(despesa);
+
+        return new DespesaDtoResponse(
+                despesa.getIdDespesa(),
+                despesa.getTitulo(),
+                despesa.getValor(),
+                despesa.getTipoDespesa(),
+                despesa.getDespesaStatus(),
+                new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
+                new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()),
+                despesa.getPagamentos()
+        );
     }
 
     @Transactional
