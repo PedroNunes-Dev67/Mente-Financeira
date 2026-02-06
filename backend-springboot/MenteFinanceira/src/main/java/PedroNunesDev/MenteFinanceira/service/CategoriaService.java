@@ -18,6 +18,7 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Transactional(readOnly = true)
     public CategoriaDtoResponse findById(Long id){
 
         Categoria categoriaBuscada = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
@@ -25,6 +26,7 @@ public class CategoriaService {
         return new CategoriaDtoResponse(categoriaBuscada.getIdCategoria(), categoriaBuscada.getNome());
     }
 
+    @Transactional(readOnly = true)
     public List<CategoriaDtoResponse> findAll(){
 
         return categoriaRepository.findAll()

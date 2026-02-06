@@ -67,6 +67,7 @@ public class UsuarioService {
         }
     }
 
+    @Transactional
     public TokenVerificacaoDTORequest login(LoginDTO loginDTO){
 
         String token = authService.validarLogin(loginDTO);
@@ -74,6 +75,7 @@ public class UsuarioService {
         return new TokenVerificacaoDTORequest(token);
     }
 
+    @Transactional
     public UsuarioDTOResponse me(){
 
         Usuario usuario = authService.me();

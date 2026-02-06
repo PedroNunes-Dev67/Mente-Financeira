@@ -45,7 +45,6 @@ public class AuthService {
         return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 
-    @Transactional
     public String validarLogin(LoginDTO loginDTO){
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));

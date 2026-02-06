@@ -21,7 +21,6 @@ public class TokenVerificacaoService {
     @Autowired
     private TokenVerificacaoRepository tokenVerificacaoRepository;
 
-    @Transactional
     public TokenVerificacao gerarTokenDeVerificacao(Usuario usuario){
 
             String token = UUID.randomUUID().toString();
@@ -36,7 +35,6 @@ public class TokenVerificacaoService {
             return tokenVerificacaoRepository.save(tokenVerificacao);
     }
 
-    @Transactional
     public TokenVerificacao validarTokenDeVerificacao(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
         Optional<TokenVerificacao> tokenVerificacaoBuscado = tokenVerificacaoRepository.findByToken(tokenVerificacaoDTORequest.token());
@@ -57,14 +55,12 @@ public class TokenVerificacaoService {
         return tokenVerificacaoExistente;
     }
 
-    @Transactional
     private void confirmarToken(TokenVerificacao tokenVerificacao){
 
         tokenVerificacao.setAtivo(true);
         tokenVerificacaoRepository.save(tokenVerificacao);
     }
 
-    @Transactional(readOnly = true)
     public TokenVerificacao analisarTokenVerificacaoUsuario(Usuario usuario){
 
         List<TokenVerificacao> tokenVerificacaoExistentes = tokenVerificacaoRepository.findByIdUsuario(usuario.getId());

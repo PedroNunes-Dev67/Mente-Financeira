@@ -34,6 +34,7 @@ public class PagamentoService {
     @Autowired
     private AuthService authService;
 
+    @Transactional(readOnly = true)
     public List<PagamentoDespesa> todosPagamentosUsuario(){
 
         Usuario usuario = authService.me();
@@ -43,6 +44,7 @@ public class PagamentoService {
         return listaDePagamentos;
     }
 
+    @Transactional
     public PagamentoDespesaDtoResponse pagamentoDespesa(Long id){
 
         Usuario usuarioAuth = authService.me();
@@ -77,7 +79,6 @@ public class PagamentoService {
         return pagamentoDespesaDtoResponse;
     }
 
-    @Transactional
     private PagamentoDespesa salvarPagamento(Despesa despesa){
 
         despesa.setDespesaStatus(DespesaStatus.PAGO);
