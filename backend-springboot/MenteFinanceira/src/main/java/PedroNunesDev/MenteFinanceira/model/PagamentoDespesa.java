@@ -2,11 +2,14 @@ package PedroNunesDev.MenteFinanceira.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "pagamento_despesa")
-public class PagamentoDespesa {
+public class PagamentoDespesa implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

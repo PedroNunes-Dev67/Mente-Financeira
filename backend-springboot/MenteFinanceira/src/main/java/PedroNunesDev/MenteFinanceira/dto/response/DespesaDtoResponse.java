@@ -15,6 +15,6 @@ public record DespesaDtoResponse(
         DespesaStatus despesaStatus,
         UsuarioDTOResponse usuario,
         CategoriaDtoResponse categoria,
-        List<PagamentoDespesa> pagamentoDespesas
+        List<PagamentoDespesa> pagamentoDespesa
 ) {
 }

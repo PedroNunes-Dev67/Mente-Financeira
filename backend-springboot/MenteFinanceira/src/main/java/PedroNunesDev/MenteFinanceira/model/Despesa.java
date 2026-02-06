@@ -5,6 +5,7 @@ import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "despesa")
-public class Despesa {
+public class Despesa implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDespesa;
     private String titulo;
     private BigDecimal valor;
-    private Integer diaDePagamento;
     private TipoDespesa tipoDespesa;
     private DespesaStatus despesaStatus;
 
@@ -34,16 +36,15 @@ public class Despesa {
     private List<PagamentoDespesa> pagamentos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_categoria")
+    @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
     public Despesa() {
     }
 
-    public Despesa(String titulo, BigDecimal valor, Integer diaDePagamento, TipoDespesa tipoDespesa, DespesaStatus despesaStatus, Usuario usuario, Categoria categoria) {
+    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, DespesaStatus despesaStatus, Usuario usuario, Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
-        this.diaDePagamento = diaDePagamento;
         this.tipoDespesa = tipoDespesa;
         this.despesaStatus = despesaStatus;
         this.usuario = usuario;
@@ -88,14 +89,6 @@ public class Despesa {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public Integer getDiaDePagamento() {
-        return diaDePagamento;
-    }
-
-    public void setDiaDePagamento(Integer diaDePagamento) {
-        this.diaDePagamento = diaDePagamento;
     }
 
     public TipoDespesa getTipoDespesa() {

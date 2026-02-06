@@ -30,17 +30,16 @@ public class DespesaService {
     private AuthService authService;
 
     @Transactional
-    public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest financaDTORequest){
+    public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest despesaDTORequest){
 
         Usuario usuario = authService.me();
 
-        Categoria categoria = categoriaRepository.findById(financaDTORequest.id_categoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+        Categoria categoria = categoriaRepository.findById(despesaDTORequest.idCategoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         Despesa despesa = new Despesa(
-                financaDTORequest.titulo(),
-                financaDTORequest.valor(),
-                financaDTORequest.diaDePagamento(),
-                TipoDespesa.valueOf(financaDTORequest.tipoDespesa()),
+                despesaDTORequest.titulo(),
+                despesaDTORequest.valor(),
+                TipoDespesa.valueOf(despesaDTORequest.tipoDespesa()),
                 DespesaStatus.PENDENTE,
                 usuario,
                 categoria);
