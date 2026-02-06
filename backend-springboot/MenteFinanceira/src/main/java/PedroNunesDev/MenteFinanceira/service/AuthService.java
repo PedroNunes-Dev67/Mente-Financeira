@@ -41,7 +41,7 @@ public class AuthService {
         //Atualiza para usuário verificado
         atualizarVerificacaoEmailUsuario(usuario);
 
-        return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+        return new UsuarioDTOResponse(usuario);
     }
 
     private void atualizarVerificacaoEmailUsuario(Usuario usuario){

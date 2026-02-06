@@ -36,26 +36,11 @@ public class DespesaService {
 
         Categoria categoria = categoriaRepository.findById(despesaDTORequest.idCategoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        Despesa despesa = new Despesa(
-                despesaDTORequest.titulo(),
-                despesaDTORequest.valor(),
-                TipoDespesa.valueOf(despesaDTORequest.tipoDespesa()),
-                DespesaStatus.PENDENTE,
-                usuario,
-                categoria);
+        Despesa despesa = new Despesa(despesaDTORequest, usuario, categoria);
 
         despesaRepository.save(despesa);
 
-        return new DespesaDtoResponse(
-                despesa.getIdDespesa(),
-                despesa.getTitulo(),
-                despesa.getValor(),
-                despesa.getTipoDespesa(),
-                despesa.getDespesaStatus(),
-                new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
-                new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()),
-                despesa.getPagamentos()
-        );
+        return new DespesaDtoResponse(despesa ,new UsuarioDTOResponse(usuario),new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()));
     }
 
     @Transactional

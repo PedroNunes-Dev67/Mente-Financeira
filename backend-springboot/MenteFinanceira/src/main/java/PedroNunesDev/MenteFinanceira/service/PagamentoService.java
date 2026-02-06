@@ -12,7 +12,6 @@ import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
-import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +24,6 @@ public class PagamentoService {
 
     @Autowired
     private PagamentoRepository pagamentoRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private DespesaService despesaService;
     @Autowired
     private DespesaRepository despesaRepository;
     @Autowired
@@ -47,28 +42,47 @@ public class PagamentoService {
     @Transactional
     public PagamentoDespesaDtoResponse pagamentoDespesa(Long id){
 
-        Usuario usuarioAuth = authService.me();
+        Usuario usuario = authService.me();
 
-        Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(id, usuarioAuth).orElseThrow(() -> new ResourceNotFoundException("Despesa não encontrada"));
+        Despesa despesa = findByDespesa(id, usuario);
 
-        if (despesa.getDespesaStatus() == DespesaStatus.PAGO) throw new ConflitoRecursosException("O pagamento desta despesa já foi efetuado");
+        validaDespesa(despesa);
 
         PagamentoDespesa pagamento = salvarPagamento(despesa);
 
-        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuarioAuth.getId(),usuarioAuth.getNome(),usuarioAuth.getEmail());
+        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = criacaoDeDTOs(usuario,despesa,pagamento);
+
+        return pagamentoDespesaDtoResponse;
+    }
+
+    private PagamentoDespesa salvarPagamento(Despesa despesa){
+
+        LocalDate dataPagamento = LocalDate.now();
+
+        despesa.marcarComoPaga(dataPagamento);
+
+        despesaRepository.save(despesa);
+
+        return pagamentoRepository.save(new PagamentoDespesa(dataPagamento, despesa));
+    }
+
+    private Despesa findByDespesa(Long id, Usuario usuario){
+
+        return despesaRepository.findByIdDespesaAndUsuario(id, usuario).orElseThrow(() -> new ResourceNotFoundException("Despesa não encontrada"));
+    }
+
+    private void validaDespesa(Despesa despesa){
+
+        if (despesa.isPaga()) throw new ConflitoRecursosException("O pagamento desta despesa já foi efetuado");
+    }
+
+    private PagamentoDespesaDtoResponse criacaoDeDTOs(Usuario usuario, Despesa despesa, PagamentoDespesa pagamento){
+
+        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuario);
 
         CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria().getIdCategoria(), despesa.getCategoria().getNome());
 
-        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(
-                despesa.getIdDespesa(),
-                despesa.getTitulo(),
-                despesa.getValor(),
-                despesa.getTipoDespesa(),
-                despesa.getDespesaStatus(),
-                usuarioDTOResponse,
-                categoriaDtoResponse,
-                despesa.getPagamentos()
-        );
+        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(despesa,usuarioDTOResponse,categoriaDtoResponse);
 
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = new PagamentoDespesaDtoResponse(
                 pagamento.getId(),
@@ -77,14 +91,5 @@ public class PagamentoService {
         );
 
         return pagamentoDespesaDtoResponse;
-    }
-
-    private PagamentoDespesa salvarPagamento(Despesa despesa){
-
-        despesa.setDespesaStatus(DespesaStatus.PAGO);
-
-        despesaRepository.save(despesa);
-
-        return pagamentoRepository.save(new PagamentoDespesa(LocalDate.now(), despesa));
     }
 }
