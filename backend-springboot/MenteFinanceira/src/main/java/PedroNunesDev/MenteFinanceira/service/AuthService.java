@@ -39,10 +39,15 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findById(tokenVerificacao.getIdUsuario()).orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
 
         //Atualiza para usuário verificado
-        usuario.setVerificacaoEmail(true);
-        usuarioRepository.save(usuario);
+        atualizarVerificacaoEmailUsuario(usuario);
 
         return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+    }
+
+    private void atualizarVerificacaoEmailUsuario(Usuario usuario){
+
+        usuario.setVerificacaoEmail(true);
+        usuarioRepository.save(usuario);
     }
 
     public String validarLogin(LoginDTO loginDTO){
