@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -59,16 +61,17 @@ public class Despesa implements Serializable {
     @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
 
+    @CreationTimestamp
     @Column(name = "data_criacao_despesa",nullable = false)
     private LocalDateTime dataCriacao;
 
+    @UpdateTimestamp
     @Column(name = "data_atualizacao_despesa")
     private LocalDateTime dataAtualizacao;
 
     @Column(name = "parcelas_despesas")
     private Integer parcelas;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PagamentoDespesa> pagamentos = new ArrayList<>();
 
@@ -84,12 +87,10 @@ public class Despesa implements Serializable {
         this.usuario = usuario;
         this.dataPagamento = dataPagamento;
         this.dataVencimento = dataVencimento;
-        this.dataCriacao = LocalDateTime.now();
         this.parcelas = parcelas;
         this.categoria = categoria;
     }
 
-    @JsonIgnore
     public Usuario getUsuario() {
         return usuario;
     }

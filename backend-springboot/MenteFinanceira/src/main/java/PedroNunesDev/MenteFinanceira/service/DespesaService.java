@@ -46,9 +46,9 @@ public class DespesaService {
                 despesaDTORequest.parcelas(),
                 categoria);
 
-        despesaRepository.save(despesa);
+        Despesa despesaSalva = despesaRepository.save(despesa);
 
-        return new DespesaDtoResponse(despesa ,new UsuarioDTOResponse(usuario),new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()));
+        return new DespesaDtoResponse(despesaSalva ,new UsuarioDTOResponse(usuario),new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()));
     }
 
     @Transactional
