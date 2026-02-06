@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
+import PedroNunesDev.MenteFinanceira.dto.response.PagamentoDespesaDtoResponse;
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.PagamentoService;
@@ -29,9 +30,9 @@ public class PagamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoDespesa> pagamentoDespesa(@PathVariable Long id){
+    public ResponseEntity<PagamentoDespesaDtoResponse> pagamentoDespesa(@PathVariable Long id){
 
-        PagamentoDespesa pagamento = pagamentoService.pagamentoDespesa(id);
+        PagamentoDespesaDtoResponse pagamento = pagamentoService.pagamentoDespesa(id);
 
         return ResponseEntity.ok(pagamento);
     }

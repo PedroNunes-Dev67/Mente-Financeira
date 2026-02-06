@@ -1,5 +1,9 @@
 package PedroNunesDev.MenteFinanceira.service;
 
+import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
+import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
+import PedroNunesDev.MenteFinanceira.dto.response.PagamentoDespesaDtoResponse;
+import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ConflitoRecursosException;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
@@ -39,7 +43,7 @@ public class PagamentoService {
         return listaDePagamentos;
     }
 
-    public PagamentoDespesa pagamentoDespesa(Long id){
+    public PagamentoDespesaDtoResponse pagamentoDespesa(Long id){
 
         Usuario usuarioAuth = authService.me();
 
@@ -49,7 +53,28 @@ public class PagamentoService {
 
         PagamentoDespesa pagamento = salvarPagamento(despesa);
 
-        return pagamento;
+        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuarioAuth.getId(),usuarioAuth.getNome(),usuarioAuth.getEmail());
+
+        CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria().getIdCategoria(), despesa.getCategoria().getNome());
+
+        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(
+                despesa.getIdDespesa(),
+                despesa.getTitulo(),
+                despesa.getValor(),
+                despesa.getTipoDespesa(),
+                despesa.getDespesaStatus(),
+                usuarioDTOResponse,
+                categoriaDtoResponse,
+                despesa.getPagamentos()
+        );
+
+        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = new PagamentoDespesaDtoResponse(
+                pagamento.getId(),
+                pagamento.getDiaPagamento(),
+                despesaDtoResponse
+        );
+
+        return pagamentoDespesaDtoResponse;
     }
 
     @Transactional
