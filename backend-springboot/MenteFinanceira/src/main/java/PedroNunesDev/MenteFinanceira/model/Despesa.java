@@ -4,6 +4,10 @@ import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,10 +17,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "despesa")
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Despesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDespesa;
@@ -39,9 +48,6 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
-    public Despesa() {
-    }
-
     public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, DespesaStatus despesaStatus, Usuario usuario, Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
@@ -50,76 +56,9 @@ public class Despesa implements Serializable {
         this.usuario = usuario;
         this.categoria = categoria;
     }
-    public Long getIdDespesa() {
-        return idDespesa;
-    }
-
-    public void setIdDespesa(Long idDespesa) {
-        this.idDespesa = idDespesa;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
 
     @JsonIgnore
     public Usuario getUsuario() {
         return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public TipoDespesa getTipoDespesa() {
-        return tipoDespesa;
-    }
-
-    public void setTipoDespesa(TipoDespesa tipoDespesa) {
-        this.tipoDespesa = tipoDespesa;
-    }
-
-    public DespesaStatus getDespesaStatus() {
-        return despesaStatus;
-    }
-
-    public void setDespesaStatus(DespesaStatus despesaStatus) {
-        this.despesaStatus = despesaStatus;
-    }
-
-    public List<PagamentoDespesa> getPagamentos() {
-        return pagamentos;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Despesa despesa = (Despesa) o;
-        return Objects.equals(idDespesa, despesa.idDespesa);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(idDespesa);
     }
 }

@@ -2,6 +2,10 @@ package PedroNunesDev.MenteFinanceira.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -10,10 +14,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categoria")
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Categoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
@@ -24,43 +33,12 @@ public class Categoria implements Serializable {
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private Set<Despesa> despesas = new HashSet<>();
 
-    public Categoria() {
-    }
-
     public Categoria(String nome) {
-        this.nome = nome;
-    }
-
-    public Long getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Long idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
     }
 
     @JsonIgnore
     public Set<Despesa> getDespesas() {
         return despesas;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Categoria categoria = (Categoria) o;
-        return Objects.equals(idCategoria, categoria.idCategoria);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(idCategoria);
     }
 }
