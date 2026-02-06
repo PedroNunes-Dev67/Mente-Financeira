@@ -76,16 +76,16 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
-    public Despesa(DespesaDTORequest despesaDTORequest,Usuario usuario, Categoria categoria) {
-        this.titulo = despesaDTORequest.titulo();
-        this.valor = despesaDTORequest.valor();
-        this.tipoDespesa = TipoDespesa.valueOf(despesaDTORequest.tipoDespesa());
+    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, LocalDate dataPagamento, LocalDate dataVencimento, Integer parcelas, Categoria categoria) {
+        this.titulo = titulo;
+        this.valor = valor;
+        this.tipoDespesa = tipoDespesa;
         this.despesaStatus = DespesaStatus.PENDENTE;
         this.usuario = usuario;
-        this.dataPagamento = despesaDTORequest.dataPagamento();
-        this.dataVencimento = despesaDTORequest.dataVencimento();
+        this.dataPagamento = dataPagamento;
+        this.dataVencimento = dataVencimento;
         this.dataCriacao = LocalDateTime.now();
-        this.parcelas = despesaDTORequest.parcelas();
+        this.parcelas = parcelas;
         this.categoria = categoria;
     }
 
@@ -101,21 +101,25 @@ public class Despesa implements Serializable {
 
     public void marcarComoPaga(LocalDate dataPagamento){
 
-        if (!isPaga()) {
-            this.despesaStatus = DespesaStatus.PAGO;
-            this.dataPagamento = dataPagamento;
+       if (isPaga()) return;
 
-            if (parcelas != null && parcelas > 0){
-                parcelas -= 1;
-            }
-        }
+       this.despesaStatus = DespesaStatus.PAGO;
+       this.dataPagamento = dataPagamento;
+
+       if (temParcelasRestantes()){
+           parcelas--;
+       }
     }
 
     public void renovarDespesa(){
 
-        if (isPaga() && this.parcelas >= 0){
+        if (isPaga() && temParcelasRestantes()){
 
             this.despesaStatus = DespesaStatus.PENDENTE;
         }
+    }
+
+    public boolean temParcelasRestantes(){
+        return parcelas != null && parcelas > 0;
     }
 }

@@ -1,5 +1,7 @@
 package PedroNunesDev.MenteFinanceira.model.enums;
 
+import java.util.Arrays;
+
 public enum TipoDespesa {
 
     RECORRENTE("recorrente"),
@@ -13,5 +15,22 @@ public enum TipoDespesa {
 
     public String getTipo(){
         return tipo;
+    }
+
+    public static TipoDespesa from(String tipoBuscado){
+
+        TipoDespesa tipoDespesa = null;
+
+        for (TipoDespesa t : values()){
+            if (t.tipo.equals(tipoBuscado)){
+                tipoDespesa = t;
+            }
+        }
+
+        if (tipoDespesa == null){
+            throw new IllegalArgumentException("Tipo de despesa incorreto");
+        }
+
+        return tipoDespesa;
     }
 }
