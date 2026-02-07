@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,80 +34,80 @@ public class DespesaController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<Despesa>> buscarTodasDespesasPorUsuario(){
+    public ResponseEntity<Page<DespesaDtoResponse>> buscarTodasDespesasPorUsuario(@RequestParam int pagina, @RequestParam int items){
 
-        return ResponseEntity.ok(despesaService.buscarDespesasPorUsuario());
+        return ResponseEntity.ok(despesaService.buscarDespesasPorUsuario(pagina, items));
     }
 
     @GetMapping("/me/categoria/{id}")
-    public ResponseEntity<List<Despesa>> despesasPorCategoria(@PathVariable Long id){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasPorCategoria(@PathVariable Long id, @RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasPorCategoria(id);
+        Page<DespesaDtoResponse> paginacao = despesaService.despesasPorCategoria(id,pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/pendentes")
-    public ResponseEntity<List<Despesa>> despesasPendetes(){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasPendetes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasPendentes();
+        Page<DespesaDtoResponse> paginacao = despesaService.despesasPendentes(pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/pagas")
-    public ResponseEntity<List<Despesa>> despesasPagas(){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasPagas(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasPagas();
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasPagas(pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/recorrente")
-    public ResponseEntity<List<Despesa>> despesasRecorrentes(){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasRecorrentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasRecorrentesUsuario();
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasRecorrentesUsuario(pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/nao-recorrente")
-    public ResponseEntity<List<Despesa>> despesasNaoRecorrentes(){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasNaoRecorrentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuario();
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasNaoRecorrentesUsuario(pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/nao-recorrente/pagas")
-    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasNaoRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPagas(pagina,items);
+        Page<DespesaDtoResponse> paginacao = despesaService.despesasNaoRecorrentesUsuarioPagas(pagina,items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/nao-recorrente/pendentes")
-    public ResponseEntity<List<Despesa>> despesasNaoRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasNaoRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasNaoRecorrentesUsuarioPendentes(pagina,items);
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasNaoRecorrentesUsuarioPendentes(pagina,items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/recorrente/pendentes")
-    public ResponseEntity<List<Despesa>> despesasRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasRecorrentesPendentes(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPendentes(pagina,items);
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasRecorrentesUsuarioPendentes(pagina,items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @GetMapping("/me/recorrente/pagas")
-    public ResponseEntity<List<Despesa>> despesasRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasRecorrentesPagas(@RequestParam int pagina, @RequestParam int items){
 
-        List<Despesa> list = despesaService.despesasRecorrentesUsuarioPagas(pagina,items);
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasRecorrentesUsuarioPagas(pagina,items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 }

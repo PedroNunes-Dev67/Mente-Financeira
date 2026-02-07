@@ -18,8 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 public class DespesaService {
 
@@ -70,54 +68,78 @@ public class DespesaService {
                 );
     }
 
-    @Transactional
-    public List<Despesa> buscarDespesasPorUsuario(){
+    @Transactional(readOnly = true)
+    public Page<DespesaDtoResponse> buscarDespesasPorUsuario(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByUsuario(usuario);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuario(usuario, criarPageable(pagina,items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasPorCategoria(Long id){
+    public Page<DespesaDtoResponse> despesasPorCategoria(Long id, int pagina,int items){
 
         Usuario usuario = authService.me();
 
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        return despesaRepository.findByUsuarioAndCategoria(usuario,categoria);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndCategoria(usuario,categoria, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasPendentes(){
+    public Page<DespesaDtoResponse> despesasPendentes(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PENDENTE);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PENDENTE, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasPagas(){
+    public Page<DespesaDtoResponse> despesasPagas(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGO);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGO, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasRecorrentesUsuario(){
+    public Page<DespesaDtoResponse> despesasRecorrentesUsuario(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.RECORRENTE, usuario);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.RECORRENTE, usuario, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasNaoRecorrentesUsuario(){
+    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuario(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.NAO_RECORRENTE, usuario);
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.NAO_RECORRENTE, usuario, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
@@ -125,41 +147,53 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, PageRequest.of(pagina,items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, criarPageable(pagina, items));
 
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = refatorarListaParaDTO(paginacaoCriada);
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 
         return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasNaoRecorrentesUsuarioPendentes(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuarioPendentes(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasRecorrentesUsuarioPagas(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasRecorrentesUsuarioPagas(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasRecorrentesUsuarioPendentes(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasRecorrentesUsuarioPendentes(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, criarPageable(pagina, items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     //Métodos responsaveis por verificar parâmentros de páginação
     private int normalizaPagina(int pagina){
 
-        //Página precisa ser maior que 0
+        //Página precisa ser maior ou igual a 0
         return Math.max(pagina,0);
     }
 
@@ -169,7 +203,7 @@ public class DespesaService {
         return Math.min(Math.max(items,1),10);
     }
 
-    private Page<DespesaDtoResponse> refatorarListaParaDTO(Page<Despesa> paginacaoCriada){
+    private Page<DespesaDtoResponse> converterParaDTO(Page<Despesa> paginacaoCriada){
 
         return paginacaoCriada
                 .map(despesa -> {
@@ -189,5 +223,11 @@ public class DespesaService {
                             new CategoriaDtoResponse(despesa.getCategoria())
                     );
                 });
+    }
+
+    private PageRequest criarPageable(int pagina, int items){
+
+        //Faz normalização da pagina e items por página
+        return PageRequest.of(normalizaPagina(pagina), normalizaTamanhoDePagina(items));
     }
 }

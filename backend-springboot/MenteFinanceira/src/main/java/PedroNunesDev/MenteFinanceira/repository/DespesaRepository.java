@@ -16,13 +16,13 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
 
     Optional<Despesa> findByIdDespesaAndUsuario(Long idDespesa, Usuario usuario);
 
-    List<Despesa> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria);
+    Page<Despesa> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria, Pageable pageable);
 
-    List<Despesa> findByUsuarioAndDespesaStatus(Usuario usuario, DespesaStatus despesaStatus);
+    Page<Despesa> findByUsuarioAndDespesaStatus(Usuario usuario, DespesaStatus despesaStatus, Pageable pageable);
 
-    List<Despesa> findByTipoDespesaAndUsuario(TipoDespesa tipoDespesa, Usuario usuario);
+    Page<Despesa> findByTipoDespesaAndUsuario(TipoDespesa tipoDespesa, Usuario usuario, Pageable pageable);
 
     Page<Despesa> findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa tipoDespesa, Usuario usuario, DespesaStatus despesaStatus, Pageable pageable);
 
-    List<Despesa> findByUsuario(Usuario usuario);
+    Page<Despesa> findByUsuario(Usuario usuario, Pageable pageable);
 }
