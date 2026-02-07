@@ -150,4 +150,17 @@ public class DespesaService {
 
         return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, PageRequest.of(pagina,items)).getContent();
     }
+
+    //Métodos responsaveis por verificar parâmentros de páginação
+    private int verificarPagina(int pagina){
+
+        //Página precisa ser maior que 0
+        return Math.max(pagina,0);
+    }
+
+    private int verificarItems(int items){
+
+        //Items de uma página devem ser maior que 0 e menor que 10
+        return Math.min(Math.max(items,0),10);
+    }
 }
