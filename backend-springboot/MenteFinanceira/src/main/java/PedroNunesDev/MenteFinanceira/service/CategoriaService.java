@@ -23,7 +23,7 @@ public class CategoriaService {
 
         Categoria categoriaBuscada = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        return new CategoriaDtoResponse(categoriaBuscada.getIdCategoria(), categoriaBuscada.getNome());
+        return new CategoriaDtoResponse(categoriaBuscada);
     }
 
     @Transactional(readOnly = true)
@@ -32,7 +32,7 @@ public class CategoriaService {
         return categoriaRepository.findAll()
                 .stream()
                 .map(categoria -> {
-                    return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
+                    return new CategoriaDtoResponse(categoria);
                 }).toList();
     }
 
@@ -45,7 +45,7 @@ public class CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
+        return new CategoriaDtoResponse(categoria);
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new CategoriaDtoResponse(categoria.getIdCategoria(),categoria.getNome());
+        return new CategoriaDtoResponse(categoria);
     }
 
     @Transactional

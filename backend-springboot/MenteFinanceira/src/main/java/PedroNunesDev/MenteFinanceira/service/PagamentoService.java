@@ -90,7 +90,7 @@ public class PagamentoService {
 
         UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
 
-        CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria().getIdCategoria(), despesa.getCategoria().getNome());
+        CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria());
 
         DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(despesa.getIdDespesa(),
                 despesa.getTitulo(),

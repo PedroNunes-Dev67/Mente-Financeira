@@ -1,7 +1,17 @@
 package PedroNunesDev.MenteFinanceira.dto.response;
 
-public record CategoriaDtoResponse(
-        Long id,
-        String nome
-) {
+import PedroNunesDev.MenteFinanceira.model.Categoria;
+import lombok.Getter;
+
+@Getter
+public class CategoriaDtoResponse{
+
+    private Long id;
+    private String nome;
+
+    public CategoriaDtoResponse(Categoria categoria) {
+
+        this.id = categoria.getIdCategoria();
+        this.nome = categoria.getNome();
+    }
 }

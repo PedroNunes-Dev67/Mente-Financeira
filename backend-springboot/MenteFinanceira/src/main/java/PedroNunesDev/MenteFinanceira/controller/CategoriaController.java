@@ -46,7 +46,7 @@ public class CategoriaController {
 
         CategoriaDtoResponse categoria = categoriaService.createCategoria(categoriaDTO);
 
-        return ResponseEntity.created(generateURI(categoria.id())).body(categoria);
+        return ResponseEntity.created(generateURI(categoria.getId())).body(categoria);
     }
 
     private URI generateURI(Object id){

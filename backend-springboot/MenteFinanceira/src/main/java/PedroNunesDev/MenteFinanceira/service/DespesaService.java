@@ -13,6 +13,7 @@ import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class DespesaService {
                 despesaSalva.getDataAtualizacao(),
                 despesaSalva.getParcelas(),
                 new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
-                new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome())
+                new CategoriaDtoResponse(categoria)
                 );
     }
 
@@ -120,11 +121,15 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Despesa> despesasNaoRecorrentesUsuarioPagas(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuarioPagas(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        return despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, PageRequest.of(pagina,items)).getContent();
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, PageRequest.of(pagina,items));
+
+        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = refatorarListaParaDTO(paginacaoCriada);
+
+        return paginacaoDeRespostaDTO;
     }
 
     @Transactional(readOnly = true)
@@ -152,15 +157,37 @@ public class DespesaService {
     }
 
     //Métodos responsaveis por verificar parâmentros de páginação
-    private int verificarPagina(int pagina){
+    private int normalizaPagina(int pagina){
 
         //Página precisa ser maior que 0
         return Math.max(pagina,0);
     }
 
-    private int verificarItems(int items){
+    private int normalizaTamanhoDePagina(int items){
 
         //Items de uma página devem ser maior que 0 e menor que 10
-        return Math.min(Math.max(items,0),10);
+        return Math.min(Math.max(items,1),10);
+    }
+
+    private Page<DespesaDtoResponse> refatorarListaParaDTO(Page<Despesa> paginacaoCriada){
+
+        return paginacaoCriada
+                .map(despesa -> {
+
+                    return new DespesaDtoResponse(
+                            despesa.getIdDespesa(),
+                            despesa.getTitulo(),
+                            despesa.getValor(),
+                            despesa.getTipoDespesa(),
+                            despesa.getDespesaStatus(),
+                            despesa.getDataPagamento(),
+                            despesa.getDataVencimento(),
+                            despesa.getDataCriacao(),
+                            despesa.getDataAtualizacao(),
+                            despesa.getParcelas(),
+                            new UsuarioDTOResponse(despesa.getUsuario().getId(), despesa.getUsuario().getNome(),despesa.getUsuario().getEmail()),
+                            new CategoriaDtoResponse(despesa.getCategoria())
+                    );
+                });
     }
 }
