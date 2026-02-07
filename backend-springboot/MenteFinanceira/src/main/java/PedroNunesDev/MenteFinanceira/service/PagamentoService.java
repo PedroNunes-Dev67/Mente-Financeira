@@ -10,6 +10,7 @@ import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
+import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,15 @@ public class PagamentoService {
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = criacaoDeDTOs(usuario,despesa,pagamento);
 
         return pagamentoDespesaDtoResponse;
+    }
+
+
+    public void verificarDespesaNaoRecorrente(Despesa despesa){
+
+        if (TipoDespesa.NAO_RECORRENTE.equals(despesa.getTipoDespesa())){
+
+            pagamentoDespesa(despesa.getIdDespesa());
+        }
     }
 
     private PagamentoDespesa salvarPagamento(Despesa despesa){

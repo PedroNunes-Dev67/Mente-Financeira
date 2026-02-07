@@ -28,13 +28,16 @@ public class DespesaService {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private PagamentoService pagamentoService;
 
     @Transactional
     public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest despesaDTORequest){
 
         Usuario usuario = authService.me();
 
-        Categoria categoria = categoriaRepository.findById(despesaDTORequest.idCategoria()).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+        Categoria categoria = categoriaRepository.findById(despesaDTORequest.idCategoria())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
         Despesa despesa = new Despesa(
                 despesaDTORequest.titulo(),
@@ -47,6 +50,8 @@ public class DespesaService {
                 categoria);
 
         Despesa despesaSalva = despesaRepository.save(despesa);
+
+        pagamentoService.verificarDespesaNaoRecorrente(despesaSalva);
 
         return new DespesaDtoResponse(despesaSalva ,new UsuarioDTOResponse(usuario),new CategoriaDtoResponse(categoria.getIdCategoria(), categoria.getNome()));
     }
