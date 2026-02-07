@@ -4,6 +4,8 @@ import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record DespesaDtoResponse
         (Long idDespesa,
@@ -11,8 +13,13 @@ public record DespesaDtoResponse
          BigDecimal valor,
          TipoDespesa tipoDespesa,
          DespesaStatus despesaStatus,
+         LocalDate dataPagamento,
+         LocalDate dataVencimento,
+         LocalDateTime dataCriacao,
+         LocalDateTime dataAtualizacao,
+         Integer parcelas,
          UsuarioDTOResponse usuario,
-        CategoriaDtoResponse categoria)
+         CategoriaDtoResponse categoria)
 {}
 
 
