@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,8 +14,8 @@ public record DespesaDTORequest(
         @NotNull(message = "Valor da despesa obrigatório") BigDecimal valor,
         @NotNull(message = "Id da categoria obrigatório") Long idCategoria,
         @NotBlank(message = "Tipo da despesa obrigatório") String tipoDespesa,
-        LocalDate dataPagamento,
-        LocalDate dataVencimento,
+        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dataPagamento,
+        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dataVencimento,
         Integer parcelas
 ) {
 }

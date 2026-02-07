@@ -79,6 +79,6 @@ public class UsuarioService {
     public UsuarioDTOResponse me(){
 
         Usuario usuario = authService.me();
-        return new UsuarioDTOResponse(usuario);
+        return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 }

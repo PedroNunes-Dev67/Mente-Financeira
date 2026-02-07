@@ -72,6 +72,7 @@ public class Despesa implements Serializable {
     @Column(name = "parcelas_despesas")
     private Integer parcelas;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PagamentoDespesa> pagamentos = new ArrayList<>();
 

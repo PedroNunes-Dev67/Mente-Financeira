@@ -2,15 +2,6 @@ package PedroNunesDev.MenteFinanceira.dto.response;
 
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 
-public class UsuarioDTOResponse {
+public record UsuarioDTOResponse(Long id_usuario, String nome, String email) {
 
-    private Long id;
-    private String nome;
-    private String email;
-
-    public UsuarioDTOResponse(Usuario usuario) {
-        this.id = usuario.getId();
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-    }
 }

@@ -88,11 +88,17 @@ public class PagamentoService {
 
     private PagamentoDespesaDtoResponse criacaoDeDTOs(Usuario usuario, Despesa despesa, PagamentoDespesa pagamento){
 
-        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuario);
+        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
 
         CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria().getIdCategoria(), despesa.getCategoria().getNome());
 
-        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(despesa,usuarioDTOResponse,categoriaDtoResponse);
+        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(despesa.getIdDespesa(),
+                despesa.getTitulo(),
+                despesa.getValor(),
+                despesa.getTipoDespesa(),
+                despesa.getDespesaStatus(),
+                usuarioDTOResponse,
+                categoriaDtoResponse);
 
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = new PagamentoDespesaDtoResponse(
                 pagamento.getId(),

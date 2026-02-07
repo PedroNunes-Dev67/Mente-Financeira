@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class PagamentoDespesa implements Serializable {
     private Long id;
     private LocalDate diaPagamento;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_despesa")
     private Despesa despesa;
