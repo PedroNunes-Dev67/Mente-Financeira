@@ -43,9 +43,9 @@ public class DespesaService {
                 despesaDTORequest.valor(),
                 TipoDespesa.from(despesaDTORequest.tipoDespesa()),
                 usuario,
-                despesaDTORequest.dataPagamento(),
                 despesaDTORequest.dataVencimento(),
-                despesaDTORequest.parcelas(),
+                despesaDTORequest.parcelasTotais(),
+                despesaDTORequest.parcelasPagas(),
                 categoria);
 
         Despesa despesaSalva = despesaRepository.save(despesa);
@@ -58,11 +58,11 @@ public class DespesaService {
                 despesaSalva.getValor(),
                 despesaSalva.getTipoDespesa(),
                 despesaSalva.getDespesaStatus(),
-                despesaSalva.getDataPagamento(),
                 despesaSalva.getDataVencimento(),
                 despesaSalva.getDataCriacao(),
                 despesaSalva.getDataAtualizacao(),
-                despesaSalva.getParcelas(),
+                despesaSalva.getParcelasTotais(),
+                despesaSalva.getParcelasPagas(),
                 new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
                 new CategoriaDtoResponse(categoria)
                 );
@@ -214,11 +214,11 @@ public class DespesaService {
                             despesa.getValor(),
                             despesa.getTipoDespesa(),
                             despesa.getDespesaStatus(),
-                            despesa.getDataPagamento(),
                             despesa.getDataVencimento(),
                             despesa.getDataCriacao(),
                             despesa.getDataAtualizacao(),
-                            despesa.getParcelas(),
+                            despesa.getParcelasTotais(),
+                            despesa.getParcelasPagas(),
                             new UsuarioDTOResponse(despesa.getUsuario().getId(), despesa.getUsuario().getNome(),despesa.getUsuario().getEmail()),
                             new CategoriaDtoResponse(despesa.getCategoria())
                     );

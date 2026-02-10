@@ -97,11 +97,11 @@ public class PagamentoService {
                 despesa.getValor(),
                 despesa.getTipoDespesa(),
                 despesa.getDespesaStatus(),
-                despesa.getDataPagamento(),
                 despesa.getDataVencimento(),
                 despesa.getDataCriacao(),
                 despesa.getDataAtualizacao(),
-                despesa.getParcelas(),
+                despesa.getParcelasTotais(),
+                despesa.getParcelasPagas(),
                 usuarioDTOResponse,
                 categoriaDtoResponse);
 

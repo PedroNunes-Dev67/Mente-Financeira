@@ -13,11 +13,11 @@ public record DespesaDtoResponse
          BigDecimal valor,
          TipoDespesa tipoDespesa,
          DespesaStatus despesaStatus,
-         LocalDate dataPagamento,
          LocalDate dataVencimento,
          LocalDateTime dataCriacao,
          LocalDateTime dataAtualizacao,
-         Integer parcelas,
+         Integer parcelasTotais,
+         Integer parcelasPagas,
          UsuarioDTOResponse usuario,
          CategoriaDtoResponse categoria)
 {}

@@ -1,6 +1,5 @@
 package PedroNunesDev.MenteFinanceira.model;
 
-import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "despesa")
@@ -55,9 +53,6 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "id_usuario",nullable = false)
     private Usuario usuario;
 
-    @Column(name = "data_pagamento")
-    private LocalDate dataPagamento;
-
     @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
 
@@ -69,8 +64,11 @@ public class Despesa implements Serializable {
     @Column(name = "data_atualizacao_despesa")
     private LocalDateTime dataAtualizacao;
 
-    @Column(name = "parcelas_despesas")
-    private Integer parcelas;
+    @Column(name = "parcelas_totais_despesa", nullable = false)
+    private Integer parcelasTotais;
+
+    @Column(name = "parcelas_restantes_despesa", nullable = false)
+    private Integer parcelasPagas;
 
     @JsonIgnore
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -80,20 +78,16 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
-    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, LocalDate dataPagamento, LocalDate dataVencimento, Integer parcelas, Categoria categoria) {
+    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, LocalDate dataVencimento, Integer parcelasTotais, Integer parcelasPagas, Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
         this.tipoDespesa = tipoDespesa;
         this.despesaStatus = DespesaStatus.PENDENTE;
         this.usuario = usuario;
-        this.dataPagamento = dataPagamento;
         this.dataVencimento = dataVencimento;
-        this.parcelas = parcelas;
+        this.parcelasTotais = parcelasTotais;
+        this.parcelasPagas = parcelasPagas;
         this.categoria = categoria;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
     }
 
     public boolean isPaga(){
@@ -106,10 +100,9 @@ public class Despesa implements Serializable {
        if (isPaga()) return;
 
        this.despesaStatus = DespesaStatus.PAGO;
-       this.dataPagamento = dataPagamento;
 
        if (temParcelasRestantes()){
-           parcelas--;
+           parcelasTotais--;
        }
     }
 
@@ -122,6 +115,6 @@ public class Despesa implements Serializable {
     }
 
     public boolean temParcelasRestantes(){
-        return parcelas != null && parcelas > 0;
+        return parcelasTotais != null && parcelasTotais > 0;
     }
 }
