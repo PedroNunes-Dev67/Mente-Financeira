@@ -1,4 +1,5 @@
-💰🧠 Mente Financeira — API REST para Gerenciamento de Despesas Pessoais
+# 💰🧠 Mente Financeira — API REST para Gerenciamento de Despesas Pessoais 
+
 ![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-green?style=for-the-badge&logo=springboot)
 ![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white)
