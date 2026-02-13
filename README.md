@@ -7,7 +7,7 @@
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-> API REST para gerenciamento completo despesas de um usuário.
+> API REST para gerenciamento completo de despesas de um usuário.
 
 ---
 
@@ -47,6 +47,74 @@
 ### Build & Deploy
 - **Maven** - Gerenciamento de dependências
 ---
+## 📂 Arquitetura do projeto
+
+```bash
+PedroNunesDev.MenteFinanceira/
+│
+├── config/ #Inicializa os dados mockados para rodar a API
+| └── InitializationDataConfig.java
+├── controller/ # Manipulação de requisições HTTP
+│ └── AuthUsuarioController.java
+│ └── CategoriaController.java
+│ └── DespesaController.java
+│ └── PagamentoController.java
+│ └── UsuarioController.java  
+│
+├── dto/ # DTOs para requisições e respostas de dados
+│ ├── requests
+│   └── CategoriaDTO.java
+│   └── DespesaDTORequest.java
+│   └── LoginDTO.java
+│   └── SenhaDTO.java
+│   └── TokenVerificacaoDTORequest.java
+│   └── UsuarioDTORequest.java
+| ├── responses
+│   └── CategoriaDTOResponse.java
+│   └── DespesaDTOResponse.java
+│   └── PagamentoDespesaDTOResponse.java
+│   └── TokenVerificacaoDTOResponse.java
+│   └── UsuarioDTOResponse.java
+│
+├── exception/ # Manipulações de exceções da aplicação
+|  ├── model/
+│     └── DefaultExceptionModel.java
+│ └── ConflitoRecursosException.java
+│ └── GlobalExceptionHandler.java
+│ └── RecursoInvalidoException.java
+│ └── ResourceNotFoundException.java
+│ └── UsuarioNaoVerificadoException.java
+|
+├── model/ # Entidades de modelo da aplicação
+|  ├── enums/
+│     └── DespesaStatus.java
+│     └── TipoDespesa.java
+│     └── UsuarioRole.java
+│ └── Categoria.java
+│ └── Despesa.java
+│ └── PagamentoDespesa.java
+│ └── TokenVerificacao.java
+│ └── Usuario.java
+│
+├── repository/ # Camada de acesso e inserção de dados ao banco
+│ └── CategoriaRepository.java
+│ └── DespesaRepository.java
+│ └── PagamentoRepository.java
+│ └── TokenVerificacaoRepository.java
+│ └── UsuarioRepository.java
+│
+├── Security/ # Camada de configurações de segurança da aplicação
+│ └── routes.ts
+│
+├── service/ # Camada de lógica de negócios da aplicação
+│ └── AuthService.java
+│ └── CategoriaService.java
+│ └── DespesaService.java
+│ └── PagamentoService.java
+│ └── TokenVerificacaoSerice.java
+│ └── UsuarioService.java
+```
+---
 
 ## 🛠️ Pré-requisitos
 
@@ -56,7 +124,6 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 - [Maven 3.8+](https://maven.apache.org/download.cgi)
 - [Git](https://git-scm.com/downloads)
 
----
 
 ## 🔧 Como Executar o Projeto
 
