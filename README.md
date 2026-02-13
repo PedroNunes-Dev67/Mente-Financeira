@@ -1,5 +1,4 @@
-# 💰🧠 Mente Financeira
-
+💰🧠 Mente Financeira — API REST para Gerenciamento de Despesas Pessoais
 ![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-green?style=for-the-badge&logo=springboot)
 ![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white)
@@ -12,7 +11,9 @@
 ---
 
 ## 📋 Sobre o Projeto 
+O Mente Financeira é uma API REST desenvolvida com o objetivo de oferecer uma solução completa para o gerenciamento financeiro pessoal de usuários, permitindo o controle de despesas, categorias, pagamentos e autenticação segura. O projeto foi construído com foco em boas práticas de arquitetura, segurança, organização de código e padronização de respostas HTTP, simulando um cenário real de aplicação backend utilizada em produtos de mercado.
 
+A aplicação permite que usuários se cadastrem, se autentiquem via JWT, gerenciem suas despesas de forma estruturada e acompanhem pagamentos, promovendo uma visão clara e organizada da vida financeira. O sistema foi projetado para ser facilmente escalável e adaptável a ambientes de desenvolvimento e produção por meio de perfis de ambiente (profiles) no Spring Boot.
 
 ### ✨ Principais Características
 
