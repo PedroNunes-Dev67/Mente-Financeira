@@ -7,13 +7,10 @@
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-> API REST para gerenciamento completo de despesas de um usuário.
-
 ---
 
 ## 📋 Sobre o Projeto 
 O Mente Financeira é uma API REST desenvolvida com o objetivo de oferecer uma solução completa para o gerenciamento financeiro pessoal de usuários, permitindo o controle de despesas, categorias, pagamentos e autenticação segura. O projeto foi construído com foco em boas práticas de arquitetura, segurança, organização de código e padronização de respostas HTTP, simulando um cenário real de aplicação backend utilizada em produtos de mercado.
-
 A aplicação permite que usuários se cadastrem, se autentiquem via JWT, gerenciem suas despesas de forma estruturada e acompanhem pagamentos, promovendo uma visão clara e organizada da vida financeira. O sistema foi projetado para ser facilmente escalável e adaptável a ambientes de desenvolvimento e produção por meio de perfis de ambiente (profiles) no Spring Boot.
 
 ### ✨ Principais Características
