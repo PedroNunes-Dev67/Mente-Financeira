@@ -7,13 +7,10 @@
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-> API REST para gerenciamento completo de despesas de um usuário.
-
 ---
 
 ## 📋 Sobre o Projeto 
 O Mente Financeira é uma API REST desenvolvida com o objetivo de oferecer uma solução completa para o gerenciamento financeiro pessoal de usuários, permitindo o controle de despesas, categorias, pagamentos e autenticação segura. O projeto foi construído com foco em boas práticas de arquitetura, segurança, organização de código e padronização de respostas HTTP, simulando um cenário real de aplicação backend utilizada em produtos de mercado.
-
 A aplicação permite que usuários se cadastrem, se autentiquem via JWT, gerenciem suas despesas de forma estruturada e acompanhem pagamentos, promovendo uma visão clara e organizada da vida financeira. O sistema foi projetado para ser facilmente escalável e adaptável a ambientes de desenvolvimento e produção por meio de perfis de ambiente (profiles) no Spring Boot.
 
 ### ✨ Principais Características
@@ -154,3 +151,34 @@ Abra seu navegador e acesse:
 ```
 http://localhost:8080/swagger-ui.html
 ```
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 👤 Autor
+
+**Pedro Nunes**
+
+- 🔗 GitHub: [@PedroNunes-Dev67](https://github.com/PedroNunes-Dev67)
+- 💼 LinkedIn: [Pedro Nunes](https://www.linkedin.com/in/pedro-nunes-dev67)
+- 📧 Email: pedrovitornunes89@gmail.com
+- 📱 Telefone: (81) 99102-4299
+
+---
+
+## 🙏 Agradecimentos
+
+- [Spring Framework](https://spring.io/) - Pela excelente documentação
+- [SpringDoc OpenAPI](https://springdoc.org/) - Pela facilidade de integração do Swagger
+
+---
+
+<div align="center">
+
+### ⭐ Se este projeto foi útil para você, considere dar uma estrela!
+
+**Desenvolvido com ☕ e ❤️ por Pedro Nunes**
+
+</div>
