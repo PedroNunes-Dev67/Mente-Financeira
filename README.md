@@ -154,3 +154,34 @@ Abra seu navegador e acesse:
 ```
 http://localhost:8080/swagger-ui.html
 ```
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 👤 Autor
+
+**Pedro Nunes**
+
+- 🔗 GitHub: [@PedroNunes-Dev67](https://github.com/PedroNunes-Dev67)
+- 💼 LinkedIn: [Pedro Nunes](https://www.linkedin.com/in/pedro-nunes-dev67)
+- 📧 Email: pedrovitornunes89@gmail.com
+- 📱 Telefone: (81) 99102-4299
+
+---
+
+## 🙏 Agradecimentos
+
+- [Spring Framework](https://spring.io/) - Pela excelente documentação
+- [SpringDoc OpenAPI](https://springdoc.org/) - Pela facilidade de integração do Swagger
+
+---
+
+<div align="center">
+
+### ⭐ Se este projeto foi útil para você, considere dar uma estrela!
+
+**Desenvolvido com ☕ e ❤️ por Pedro Nunes**
+
+</div>
