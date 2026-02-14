@@ -31,13 +31,21 @@ public class PagamentoService {
     private AuthService authService;
 
     @Transactional(readOnly = true)
-    public List<PagamentoDespesa> todosPagamentosUsuario(){
+    public List<PagamentoDespesaDtoResponse> todosPagamentosUsuario(){
 
         Usuario usuario = authService.me();
 
         List<PagamentoDespesa> listaDePagamentos = pagamentoRepository.findPagamentosByUsuarioAndStatusDespesa(usuario, DespesaStatus.PAGO);
 
-        return listaDePagamentos;
+        return listaDePagamentos
+                .stream()
+                .map(pagamento -> {
+                    return new PagamentoDespesaDtoResponse(pagamento.getId(), pagamento.getDiaPagamento(),
+                            new DespesaDtoResponse(
+                                    pagamento.getDespesa(),
+                                    new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
+                                    new CategoriaDtoResponse(pagamento.getDespesa().getCategoria())));
+                }).toList();
     }
 
     @Transactional
@@ -90,16 +98,8 @@ public class PagamentoService {
 
         CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria());
 
-        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(despesa.getIdDespesa(),
-                despesa.getTitulo(),
-                despesa.getValor(),
-                despesa.getTipoDespesa(),
-                despesa.getDespesaStatus(),
-                despesa.getDataVencimento(),
-                despesa.getDataCriacao(),
-                despesa.getDataAtualizacao(),
-                despesa.getParcelasTotais(),
-                despesa.getParcelasPagas(),
+        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(
+                despesa,
                 usuarioDTOResponse,
                 categoriaDtoResponse);
 

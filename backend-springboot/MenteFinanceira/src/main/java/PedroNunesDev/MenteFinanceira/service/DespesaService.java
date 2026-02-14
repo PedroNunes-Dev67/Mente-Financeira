@@ -53,16 +53,7 @@ public class DespesaService {
         pagamentoService.verificarDespesaNaoRecorrente(despesaSalva);
 
         return new DespesaDtoResponse(
-                despesaSalva.getIdDespesa(),
-                despesaSalva.getTitulo(),
-                despesaSalva.getValor(),
-                despesaSalva.getTipoDespesa(),
-                despesaSalva.getDespesaStatus(),
-                despesaSalva.getDataVencimento(),
-                despesaSalva.getDataCriacao(),
-                despesaSalva.getDataAtualizacao(),
-                despesaSalva.getParcelasTotais(),
-                despesaSalva.getParcelasPagas(),
+                despesaSalva,
                 new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
                 new CategoriaDtoResponse(categoria)
                 );
@@ -209,16 +200,7 @@ public class DespesaService {
                 .map(despesa -> {
 
                     return new DespesaDtoResponse(
-                            despesa.getIdDespesa(),
-                            despesa.getTitulo(),
-                            despesa.getValor(),
-                            despesa.getTipoDespesa(),
-                            despesa.getDespesaStatus(),
-                            despesa.getDataVencimento(),
-                            despesa.getDataCriacao(),
-                            despesa.getDataAtualizacao(),
-                            despesa.getParcelasTotais(),
-                            despesa.getParcelasPagas(),
+                            despesa,
                             new UsuarioDTOResponse(despesa.getUsuario().getId(), despesa.getUsuario().getNome(),despesa.getUsuario().getEmail()),
                             new CategoriaDtoResponse(despesa.getCategoria())
                     );

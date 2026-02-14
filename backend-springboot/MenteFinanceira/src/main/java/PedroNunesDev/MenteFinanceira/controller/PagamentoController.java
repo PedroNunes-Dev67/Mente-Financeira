@@ -1,7 +1,6 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.response.PagamentoDespesaDtoResponse;
-import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.PagamentoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -22,9 +21,9 @@ public class PagamentoController {
     private PagamentoService pagamentoService;
 
     @GetMapping("/me")
-    public ResponseEntity<List<PagamentoDespesa>> todosPagamentosUsuario(){
+    public ResponseEntity<List<PagamentoDespesaDtoResponse>> todosPagamentosUsuario(){
 
-        List<PagamentoDespesa> list = pagamentoService.todosPagamentosUsuario();
+        List<PagamentoDespesaDtoResponse> list = pagamentoService.todosPagamentosUsuario();
 
         return ResponseEntity.ok(list);
     }

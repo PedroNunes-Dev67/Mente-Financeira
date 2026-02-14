@@ -54,7 +54,7 @@ public class Despesa implements Serializable {
     private Usuario usuario;
 
     @Column(name = "data_vencimento")
-    private LocalDate dataVencimento;
+    private Integer dataVencimento;
 
     @CreationTimestamp
     @Column(name = "data_criacao_despesa",nullable = false)
@@ -78,7 +78,7 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
-    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, LocalDate dataVencimento, Integer parcelasTotais, Integer parcelasPagas, Categoria categoria) {
+    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, Integer dataVencimento, Integer parcelasTotais, Integer parcelasPagas, Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
         this.tipoDespesa = tipoDespesa;

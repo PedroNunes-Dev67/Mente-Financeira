@@ -14,7 +14,7 @@ public record DespesaDTORequest(
         @NotNull(message = "Valor da despesa obrigatório") BigDecimal valor,
         @NotNull(message = "Id da categoria obrigatório") Long idCategoria,
         @NotBlank(message = "Tipo da despesa obrigatório") String tipoDespesa,
-        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dataVencimento,
+        @NotNull Integer dataVencimento,
         Integer parcelasTotais,
         Integer parcelasPagas
 ) {
