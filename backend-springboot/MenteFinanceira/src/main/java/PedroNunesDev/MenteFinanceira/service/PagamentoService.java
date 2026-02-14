@@ -67,9 +67,7 @@ public class PagamentoService {
 
     private PagamentoDespesa salvarPagamento(Despesa despesa){
 
-        LocalDate dataPagamento = LocalDate.now();
-
-        despesa.marcarComoPaga(dataPagamento);
+        LocalDate dataPagamento = despesa.analisarParcelasDespesa();
 
         despesaRepository.save(despesa);
 

@@ -100,21 +100,18 @@ public class Despesa implements Serializable {
        if (isPaga()) return;
 
        this.despesaStatus = DespesaStatus.PAGO;
-
-       if (temParcelasRestantes()){
-           parcelasTotais--;
-       }
     }
 
-    public void renovarDespesa(){
+    public LocalDate analisarParcelasDespesa(){
 
-        if (isPaga() && temParcelasRestantes()){
+        LocalDate dataPagamento = LocalDate.now();
 
-            this.despesaStatus = DespesaStatus.PENDENTE;
+        if (this.parcelasPagas < this.parcelasTotais){
+            this.parcelasPagas++;
+            if(this.parcelasPagas == this.parcelasTotais){
+                marcarComoPaga(dataPagamento);
+            }
         }
-    }
-
-    public boolean temParcelasRestantes(){
-        return parcelasTotais != null && parcelasTotais > 0;
+        return dataPagamento;
     }
 }
