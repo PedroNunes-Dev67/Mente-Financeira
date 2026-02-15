@@ -40,11 +40,15 @@ public class PagamentoService {
         return listaDePagamentos
                 .stream()
                 .map(pagamento -> {
-                    return new PagamentoDespesaDtoResponse(pagamento.getId(), pagamento.getDiaPagamento(), pagamento.getTipoPagamento(),
-                            new DespesaDtoResponse(
-                                    pagamento.getDespesa(),
-                                    new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
-                                    new CategoriaDtoResponse(pagamento.getDespesa().getCategoria())));
+                    return new PagamentoDespesaDtoResponse(
+                            pagamento.getId(),
+                            pagamento.getDiaPagamento(),
+                            pagamento.getTipoPagamento(),
+                            pagamento.getIdDespesa(),
+                            pagamento.getTitulo(),
+                            pagamento.getValor(),
+                            pagamento.getParcelasPagas(),
+                            pagamento.getParcelasTotais());
                 }).toList();
     }
 
@@ -120,7 +124,11 @@ public class PagamentoService {
                 pagamento.getId(),
                 pagamento.getDiaPagamento(),
                 pagamento.getTipoPagamento(),
-                despesaDtoResponse
+                pagamento.getIdDespesa(),
+                pagamento.getTitulo(),
+                pagamento.getValor(),
+                pagamento.getParcelasPagas(),
+                pagamento.getParcelasTotais()
         );
 
         return pagamentoDespesaDtoResponse;
