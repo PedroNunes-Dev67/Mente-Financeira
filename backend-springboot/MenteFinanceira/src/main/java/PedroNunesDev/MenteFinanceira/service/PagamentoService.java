@@ -40,7 +40,7 @@ public class PagamentoService {
         return listaDePagamentos
                 .stream()
                 .map(pagamento -> {
-                    return new PagamentoDespesaDtoResponse(pagamento.getId(), pagamento.getDiaPagamento(),
+                    return new PagamentoDespesaDtoResponse(pagamento.getId(), pagamento.getDiaPagamento(), pagamento.getTipoPagamento(),
                             new DespesaDtoResponse(
                                     pagamento.getDespesa(),
                                     new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
@@ -49,7 +49,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public PagamentoDespesaDtoResponse pagamentoDespesa(Long id){
+    public PagamentoDespesaDtoResponse pagamentoDespesa(Long id, String tipoPagamento){
 
         Usuario usuario = authService.me();
 
@@ -57,7 +57,7 @@ public class PagamentoService {
 
         validaDespesa(despesa);
 
-        PagamentoDespesa pagamento = salvarPagamento(despesa);
+        PagamentoDespesa pagamento = salvarPagamento(despesa, tipoPagamento);
 
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = criacaoDeDTOs(usuario,despesa,pagamento);
 
@@ -65,21 +65,21 @@ public class PagamentoService {
     }
 
 
-    public void verificarDespesaNaoRecorrente(Despesa despesa){
+    public void verificarDespesaNaoRecorrente(Despesa despesa, String tipoPagamento){
 
         if (TipoDespesa.NAO_RECORRENTE.equals(despesa.getTipoDespesa())){
 
-            pagamentoDespesa(despesa.getIdDespesa());
+            pagamentoDespesa(despesa.getIdDespesa(), tipoPagamento);
         }
     }
 
-    private PagamentoDespesa salvarPagamento(Despesa despesa){
+    private PagamentoDespesa salvarPagamento(Despesa despesa, String tipoPagamento){
 
         LocalDate dataPagamento = despesa.analisarParcelasDespesa();
 
         despesaRepository.save(despesa);
 
-        return pagamentoRepository.save(new PagamentoDespesa(dataPagamento, despesa));
+        return pagamentoRepository.save(new PagamentoDespesa(dataPagamento, despesa, tipoPagamento));
     }
 
     private Despesa findByDespesa(Long id, Usuario usuario){
@@ -106,6 +106,7 @@ public class PagamentoService {
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = new PagamentoDespesaDtoResponse(
                 pagamento.getId(),
                 pagamento.getDiaPagamento(),
+                pagamento.getTipoPagamento(),
                 despesaDtoResponse
         );
 

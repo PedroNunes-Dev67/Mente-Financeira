@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.model;
 
+import PedroNunesDev.MenteFinanceira.model.enums.TipoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -30,8 +31,12 @@ public class PagamentoDespesa implements Serializable {
     @JoinColumn(name = "id_despesa")
     private Despesa despesa;
 
-    public PagamentoDespesa(LocalDate diaPagamento, Despesa despesa) {
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento tipoPagamento;
+
+    public PagamentoDespesa(LocalDate diaPagamento, Despesa despesa, String tipoPagamento) {
         this.diaPagamento = diaPagamento;
         this.despesa = despesa;
+        this.tipoPagamento = TipoPagamento.from(tipoPagamento);
     }
 }

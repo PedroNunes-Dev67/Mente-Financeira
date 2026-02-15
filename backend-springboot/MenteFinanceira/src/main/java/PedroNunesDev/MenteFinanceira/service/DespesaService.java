@@ -50,7 +50,7 @@ public class DespesaService {
 
         Despesa despesaSalva = despesaRepository.save(despesa);
 
-        pagamentoService.verificarDespesaNaoRecorrente(despesaSalva);
+        pagamentoService.verificarDespesaNaoRecorrente(despesaSalva, despesaDTORequest.tipoPagamento());
 
         return new DespesaDtoResponse(
                 despesaSalva,

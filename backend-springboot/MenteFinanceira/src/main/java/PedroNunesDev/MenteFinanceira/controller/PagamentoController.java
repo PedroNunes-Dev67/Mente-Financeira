@@ -29,9 +29,9 @@ public class PagamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoDespesaDtoResponse> pagamentoDespesa(@PathVariable Long id){
+    public ResponseEntity<PagamentoDespesaDtoResponse> pagamentoDespesa(@PathVariable Long id, @RequestParam String tipoPagamento){
 
-        PagamentoDespesaDtoResponse pagamento = pagamentoService.pagamentoDespesa(id);
+        PagamentoDespesaDtoResponse pagamento = pagamentoService.pagamentoDespesa(id, tipoPagamento);
 
         return ResponseEntity.ok(pagamento);
     }

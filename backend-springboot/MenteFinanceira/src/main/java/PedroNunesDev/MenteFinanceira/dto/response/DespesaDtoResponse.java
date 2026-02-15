@@ -34,6 +34,7 @@ public class DespesaDtoResponse {
         this.valor = despesa.getValor();
         this.tipoDespesa = despesa.getTipoDespesa();
         this.despesaStatus = despesa.getDespesaStatus();
+        this.dataVencimento = despesa.getDataVencimento();
         this.dataCriacao = despesa.getDataCriacao();
         this.dataAtualizacao = despesa.getDataAtualizacao();
         this.parcelasTotais = despesa.getParcelasTotais();

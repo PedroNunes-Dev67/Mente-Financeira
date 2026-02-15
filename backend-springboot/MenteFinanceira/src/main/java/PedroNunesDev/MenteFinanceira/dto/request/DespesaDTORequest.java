@@ -16,6 +16,7 @@ public record DespesaDTORequest(
         @NotBlank(message = "Tipo da despesa obrigatório") String tipoDespesa,
         @NotNull Integer dataVencimento,
         Integer parcelasTotais,
-        Integer parcelasPagas
+        Integer parcelasPagas,
+        String tipoPagamento
 ) {
 }
