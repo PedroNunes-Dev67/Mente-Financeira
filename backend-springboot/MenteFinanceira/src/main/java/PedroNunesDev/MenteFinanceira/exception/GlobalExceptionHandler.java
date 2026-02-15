@@ -68,4 +68,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(exceptionModel);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<DefaultExceptionModel> defaultExceptionModelResponseEntity(IllegalArgumentException e){
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String error = status.name();
+
+        DefaultExceptionModel exceptionModel = new DefaultExceptionModel(Instant.now(), error, status.value(), "Argumento inválido: "+e.getMessage());
+
+        return ResponseEntity.status(status).body(exceptionModel);
+    }
 }
