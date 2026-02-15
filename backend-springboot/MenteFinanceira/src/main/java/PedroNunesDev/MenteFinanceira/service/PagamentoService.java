@@ -35,7 +35,7 @@ public class PagamentoService {
 
         Usuario usuario = authService.me();
 
-        List<PagamentoDespesa> listaDePagamentos = pagamentoRepository.findPagamentosByUsuarioAndStatusDespesa(usuario, DespesaStatus.PAGO);
+        List<PagamentoDespesa> listaDePagamentos = pagamentoRepository.findPagamentosByUsuario(usuario);
 
         return listaDePagamentos
                 .stream()
@@ -75,11 +75,24 @@ public class PagamentoService {
 
     private PagamentoDespesa salvarPagamento(Despesa despesa, String tipoPagamento){
 
-        LocalDate dataPagamento = despesa.analisarParcelasDespesa();
+        LocalDate dataPagamento = analisarParcelasPagas(despesa);
 
         despesaRepository.save(despesa);
 
         return pagamentoRepository.save(new PagamentoDespesa(dataPagamento, despesa, tipoPagamento));
+    }
+
+    private LocalDate analisarParcelasPagas(Despesa despesa){
+
+        LocalDate dataPagamento = LocalDate.now();
+
+        if (despesa.getParcelasPagas() < despesa.getParcelasTotais()){
+            despesa.setParcelasPagas(despesa.getParcelasPagas() + 1);
+            if(despesa.getParcelasPagas() == despesa.getParcelasTotais()){
+                despesa.marcarComoPaga(dataPagamento);
+            }
+        }
+        return dataPagamento;
     }
 
     private Despesa findByDespesa(Long id, Usuario usuario){

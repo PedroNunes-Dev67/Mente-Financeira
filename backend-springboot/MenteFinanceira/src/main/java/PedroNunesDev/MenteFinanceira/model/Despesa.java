@@ -101,17 +101,4 @@ public class Despesa implements Serializable {
 
        this.despesaStatus = DespesaStatus.PAGO;
     }
-
-    public LocalDate analisarParcelasDespesa(){
-
-        LocalDate dataPagamento = LocalDate.now();
-
-        if (this.parcelasPagas < this.parcelasTotais){
-            this.parcelasPagas++;
-            if(this.parcelasPagas == this.parcelasTotais){
-                marcarComoPaga(dataPagamento);
-            }
-        }
-        return dataPagamento;
-    }
 }

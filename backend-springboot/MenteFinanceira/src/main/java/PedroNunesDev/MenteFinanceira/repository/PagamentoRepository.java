@@ -2,7 +2,6 @@ package PedroNunesDev.MenteFinanceira.repository;
 
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
-import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +10,6 @@ import java.util.List;
 
 public interface PagamentoRepository extends JpaRepository<PagamentoDespesa,Long> {
 
-    @Query("SELECT p FROM PagamentoDespesa p join fetch p.despesa d where d.usuario = :usuario and d.despesaStatus = :status")
-    List<PagamentoDespesa> findPagamentosByUsuarioAndStatusDespesa(@Param("usuario") Usuario usuario,@Param("status") DespesaStatus despesaStatus);
+    @Query("SELECT p FROM PagamentoDespesa p join fetch p.despesa d where d.usuario = :usuario")
+    List<PagamentoDespesa> findPagamentosByUsuario(@Param("usuario") Usuario usuario);
 }
