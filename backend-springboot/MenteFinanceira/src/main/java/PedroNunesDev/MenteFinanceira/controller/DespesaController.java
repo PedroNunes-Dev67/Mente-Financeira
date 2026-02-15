@@ -33,6 +33,13 @@ public class DespesaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novaDespesa);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarDespesa(@PathVariable Long id){
+
+        despesaService.deletarDespesa(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<Page<DespesaDtoResponse>> buscarTodasDespesasPorUsuario(@RequestParam int pagina, @RequestParam int items){
 

@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class DespesaService {
 
@@ -57,6 +59,19 @@ public class DespesaService {
                 new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
                 new CategoriaDtoResponse(categoria)
                 );
+    }
+
+    @Transactional
+    public void deletarDespesa(Long idDespesa){
+
+        Usuario usuario = authService.me();
+
+        Optional<Despesa> despesa = despesaRepository.findByIdDespesaAndUsuario(idDespesa,usuario);
+
+        if (despesa.isEmpty()) throw new ResourceNotFoundException("Despesa não encontrada");
+        else{
+            despesaRepository.delete(despesa.get());
+        }
     }
 
     @Transactional(readOnly = true)
