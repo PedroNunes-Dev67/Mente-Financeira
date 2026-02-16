@@ -3,6 +3,7 @@ package PedroNunesDev.MenteFinanceira.model.enums;
 public enum TipoPagamento {
     PIX("pix"),
     DINHEIRO("dinheiro"),
+    BOLETO("boleto"),
     CARTAO_DE_CREDITO("cartao_de_credito"),
     CARTAO_DE_DEBITO("cartao_de_debito");
 
