@@ -47,12 +47,9 @@ public class DespesaService {
                 usuario,
                 despesaDTORequest.dataVencimento(),
                 despesaDTORequest.parcelasTotais(),
-                despesaDTORequest.parcelasPagas(),
                 categoria);
 
         Despesa despesaSalva = despesaRepository.save(despesa);
-
-        pagamentoService.verificarDespesaNaoRecorrente(despesaSalva, despesaDTORequest.tipoPagamento());
 
         return new DespesaDtoResponse(
                 despesaSalva,
@@ -117,7 +114,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGO, criarPageable(pagina, items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGA, criarPageable(pagina, items));
 
         Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 
@@ -153,7 +150,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGO, criarPageable(pagina, items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGA, criarPageable(pagina, items));
 
         Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 
@@ -177,7 +174,7 @@ public class DespesaService {
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGO, criarPageable(pagina, items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGA, criarPageable(pagina, items));
 
         Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 

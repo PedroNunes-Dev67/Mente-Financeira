@@ -24,6 +24,7 @@ public class PagamentoDespesa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pagamento")
     private Long id;
     private LocalDate diaPagamento;
 

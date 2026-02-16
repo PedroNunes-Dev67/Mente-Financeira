@@ -3,7 +3,8 @@ package PedroNunesDev.MenteFinanceira.model.enums;
 public enum DespesaStatus {
 
     PENDENTE("pendente"),
-    PAGO("pago");
+    PARCIALMENTE_PAGA("parcialmente_paga"),
+    PAGA("paga");
 
     private String status;
 

@@ -44,7 +44,6 @@ public class Despesa implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoDespesa tipoDespesa;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DespesaStatus despesaStatus;
 
@@ -67,7 +66,7 @@ public class Despesa implements Serializable {
     @Column(name = "parcelas_totais_despesa", nullable = false)
     private Integer parcelasTotais;
 
-    @Column(name = "parcelas_restantes_despesa", nullable = false)
+    @Column(name = "parcelas_pagas_despesa", nullable = false)
     private Integer parcelasPagas;
 
     @JsonIgnore
@@ -78,27 +77,47 @@ public class Despesa implements Serializable {
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 
-    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, Integer dataVencimento, Integer parcelasTotais, Integer parcelasPagas, Categoria categoria) {
+    public Despesa(String titulo, BigDecimal valor, TipoDespesa tipoDespesa, Usuario usuario, Integer dataVencimento, Integer parcelasTotais, Categoria categoria) {
         this.titulo = titulo;
         this.valor = valor;
         this.tipoDespesa = tipoDespesa;
-        this.despesaStatus = DespesaStatus.PENDENTE;
         this.usuario = usuario;
         this.dataVencimento = dataVencimento;
         this.parcelasTotais = parcelasTotais;
-        this.parcelasPagas = parcelasPagas;
+        this.parcelasPagas = 0;
         this.categoria = categoria;
+        this.despesaStatus = DespesaStatus.PENDENTE;
     }
 
     public boolean isPaga(){
 
-        return this.despesaStatus == DespesaStatus.PAGO;
+        return this.despesaStatus == DespesaStatus.PAGA;
     }
 
     public void marcarComoPaga(LocalDate dataPagamento){
 
        if (isPaga()) return;
 
-       this.despesaStatus = DespesaStatus.PAGO;
+       this.despesaStatus = DespesaStatus.PAGA;
+    }
+
+    public void registrarPagamento(){
+
+        if (this.parcelasPagas < this.parcelasTotais){
+            this.parcelasPagas++;
+        }
+
+        analisarParcelas();
+    }
+
+    public void analisarParcelas(){
+
+        if (this.parcelasPagas == 0){
+            setDespesaStatus(DespesaStatus.PENDENTE);
+        } else if (this.parcelasPagas > 0 && this.parcelasPagas < this.parcelasTotais) {
+            setDespesaStatus(DespesaStatus.PARCIALMENTE_PAGA);
+        } else if (this.parcelasPagas == this.parcelasTotais) {
+            setDespesaStatus(DespesaStatus.PAGA);
+        }
     }
 }

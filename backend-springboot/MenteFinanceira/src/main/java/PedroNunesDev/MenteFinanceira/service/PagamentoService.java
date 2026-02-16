@@ -68,18 +68,11 @@ public class PagamentoService {
         return pagamentoDespesaDtoResponse;
     }
 
-
-    public void verificarDespesaNaoRecorrente(Despesa despesa, String tipoPagamento){
-
-        if (TipoDespesa.NAO_RECORRENTE.equals(despesa.getTipoDespesa())){
-
-            pagamentoDespesa(despesa.getIdDespesa(), tipoPagamento);
-        }
-    }
-
     private PagamentoDespesa salvarPagamento(Despesa despesa, String tipoPagamento){
 
-        LocalDate dataPagamento = analisarParcelasPagas(despesa);
+        LocalDate dataPagamento = LocalDate.now();
+
+        despesa.registrarPagamento();
 
         despesaRepository.save(despesa);
 
@@ -92,10 +85,8 @@ public class PagamentoService {
 
         if (despesa.getParcelasPagas() < despesa.getParcelasTotais()){
             despesa.setParcelasPagas(despesa.getParcelasPagas() + 1);
-            if(despesa.getParcelasPagas() == despesa.getParcelasTotais()){
-                despesa.marcarComoPaga(dataPagamento);
-            }
         }
+
         return dataPagamento;
     }
 
