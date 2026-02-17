@@ -1,16 +1,12 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
-import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.PagamentoDespesaDtoResponse;
-import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ConflitoRecursosException;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
+import PedroNunesDev.MenteFinanceira.mapper.PagamentoDespesaMapper;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
-import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
-import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +25,8 @@ public class PagamentoService {
     private DespesaRepository despesaRepository;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private PagamentoDespesaMapper pagamentoDespesaMapper;
 
     @Transactional(readOnly = true)
     public List<PagamentoDespesaDtoResponse> todosPagamentosUsuario(){
@@ -40,15 +38,7 @@ public class PagamentoService {
         return listaDePagamentos
                 .stream()
                 .map(pagamento -> {
-                    return new PagamentoDespesaDtoResponse(
-                            pagamento.getId(),
-                            pagamento.getDiaPagamento(),
-                            pagamento.getTipoPagamento(),
-                            pagamento.getIdDespesa(),
-                            pagamento.getTitulo(),
-                            pagamento.getValor(),
-                            pagamento.getParcelasPagas(),
-                            pagamento.getParcelasTotais());
+                    return pagamentoDespesaMapper.toDTO(pagamento);
                 }).toList();
     }
 
@@ -63,7 +53,7 @@ public class PagamentoService {
 
         PagamentoDespesa pagamento = salvarPagamento(despesa, tipoPagamento);
 
-        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = criacaoDeDTOs(usuario,despesa,pagamento);
+        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = criacaoDeDTOs(pagamento);
 
         return pagamentoDespesaDtoResponse;
     }
@@ -79,17 +69,6 @@ public class PagamentoService {
         return pagamentoRepository.save(new PagamentoDespesa(dataPagamento, despesa, tipoPagamento));
     }
 
-    private LocalDate analisarParcelasPagas(Despesa despesa){
-
-        LocalDate dataPagamento = LocalDate.now();
-
-        if (despesa.getParcelasPagas() < despesa.getParcelasTotais()){
-            despesa.setParcelasPagas(despesa.getParcelasPagas() + 1);
-        }
-
-        return dataPagamento;
-    }
-
     private Despesa findByDespesa(Long id, Usuario usuario){
 
         return despesaRepository.findByIdDespesaAndUsuario(id, usuario).orElseThrow(() -> new ResourceNotFoundException("Despesa não encontrada"));
@@ -100,27 +79,9 @@ public class PagamentoService {
         if (despesa.isPaga()) throw new ConflitoRecursosException("O pagamento desta despesa já foi efetuado");
     }
 
-    private PagamentoDespesaDtoResponse criacaoDeDTOs(Usuario usuario, Despesa despesa, PagamentoDespesa pagamento){
+    private PagamentoDespesaDtoResponse criacaoDeDTOs(PagamentoDespesa pagamento){
 
-        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
-
-        CategoriaDtoResponse categoriaDtoResponse = new CategoriaDtoResponse(despesa.getCategoria());
-
-        DespesaDtoResponse despesaDtoResponse = new DespesaDtoResponse(
-                despesa,
-                usuarioDTOResponse,
-                categoriaDtoResponse);
-
-        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = new PagamentoDespesaDtoResponse(
-                pagamento.getId(),
-                pagamento.getDiaPagamento(),
-                pagamento.getTipoPagamento(),
-                pagamento.getIdDespesa(),
-                pagamento.getTitulo(),
-                pagamento.getValor(),
-                pagamento.getParcelasPagas(),
-                pagamento.getParcelasTotais()
-        );
+        PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = pagamentoDespesaMapper.toDTO(pagamento);
 
         return pagamentoDespesaDtoResponse;
     }

@@ -5,6 +5,7 @@ import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
+import PedroNunesDev.MenteFinanceira.mapper.DespesaMapper;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -30,7 +31,7 @@ public class DespesaService {
     @Autowired
     private AuthService authService;
     @Autowired
-    private PagamentoService pagamentoService;
+    private DespesaMapper despesaMapper;
 
     @Transactional
     public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest despesaDTORequest){
@@ -51,11 +52,7 @@ public class DespesaService {
 
         Despesa despesaSalva = despesaRepository.save(despesa);
 
-        return new DespesaDtoResponse(
-                despesaSalva,
-                new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail()),
-                new CategoriaDtoResponse(categoria)
-                );
+        return despesaMapper.toDTO(despesaSalva);
     }
 
     @Transactional
@@ -211,11 +208,7 @@ public class DespesaService {
         return paginacaoCriada
                 .map(despesa -> {
 
-                    return new DespesaDtoResponse(
-                            despesa,
-                            new UsuarioDTOResponse(despesa.getUsuario().getId(), despesa.getUsuario().getNome(),despesa.getUsuario().getEmail()),
-                            new CategoriaDtoResponse(despesa.getCategoria())
-                    );
+                    return despesaMapper.toDTO(despesa);
                 });
     }
 

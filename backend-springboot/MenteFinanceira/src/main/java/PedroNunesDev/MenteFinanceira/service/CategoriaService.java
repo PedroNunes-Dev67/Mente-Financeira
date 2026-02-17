@@ -4,6 +4,7 @@ import PedroNunesDev.MenteFinanceira.dto.request.CategoriaDTO;
 import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
 import PedroNunesDev.MenteFinanceira.exception.ConflitoRecursosException;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
+import PedroNunesDev.MenteFinanceira.mapper.CategoriaMapper;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,15 @@ public class CategoriaService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
+    private CategoriaMapper categoriaMapper;
 
     @Transactional(readOnly = true)
     public CategoriaDtoResponse findById(Long id){
 
         Categoria categoriaBuscada = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        return new CategoriaDtoResponse(categoriaBuscada);
+        return categoriaMapper.toDTO(categoriaBuscada);
     }
 
     @Transactional(readOnly = true)
@@ -32,7 +35,7 @@ public class CategoriaService {
         return categoriaRepository.findAll()
                 .stream()
                 .map(categoria -> {
-                    return new CategoriaDtoResponse(categoria);
+                    return categoriaMapper.toDTO(categoria);
                 }).toList();
     }
 
@@ -41,11 +44,11 @@ public class CategoriaService {
 
         if (categoriaRepository.findByNome(categoriaDTO.nome()).isPresent()) throw new ConflitoRecursosException("Categoria já cadastrada");
 
-        Categoria categoria = new Categoria(categoriaDTO.nome());
+        Categoria categoria = categoriaMapper.toModel(categoriaDTO);
 
-        categoriaRepository.save(categoria);
+        Categoria categoriaSalva = categoriaRepository.save(categoria);
 
-        return new CategoriaDtoResponse(categoria);
+        return categoriaMapper.toDTO(categoriaSalva);
     }
 
     @Transactional
@@ -57,9 +60,9 @@ public class CategoriaService {
 
         categoria.setNome(categoriaDTO.nome());
 
-        categoriaRepository.save(categoria);
+        Categoria categoriaSalva = categoriaRepository.save(categoria);
 
-        return new CategoriaDtoResponse(categoria);
+        return categoriaMapper.toDTO(categoriaSalva);
     }
 
     @Transactional

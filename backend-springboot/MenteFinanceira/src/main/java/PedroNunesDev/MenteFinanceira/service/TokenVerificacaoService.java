@@ -8,7 +8,6 @@ import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +28,7 @@ public class TokenVerificacaoService {
                     token,
                     false,
                     LocalDateTime.now().plusMinutes(30),
-                    usuario.getId()
+                    usuario.getIdUsuario()
             );
 
             return tokenVerificacaoRepository.save(tokenVerificacao);
@@ -63,7 +62,7 @@ public class TokenVerificacaoService {
 
     public TokenVerificacao analisarTokenVerificacaoUsuario(Usuario usuario){
 
-        List<TokenVerificacao> tokenVerificacaoExistentes = tokenVerificacaoRepository.findByIdUsuario(usuario.getId());
+        List<TokenVerificacao> tokenVerificacaoExistentes = tokenVerificacaoRepository.findByIdUsuario(usuario.getIdUsuario());
 
         if (tokenVerificacaoExistentes.isEmpty()){
             return null;

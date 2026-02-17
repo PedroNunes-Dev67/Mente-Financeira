@@ -25,7 +25,7 @@ public class PagamentoDespesa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pagamento")
-    private Long id;
+    private Long idPagamento;
     private LocalDate diaPagamento;
 
     @JsonIgnore
@@ -41,10 +41,10 @@ public class PagamentoDespesa implements Serializable {
     private Long idDespesa;
 
     @Column(nullable = false, name = "titulo_despesa")
-    private String titulo;
+    private String titulo_despesa;
 
     @Column(nullable = false, name = "valor_pagamento_despesa")
-    private BigDecimal valor;
+    private BigDecimal valor_despesa;
 
     @Column(nullable = false)
     private Integer parcelasPagas;
@@ -57,8 +57,8 @@ public class PagamentoDespesa implements Serializable {
         this.despesa = despesa;
         this.tipoPagamento = TipoPagamento.from(tipoPagamento);
         this.idDespesa = despesa.getIdDespesa();
-        this.titulo = despesa.getTitulo();
-        this.valor = despesa.getValor();
+        this.titulo_despesa = despesa.getTitulo();
+        this.valor_despesa = despesa.getValor();
         this.parcelasPagas = despesa.getParcelasPagas();
         this.parcelasTotais = despesa.getParcelasTotais();
     }

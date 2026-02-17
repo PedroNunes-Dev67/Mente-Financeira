@@ -9,7 +9,7 @@ public record PagamentoDespesaDtoResponse(
         Long idPagamento,
         LocalDate diaPagamento,
         TipoPagamento tipoPagamento,
-        Long id_despesa,
+        Long idDespesa,
         String titulo_despesa,
         BigDecimal valor_despesa,
         Integer parcelasPagas,

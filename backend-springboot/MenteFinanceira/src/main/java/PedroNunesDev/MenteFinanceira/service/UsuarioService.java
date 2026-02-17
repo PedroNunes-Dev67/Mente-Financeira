@@ -5,6 +5,8 @@ import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.request.UsuarioDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.TokenVerificacaoDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.mapper.TokenVerificacaoMapper;
+import PedroNunesDev.MenteFinanceira.mapper.UsuarioMapper;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
@@ -26,6 +28,10 @@ public class UsuarioService {
     private BCryptPasswordEncoder bcrypt;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
+    @Autowired
+    private TokenVerificacaoMapper tokenVerificacaoMapper;
 
     @Transactional
     public TokenVerificacaoDtoResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){
@@ -47,7 +53,7 @@ public class UsuarioService {
 
             TokenVerificacao tokenVerificacao = tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
-            return new TokenVerificacaoDtoResponse(tokenVerificacao.getToken());
+            return tokenVerificacaoMapper.toDTO(tokenVerificacao);
         }
         else{
 
@@ -60,25 +66,25 @@ public class UsuarioService {
 
                 TokenVerificacao tokenVerificacao = tokenVerificacaoService.gerarTokenDeVerificacao(usuario);
 
-                return new TokenVerificacaoDtoResponse(tokenVerificacao.getToken());
+                return tokenVerificacaoMapper.toDTO(tokenVerificacao);
             }
 
-            return new TokenVerificacaoDtoResponse(tokenVerificacaoExistente.getToken());
+            return tokenVerificacaoMapper.toDTO(tokenVerificacaoExistente);
         }
     }
 
     @Transactional
-    public TokenVerificacaoDTORequest login(LoginDTO loginDTO){
+    public TokenVerificacaoDtoResponse login(LoginDTO loginDTO){
 
         String token = authService.validarLogin(loginDTO);
 
-        return new TokenVerificacaoDTORequest(token);
+        return new TokenVerificacaoDtoResponse(token);
     }
 
     @Transactional
     public UsuarioDTOResponse me(){
 
         Usuario usuario = authService.me();
-        return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+        return usuarioMapper.toDTO(usuario);
     }
 }

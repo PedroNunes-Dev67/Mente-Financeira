@@ -5,6 +5,7 @@ import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.exception.UsuarioNaoVerificadoException;
+import PedroNunesDev.MenteFinanceira.mapper.UsuarioMapper;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 
 import PedroNunesDev.MenteFinanceira.model.Usuario;
@@ -28,6 +29,8 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
 
     @Transactional
     public UsuarioDTOResponse confirmarValidacaoDeEmail(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
@@ -41,7 +44,7 @@ public class AuthService {
         //Atualiza para usuário verificado
         atualizarVerificacaoEmailUsuario(usuario);
 
-        return new UsuarioDTOResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+        return usuarioMapper.toDTO(usuario);
     }
 
     private void atualizarVerificacaoEmailUsuario(Usuario usuario){
@@ -70,6 +73,6 @@ public class AuthService {
                 .getAuthentication()
                 .getPrincipal();
 
-        return usuarioRepository.findById(usuarioAuth.getId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+        return usuarioRepository.findById(usuarioAuth.getIdUsuario()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
     }
 }

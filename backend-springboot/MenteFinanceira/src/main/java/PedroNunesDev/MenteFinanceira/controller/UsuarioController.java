@@ -32,9 +32,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenVerificacaoDTORequest> login(@RequestBody @Valid LoginDTO loginDTO){
+    public ResponseEntity<TokenVerificacaoDtoResponse> login(@RequestBody @Valid LoginDTO loginDTO){
 
-        TokenVerificacaoDTORequest token = usuarioService.login(loginDTO);
+        TokenVerificacaoDtoResponse token = usuarioService.login(loginDTO);
 
         return ResponseEntity.ok(token);
     }
