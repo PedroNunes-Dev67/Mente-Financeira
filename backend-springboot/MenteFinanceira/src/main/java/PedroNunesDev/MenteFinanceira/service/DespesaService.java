@@ -1,9 +1,7 @@
 package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
-import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
-import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.mapper.DespesaMapper;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
@@ -66,6 +64,19 @@ public class DespesaService {
         else{
             despesaRepository.delete(despesa.get());
         }
+    }
+
+    @Transactional
+    public DespesaDtoResponse atualizarDespesa(Long idDespesa, DespesaDTORequest despesaDTORequest){
+
+        Usuario usuario = authService.me();
+
+        Despesa despesa = despesaRepository.findByIdDespesaAndUsuario(idDespesa,usuario)
+                .orElseThrow(() -> new ResourceNotFoundException("Despesa não encontrada"));
+
+        despesa = atualizarDadosDespesa(despesa, despesaDTORequest);
+
+        return despesaMapper.toDTO(despesa);
     }
 
     @Transactional(readOnly = true)
@@ -216,5 +227,23 @@ public class DespesaService {
 
         //Faz normalização da pagina e items por página
         return PageRequest.of(normalizaPagina(pagina), normalizaTamanhoDePagina(items));
+    }
+
+    private Despesa atualizarDadosDespesa(Despesa despesa, DespesaDTORequest despesaDTORequest){
+
+        Categoria categoria = categoriaRepository.findById(despesaDTORequest.idCategoria())
+                        .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+
+        despesa.setTitulo(despesaDTORequest.titulo());
+        despesa.setValor(despesaDTORequest.valor());
+        despesa.setTipoDespesa(TipoDespesa.from(despesaDTORequest.tipoDespesa()));
+        despesa.setDataVencimento(despesaDTORequest.dataVencimento());
+        despesa.setParcelasTotais(despesaDTORequest.parcelasTotais());
+        despesa.setCategoria(categoria);
+
+        despesa.analisarParcelas();
+
+        despesaRepository.save(despesa);
+        return despesa;
     }
 }

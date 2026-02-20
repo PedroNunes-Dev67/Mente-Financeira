@@ -40,6 +40,14 @@ public class DespesaController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<DespesaDtoResponse> atualizarDespesa(@PathVariable Long id, @RequestBody DespesaDTORequest despesaDTORequest){
+
+        DespesaDtoResponse despesaAtualizada = despesaService.atualizarDespesa(id, despesaDTORequest);
+
+        return ResponseEntity.ok(despesaAtualizada);
+    }
+
     @GetMapping("/me")
     public ResponseEntity<Page<DespesaDtoResponse>> buscarTodasDespesasPorUsuario(@RequestParam int pagina, @RequestParam int items){
 

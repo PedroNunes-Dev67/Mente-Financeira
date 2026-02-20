@@ -94,7 +94,7 @@ public class Despesa implements Serializable {
         return this.despesaStatus == DespesaStatus.PAGA;
     }
 
-    public void marcarComoPaga(LocalDate dataPagamento){
+    public void marcarComoPaga(){
 
        if (isPaga()) return;
 
@@ -117,7 +117,7 @@ public class Despesa implements Serializable {
         } else if (this.parcelasPagas > 0 && this.parcelasPagas < this.parcelasTotais) {
             setDespesaStatus(DespesaStatus.PARCIALMENTE_PAGA);
         } else if (this.parcelasPagas == this.parcelasTotais) {
-            setDespesaStatus(DespesaStatus.PAGA);
+            marcarComoPaga();
         }
     }
 }
