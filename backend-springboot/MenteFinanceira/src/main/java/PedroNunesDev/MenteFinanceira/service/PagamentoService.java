@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PagamentoService {
@@ -58,6 +59,24 @@ public class PagamentoService {
         return pagamentoDespesaDtoResponse;
     }
 
+    @Transactional
+    public void deletarPagamento(Long idPagamento){
+
+        Usuario usuario = authService.me();
+
+        PagamentoDespesa pagamento = pagamentoRepository.findPagamentosByIdPagamentoAndUsuario(idPagamento, usuario);
+
+        if (pagamento == null) throw new ResourceNotFoundException("Pagamento não encontrado");
+
+        //Pego despesa relacionada ao pagamento
+        Despesa despesa = pagamento.getDespesa();
+
+        //Ao deletar um pagamento, o numero de parcelas pagas diminui 1
+        rollBackDespesaParcelas(despesa);
+
+        pagamentoRepository.delete(pagamento);
+    }
+
     private PagamentoDespesa salvarPagamento(Despesa despesa, String tipoPagamento){
 
         LocalDate dataPagamento = LocalDate.now();
@@ -84,5 +103,11 @@ public class PagamentoService {
         PagamentoDespesaDtoResponse pagamentoDespesaDtoResponse = pagamentoDespesaMapper.toDTO(pagamento);
 
         return pagamentoDespesaDtoResponse;
+    }
+
+    private void rollBackDespesaParcelas(Despesa despesa){
+
+        despesa.rollBackDespesa();
+        despesaRepository.save(despesa);
     }
 }

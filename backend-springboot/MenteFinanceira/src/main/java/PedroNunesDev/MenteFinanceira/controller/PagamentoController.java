@@ -35,4 +35,12 @@ public class PagamentoController {
 
         return ResponseEntity.ok(pagamento);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPagamento(@PathVariable Long id){
+
+        pagamentoService.deletarPagamento(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -120,4 +120,14 @@ public class Despesa implements Serializable {
             marcarComoPaga();
         }
     }
+
+    public void rollBackDespesa(){
+
+        if (parcelasPagas > 0){
+
+            this.parcelasPagas--;
+        }
+
+        analisarParcelas();
+    }
 }
