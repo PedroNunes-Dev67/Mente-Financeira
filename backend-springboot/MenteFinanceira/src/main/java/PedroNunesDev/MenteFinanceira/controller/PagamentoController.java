@@ -6,6 +6,7 @@ import PedroNunesDev.MenteFinanceira.service.PagamentoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +22,11 @@ public class PagamentoController {
     private PagamentoService pagamentoService;
 
     @GetMapping("/me")
-    public ResponseEntity<List<PagamentoDespesaDtoResponse>> todosPagamentosUsuario(){
+    public ResponseEntity<Page<PagamentoDespesaDtoResponse>> todosPagamentosUsuario(@RequestParam int pagina,@RequestParam int items){
 
-        List<PagamentoDespesaDtoResponse> list = pagamentoService.todosPagamentosUsuario();
+        Page<PagamentoDespesaDtoResponse> paginacao = pagamentoService.todosPagamentosUsuario(pagina, items);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(paginacao);
     }
 
     @PutMapping("/{id}")

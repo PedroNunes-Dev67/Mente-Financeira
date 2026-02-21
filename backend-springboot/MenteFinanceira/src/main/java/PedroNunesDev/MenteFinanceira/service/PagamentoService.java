@@ -10,12 +10,12 @@ import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PagamentoService {
@@ -30,17 +30,13 @@ public class PagamentoService {
     private PagamentoDespesaMapper pagamentoDespesaMapper;
 
     @Transactional(readOnly = true)
-    public List<PagamentoDespesaDtoResponse> todosPagamentosUsuario(){
+    public Page<PagamentoDespesaDtoResponse> todosPagamentosUsuario(int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        List<PagamentoDespesa> listaDePagamentos = pagamentoRepository.findPagamentosByUsuario(usuario);
+        Page<PagamentoDespesa> paginacao = pagamentoRepository.findPagamentosByUsuario(usuario, criarPageable(pagina, items));
 
-        return listaDePagamentos
-                .stream()
-                .map(pagamento -> {
-                    return pagamentoDespesaMapper.toDTO(pagamento);
-                }).toList();
+        return converterParaDTO(paginacao);
     }
 
     @Transactional
@@ -109,5 +105,33 @@ public class PagamentoService {
 
         despesa.rollBackDespesa();
         despesaRepository.save(despesa);
+    }
+
+    //Métodos responsaveis por verificar parâmentros de páginação
+    private int normalizaPagina(int pagina){
+
+        //Página precisa ser maior ou igual a 0
+        return Math.max(pagina,0);
+    }
+
+    private int normalizaTamanhoDePagina(int items){
+
+        //Items de uma página devem ser maior que 0 e menor que 10
+        return Math.min(Math.max(items,1),10);
+    }
+
+    private PageRequest criarPageable(int pagina, int items){
+
+        //Faz normalização da pagina e items por página
+        return PageRequest.of(normalizaPagina(pagina), normalizaTamanhoDePagina(items));
+    }
+
+    private Page<PagamentoDespesaDtoResponse> converterParaDTO(Page<PagamentoDespesa> paginacaoCriada){
+
+        return paginacaoCriada
+                .map(pagamento -> {
+
+                    return pagamentoDespesaMapper.toDTO(pagamento);
+                });
     }
 }
