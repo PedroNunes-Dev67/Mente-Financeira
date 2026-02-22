@@ -2,6 +2,7 @@ package PedroNunesDev.MenteFinanceira.service;
 
 import PedroNunesDev.MenteFinanceira.dto.response.EstatisticaDtoResponse;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
+import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,10 @@ public class EstatisticaService {
     private PagamentoRepository pagamentoRepository;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private DespesaRepository despesaRepository;
 
-    /*public EstatisticaDtoResponse buscarEstatisticas(LocalDate dataInicial, LocalDate dataFinal){
+    public EstatisticaDtoResponse buscarEstatisticas(LocalDate dataInicial, LocalDate dataFinal){
 
         Usuario usuario = authService.me();
 
@@ -30,6 +33,12 @@ public class EstatisticaService {
 
         BigDecimal valorTotalDePagamentosPorPeriodo = pagamentoRepository.valorTotalDePagamentosPorPeriodo(dataInicial,dataFinal,usuario);
 
+        EstatisticaDtoResponse estatisticas = despesaRepository.buscarEstatisticasDeDespesasDoUsuario(usuario);
 
-    }*/
+        estatisticas.setTotalPago(valorTotalDePagamentosPorPeriodo);
+
+        estatisticas.setTotalRestante(estatisticas.getTotalGeral().subtract(valorTotalDePagamentosPorPeriodo));
+
+        return estatisticas;
+    }
 }

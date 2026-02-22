@@ -31,11 +31,11 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
 
     @Query("SELECT new PedroNunesDev.MenteFinanceira.dto.response.EstatisticaDtoResponse(" +
             " COUNT(d)," +
-            " SUM(CASE WHEN d.tipoDespesa = 'RECORRENTE' THEN 1 ELSE 0 END)," +
-            " SUM(CASE WHEN d.tipoDespesa = 'NAO_RECORRENTE' THEN 1 ELSE 0 END)" +
+            " COALESCE(SUM(CASE WHEN d.tipoDespesa = 'RECORRENTE' THEN 1 ELSE 0 END),0)," +
+            " COALESCE(SUM(CASE WHEN d.tipoDespesa = 'NAO_RECORRENTE' THEN 1 ELSE 0 END),0)," +
+            " COALESCE(SUM(d.valor),0)" +
             ")" +
             " FROM Despesa d" +
-            " WHERE d.usuario = :usuario" +
-            " AND d.despesaStatus <> PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus.PAGA")
+            " WHERE d.usuario = :usuario")
     EstatisticaDtoResponse buscarEstatisticasDeDespesasDoUsuario(@Param("usuario") Usuario usuario);
 }

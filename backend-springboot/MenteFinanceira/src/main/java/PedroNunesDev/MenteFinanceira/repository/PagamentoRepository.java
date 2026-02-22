@@ -1,6 +1,5 @@
 package PedroNunesDev.MenteFinanceira.repository;
 
-import PedroNunesDev.MenteFinanceira.dto.response.EstatisticaDtoResponse;
 import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import org.springframework.data.domain.Page;

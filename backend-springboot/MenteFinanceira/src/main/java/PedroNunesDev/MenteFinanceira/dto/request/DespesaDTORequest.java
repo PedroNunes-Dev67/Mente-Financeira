@@ -25,7 +25,7 @@ public record DespesaDTORequest(
         Integer dataVencimento,
         @Min(value = 1, message = "Parcelas totais devem ser maior que zero")
         @NotNull(message = "Parcelas totais obrigatório")
-        @Schema(example = "12")
+        @Schema(example = "12", defaultValue = "1")
         Integer parcelasTotais
 ) {
 }
