@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Tag(name = "Pagamento Controller", description = "Controlador de todas as funções relacionadas aos pagamentos das despesas")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
 @RestController
