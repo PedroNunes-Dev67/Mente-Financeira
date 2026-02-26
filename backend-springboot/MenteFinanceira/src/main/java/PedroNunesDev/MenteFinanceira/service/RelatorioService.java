@@ -87,7 +87,7 @@ public class RelatorioService {
         Set<Despesa> despesasNaoPagas = despesaRepository.buscarDespesasNaoPagas(usuario);
 
         //Pego a quantidade de despesas ativas
-        Long despesasAtivas = (long) despesasNaoPagas.size();
+        Long despesasAtivas = despesaRepository.buscarDespesasAtivas(usuario);
 
         //Removo e deixo apenas as despesas que não tiveram pagamentos no mes
         despesasNaoPagas.removeAll(relatorioBuild.getListaDeDespesasPagas());
