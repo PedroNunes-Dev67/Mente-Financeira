@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface PagamentoRepository extends JpaRepository<PagamentoDespesa,Long> {
@@ -57,7 +57,7 @@ public interface PagamentoRepository extends JpaRepository<PagamentoDespesa,Long
             " WHERE d.usuario = :usuario" +
             " AND p.diaPagamento BETWEEN :dataInicial AND :dataFinal" +
             " GROUP BY d")
-    RelatorioMensalDtoBuild relatorioMensalBuild(
+    Optional<RelatorioMensalDtoBuild> relatorioMensalBuild(
             @Param("usuario") Usuario usuario,
             @Param("dataInicial") LocalDate dataInicial,
             @Param("dataFinal") LocalDate dataFinal

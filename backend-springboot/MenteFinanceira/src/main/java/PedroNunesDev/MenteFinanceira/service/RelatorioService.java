@@ -14,9 +14,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -43,18 +42,16 @@ public class RelatorioService {
 
         Set<Despesa> despesas = pagamentoRepository.buscarDespesasPorData(dataInicial,dataFinal,usuario);
 
-        Long depesasRecorrentesPagas = 0L;
-        Long despesasNaoRecorrentesPagas = 0L;
-        for (Despesa d : despesas){
-            if (d.getTipoDespesa().equals(TipoDespesa.RECORRENTE)){
-                depesasRecorrentesPagas++;
-            }
-            else if(d.getTipoDespesa().equals(TipoDespesa.NAO_RECORRENTE)){
-                despesasNaoRecorrentesPagas++;
-            }
-        }
+        Long despesasRecorrentesPagas = despesas
+                .stream()
+                .filter(despesa -> despesa.getTipoDespesa() == TipoDespesa.RECORRENTE)
+                .count();
+        Long despesasNaoRecorrentesPagas = despesas
+                .stream()
+                .filter(despesa -> despesa.getTipoDespesa() == TipoDespesa.NAO_RECORRENTE)
+                .count();
 
-        relatorioPorData.setDespesasRecorrentesPagas(depesasRecorrentesPagas);
+        relatorioPorData.setDespesasRecorrentesPagas(despesasRecorrentesPagas);
         relatorioPorData.setDespesasNaoRecorrentesPagas(despesasNaoRecorrentesPagas);
         relatorioPorData.setAnosAnalisados(pegarAnosDaRequisicao(dataInicial,dataFinal));
         relatorioPorData.setMesesAnalisados(pegarMesesDaRequisicao(dataInicial,dataFinal));
@@ -74,12 +71,8 @@ public class RelatorioService {
         LocalDate dataFinal = LocalDate.now().withDayOfMonth(diaFinalDoMes);
 
         //Todas as despesas que tiveram pagamento no mes e a soma do valor pago
-        RelatorioMensalDtoBuild relatorioBuild = pagamentoRepository.relatorioMensalBuild(usuario, dataInicial, dataFinal);
-
-        if (relatorioBuild == null){
-            relatorioBuild = new RelatorioMensalDtoBuild();
-            relatorioBuild.setTotalDePagamento(BigDecimal.ZERO);
-        }
+        RelatorioMensalDtoBuild relatorioBuild = pagamentoRepository.relatorioMensalBuild(usuario, dataInicial, dataFinal)
+                .orElse(new RelatorioMensalDtoBuild(BigDecimal.ZERO));
 
         //Pego o total de despesas pagas no mes
         Long despesasPagas = (long) relatorioBuild.getListaDeDespesasPagas().size();
@@ -98,7 +91,7 @@ public class RelatorioService {
         BigDecimal valorTotalRestante = BigDecimal.ZERO;
 
         //Pego os valores das despesas que não tiveram pagamento no mes
-        for (Despesa d: despesasNaoQuitadas){
+        for (Despesa d: despesasNaoQuita    das){
             if (d.getValor() != null) {
                 valorTotalRestante = valorTotalRestante.add(d.getValor());
             }
@@ -120,9 +113,9 @@ public class RelatorioService {
 
 
     //Pega a data inicial e a final de requisição e retorna os meses entre elas
-    private List<String> pegarMesesDaRequisicao(LocalDate dataInicial, LocalDate dataFinal){
+    private Set<String> pegarMesesDaRequisicao(LocalDate dataInicial, LocalDate dataFinal){
 
-        List<String> listaDeMeses = new ArrayList<>();
+        Set<String> listaDeMeses = new HashSet<>();
 
         String[] meses = {"Janeiro","Fevereiro", "Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
 

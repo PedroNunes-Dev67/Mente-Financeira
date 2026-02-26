@@ -21,4 +21,8 @@ public class RelatorioMensalDtoBuild {
         this.listaDeDespesasPagas.add(despesa);
         this.totalDePagamento = totalDePagamento;
     }
+
+    public RelatorioMensalDtoBuild(BigDecimal totalDePagamento) {
+        this.totalDePagamento = totalDePagamento;
+    }
 }

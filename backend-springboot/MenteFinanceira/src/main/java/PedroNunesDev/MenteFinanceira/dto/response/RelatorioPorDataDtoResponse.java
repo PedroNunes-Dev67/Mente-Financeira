@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,7 +22,7 @@ public class RelatorioPorDataDtoResponse {
     private BigDecimal valorPagoDeNaoRecorrentes;
     private BigDecimal totalPago;
     private Set<Integer> anosAnalisados;
-    private List<String> mesesAnalisados;
+    private Set<String> mesesAnalisados;
     private LocalDate momentoDaAnalise;
 
     public RelatorioPorDataDtoResponse(Long despesasTotaisPeriodo, BigDecimal valorPagoDeRecorrentes,BigDecimal valorPagoDeNaoRecorrentes, BigDecimal totalPago) {
