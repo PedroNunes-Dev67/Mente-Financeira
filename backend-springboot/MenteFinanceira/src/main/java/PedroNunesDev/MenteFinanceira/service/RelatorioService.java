@@ -84,21 +84,21 @@ public class RelatorioService {
         //Pego o total de despesas pagas no mes
         Long despesasPagas = (long) relatorioBuild.getListaDeDespesasPagas().size();
 
-        Set<Despesa> despesasNaoPagas = despesaRepository.buscarDespesasNaoPagas(usuario);
+        Set<Despesa> despesasNaoQuitadas = despesaRepository.buscarDespesasQueNaoForamQuitadas(usuario);
 
         //Pego a quantidade de despesas ativas
         Long despesasAtivas = despesaRepository.buscarDespesasAtivas(usuario);
 
         //Removo e deixo apenas as despesas que não tiveram pagamentos no mes
-        despesasNaoPagas.removeAll(relatorioBuild.getListaDeDespesasPagas());
+        despesasNaoQuitadas.removeAll(relatorioBuild.getListaDeDespesasPagas());
 
         //Pego a quantidade de despesas não pagas
-        Long quantidadeDeDespesasNaoPagas = (long) despesasNaoPagas.size();
+        Long quantidadeDeDespesasNaoPagas = (long) despesasNaoQuitadas.size();
 
         BigDecimal valorTotalRestante = BigDecimal.ZERO;
 
         //Pego os valores das despesas que não tiveram pagamento no mes
-        for (Despesa d: despesasNaoPagas){
+        for (Despesa d: despesasNaoQuitadas){
             if (d.getValor() != null) {
                 valorTotalRestante = valorTotalRestante.add(d.getValor());
             }

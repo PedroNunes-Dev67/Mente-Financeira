@@ -35,7 +35,7 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
             " (d.despesaStatus = PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus.PARCIALMENTE_PAGA" +
             " OR" +
             " d.despesaStatus = PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus.PENDENTE)")
-    Set<Despesa> buscarDespesasNaoPagas(@Param("usuario") Usuario usuario);
+    Set<Despesa> buscarDespesasQueNaoForamQuitadas(@Param("usuario") Usuario usuario);
 
     @Query("SELECT COUNT(d) FROM Despesa d WHERE d.usuario = :usuario AND" +
             " d.despesaStatus " +
