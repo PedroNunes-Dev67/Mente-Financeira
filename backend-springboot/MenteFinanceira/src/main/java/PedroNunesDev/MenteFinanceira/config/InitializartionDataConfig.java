@@ -15,12 +15,15 @@ import java.util.Arrays;
 @Configuration
 public class InitializartionDataConfig implements CommandLineRunner {
 
-    @Autowired
     private CategoriaRepository categoriaRepository;
-    @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public InitializartionDataConfig(CategoriaRepository categoriaRepository, UsuarioRepository usuarioRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.categoriaRepository = categoriaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public void run(String... args) throws Exception {

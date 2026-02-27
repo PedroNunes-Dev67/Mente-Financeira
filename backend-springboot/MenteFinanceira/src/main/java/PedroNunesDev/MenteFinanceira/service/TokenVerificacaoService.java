@@ -6,7 +6,6 @@ import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.TokenVerificacaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,8 +16,11 @@ import java.util.UUID;
 @Service
 public class TokenVerificacaoService {
 
-    @Autowired
     private TokenVerificacaoRepository tokenVerificacaoRepository;
+
+    public TokenVerificacaoService(TokenVerificacaoRepository tokenVerificacaoRepository) {
+        this.tokenVerificacaoRepository = tokenVerificacaoRepository;
+    }
 
     public TokenVerificacao gerarTokenDeVerificacao(Usuario usuario){
 

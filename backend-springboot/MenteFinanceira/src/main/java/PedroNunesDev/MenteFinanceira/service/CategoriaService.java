@@ -7,7 +7,6 @@ import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.mapper.CategoriaMapper;
 import PedroNunesDev.MenteFinanceira.model.Categoria;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +15,13 @@ import java.util.List;
 @Service
 public class CategoriaService {
 
-    @Autowired
     private CategoriaRepository categoriaRepository;
-    @Autowired
     private CategoriaMapper categoriaMapper;
+
+    public CategoriaService(CategoriaRepository categoriaRepository, CategoriaMapper categoriaMapper) {
+        this.categoriaRepository = categoriaRepository;
+        this.categoriaMapper = categoriaMapper;
+    }
 
     @Transactional(readOnly = true)
     public CategoriaDtoResponse findById(Long id){

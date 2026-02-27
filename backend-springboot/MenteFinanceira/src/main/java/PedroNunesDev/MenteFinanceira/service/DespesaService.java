@@ -11,7 +11,6 @@ import PedroNunesDev.MenteFinanceira.model.enums.DespesaStatus;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,14 +21,17 @@ import java.util.Optional;
 @Service
 public class DespesaService {
 
-    @Autowired
     private DespesaRepository despesaRepository;
-    @Autowired
     private CategoriaRepository categoriaRepository;
-    @Autowired
     private AuthService authService;
-    @Autowired
     private DespesaMapper despesaMapper;
+
+    public DespesaService(DespesaRepository despesaRepository, CategoriaRepository categoriaRepository, AuthService authService, DespesaMapper despesaMapper) {
+        this.despesaRepository = despesaRepository;
+        this.categoriaRepository = categoriaRepository;
+        this.authService = authService;
+        this.despesaMapper = despesaMapper;
+    }
 
     @Transactional
     public DespesaDtoResponse cadastrarDespesa(DespesaDTORequest despesaDTORequest){

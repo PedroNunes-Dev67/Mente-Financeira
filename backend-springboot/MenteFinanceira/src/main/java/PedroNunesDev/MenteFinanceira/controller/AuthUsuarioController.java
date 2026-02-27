@@ -4,10 +4,10 @@ import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthUsuarioController {
 
-    @Autowired
     private AuthService authService;
 
+    public AuthUsuarioController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @Operation(summary = "Valida token de verificação de email",
+            description = "Token passado passa por validações para verificar usuário" +
+                    " `ABERTO`")
     @PostMapping
     public ResponseEntity<UsuarioDTOResponse> validarTokenValidacaoEmail(@RequestBody @Valid TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 

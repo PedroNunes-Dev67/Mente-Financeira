@@ -8,25 +8,26 @@ import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.model.enums.TipoDespesa;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class RelatorioService {
 
-    @Autowired
     private PagamentoRepository pagamentoRepository;
-    @Autowired
     private AuthService authService;
-    @Autowired
     private DespesaRepository despesaRepository;
+
+    public RelatorioService(PagamentoRepository pagamentoRepository, AuthService authService, DespesaRepository despesaRepository) {
+        this.pagamentoRepository = pagamentoRepository;
+        this.authService = authService;
+        this.despesaRepository = despesaRepository;
+    }
 
     public RelatorioPorDataDtoResponse relatorioPorData(LocalDate dataInicial, LocalDate dataFinal){
 
@@ -91,7 +92,7 @@ public class RelatorioService {
         BigDecimal valorTotalRestante = BigDecimal.ZERO;
 
         //Pego os valores das despesas que não tiveram pagamento no mes
-        for (Despesa d: despesasNaoQuita    das){
+        for (Despesa d: despesasNaoQuitadas){
             if (d.getValor() != null) {
                 valorTotalRestante = valorTotalRestante.add(d.getValor());
             }

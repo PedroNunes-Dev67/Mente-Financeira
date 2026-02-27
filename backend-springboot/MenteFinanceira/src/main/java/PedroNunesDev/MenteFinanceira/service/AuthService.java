@@ -7,11 +7,9 @@ import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.exception.UsuarioNaoVerificadoException;
 import PedroNunesDev.MenteFinanceira.mapper.UsuarioMapper;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
-
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import PedroNunesDev.MenteFinanceira.security.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,16 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-    @Autowired
     private TokenVerificacaoService tokenVerificacaoService;
-    @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
     private TokenService tokenService;
-    @Autowired
     private UsuarioMapper usuarioMapper;
+
+    public AuthService(TokenVerificacaoService tokenVerificacaoService, UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager, TokenService tokenService, UsuarioMapper usuarioMapper) {
+        this.tokenVerificacaoService = tokenVerificacaoService;
+        this.usuarioRepository = usuarioRepository;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+        this.usuarioMapper = usuarioMapper;
+    }
 
     @Transactional
     public UsuarioDTOResponse confirmarValidacaoDeEmail(TokenVerificacaoDTORequest tokenVerificacaoDTORequest){

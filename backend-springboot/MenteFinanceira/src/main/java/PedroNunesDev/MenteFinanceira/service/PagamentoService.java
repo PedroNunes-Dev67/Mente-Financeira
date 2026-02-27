@@ -9,7 +9,6 @@ import PedroNunesDev.MenteFinanceira.model.PagamentoDespesa;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import PedroNunesDev.MenteFinanceira.repository.PagamentoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,17 @@ import java.time.LocalDate;
 @Service
 public class PagamentoService {
 
-    @Autowired
     private PagamentoRepository pagamentoRepository;
-    @Autowired
     private DespesaRepository despesaRepository;
-    @Autowired
     private AuthService authService;
-    @Autowired
     private PagamentoDespesaMapper pagamentoDespesaMapper;
+
+    public PagamentoService(PagamentoRepository pagamentoRepository, DespesaRepository despesaRepository, AuthService authService, PagamentoDespesaMapper pagamentoDespesaMapper) {
+        this.pagamentoRepository = pagamentoRepository;
+        this.despesaRepository = despesaRepository;
+        this.authService = authService;
+        this.pagamentoDespesaMapper = pagamentoDespesaMapper;
+    }
 
     @Transactional(readOnly = true)
     public Page<PagamentoDespesaDtoResponse> todosPagamentosUsuario(int pagina, int items){

@@ -20,18 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UsuarioService {
 
-    @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
     private TokenVerificacaoService tokenVerificacaoService;
-    @Autowired
     private BCryptPasswordEncoder bcrypt;
-    @Autowired
     private AuthService authService;
-    @Autowired
     private UsuarioMapper usuarioMapper;
-    @Autowired
     private TokenVerificacaoMapper tokenVerificacaoMapper;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenVerificacaoService tokenVerificacaoService, BCryptPasswordEncoder bcrypt, AuthService authService, UsuarioMapper usuarioMapper, TokenVerificacaoMapper tokenVerificacaoMapper) {
+        this.usuarioRepository = usuarioRepository;
+        this.tokenVerificacaoService = tokenVerificacaoService;
+        this.bcrypt = bcrypt;
+        this.authService = authService;
+        this.usuarioMapper = usuarioMapper;
+        this.tokenVerificacaoMapper = tokenVerificacaoMapper;
+    }
 
     @Transactional
     public TokenVerificacaoDtoResponse cadastrarUsuario(UsuarioDTORequest usuarioDTORequest){

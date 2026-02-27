@@ -2,19 +2,16 @@ package PedroNunesDev.MenteFinanceira.controller;
 
 import PedroNunesDev.MenteFinanceira.dto.request.DespesaDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.DespesaDtoResponse;
-import PedroNunesDev.MenteFinanceira.model.Despesa;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.DespesaService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "Despesa Controller",description = "Controlador de todas as funções relacionadas as despesas")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
@@ -22,9 +19,15 @@ import java.util.List;
 @RequestMapping("/despesas")
 public class DespesaController {
 
-    @Autowired
     private DespesaService despesaService;
 
+    public DespesaController(DespesaService despesaService) {
+        this.despesaService = despesaService;
+    }
+
+    @Operation(summary = "Cadastrar despesa",
+            description = "Realiza o cadastro de uma nova despesa" +
+                    " `AUTENTICAÇÃO NESCESSÁRIA`")
     @PostMapping
     public ResponseEntity<DespesaDtoResponse> cadastrarFinanca(@RequestBody @Valid DespesaDTORequest despesaDTORequest){
 
@@ -33,6 +36,9 @@ public class DespesaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novaDespesa);
     }
 
+    @Operation(summary = "Deletar despesa",
+            description = "Deleta uma despesa do usuário" +
+                    " `AUTENTICAÇÃO NESCESSÁRIA`")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarDespesa(@PathVariable Long id){
 
@@ -40,6 +46,9 @@ public class DespesaController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Atualizar despesa",
+            description = "Realiza a atualização de uma despesa do usuário" +
+                    " `AUTENTICAÇÃO NESCESSÁRIA`")
     @PutMapping("/{id}")
     public ResponseEntity<DespesaDtoResponse> atualizarDespesa(@PathVariable Long id, @RequestBody DespesaDTORequest despesaDTORequest){
 
@@ -48,6 +57,9 @@ public class DespesaController {
         return ResponseEntity.ok(despesaAtualizada);
     }
 
+    @Operation(summary = "Buscar todas as depesas do usuário",
+            description = "Realiza a busca das despesas do usuario com paginação" +
+                    " `AUTENTICAÇÃO NESCESSÁRIA`")
     @GetMapping("/me")
     public ResponseEntity<Page<DespesaDtoResponse>> buscarTodasDespesasPorUsuario(@RequestParam int pagina, @RequestParam int items){
 
