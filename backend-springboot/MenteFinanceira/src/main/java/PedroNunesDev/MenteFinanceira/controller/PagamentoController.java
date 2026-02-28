@@ -4,6 +4,7 @@ import PedroNunesDev.MenteFinanceira.dto.response.PagamentoDespesaDtoResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.PagamentoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Pagamento Controller", description = "Controlador de todas as funções relacionadas aos pagamentos das despesas")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
+@ApiResponse(responseCode = "403",description = "Erro de autenticação do usuário")
 @RestController
 @RequestMapping("/pagamentos")
 public class PagamentoController {

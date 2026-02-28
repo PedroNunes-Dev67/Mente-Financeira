@@ -7,6 +7,7 @@ import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Usuario Controller", description = "Controlador de todas as funções relacionadas ao usuário")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
+@ApiResponse(responseCode = "403",description = "Erro de autenticação do usuário")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {

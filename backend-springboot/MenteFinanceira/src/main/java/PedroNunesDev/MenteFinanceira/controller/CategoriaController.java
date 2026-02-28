@@ -5,6 +5,7 @@ import PedroNunesDev.MenteFinanceira.dto.response.CategoriaDtoResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Tag(name = "Categoria Controller", description = "Controlador de todas as funções relacionadas as categorias")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
+@ApiResponse(responseCode = "403",description = "Erro de autenticação do usuário")
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
