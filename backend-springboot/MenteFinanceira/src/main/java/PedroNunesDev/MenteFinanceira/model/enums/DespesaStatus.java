@@ -15,4 +15,21 @@ public enum DespesaStatus {
     public String getStatus(){
         return status;
     }
+
+    public static DespesaStatus from(String status){
+
+        DespesaStatus despesaStatus = null;
+
+        for (DespesaStatus d: values()){
+            if (d.status.equals(status)){
+                despesaStatus = d;
+            }
+        }
+
+        if (despesaStatus == null){
+            throw new IllegalArgumentException("Status de despesa incorreto");
+        }
+
+        return despesaStatus;
+    }
 }

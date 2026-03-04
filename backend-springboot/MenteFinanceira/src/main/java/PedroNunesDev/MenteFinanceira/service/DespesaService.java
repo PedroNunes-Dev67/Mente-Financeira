@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -108,11 +109,11 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasPendentes(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasPorTipo(String tipoDespesa, int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PENDENTE, criarPageable(pagina, items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.from(tipoDespesa), usuario, criarPageable(pagina, items));
 
         Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 
@@ -120,11 +121,11 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasPagas(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasPorTipoEhStatus(String tipoDespesa, String statusDespesa,int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByUsuarioAndDespesaStatus(usuario, DespesaStatus.PAGA, criarPageable(pagina, items));
+        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.from(tipoDespesa), usuario, DespesaStatus.from(statusDespesa), criarPageable(pagina, items));
 
         Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
 
@@ -132,75 +133,15 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasRecorrentesUsuario(int pagina, int items){
+    public Page<DespesaDtoResponse> despesasPorData(LocalDate dataInicial, LocalDate dataFinal, int pagina, int items){
 
         Usuario usuario = authService.me();
 
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.RECORRENTE, usuario, criarPageable(pagina, items));
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesasPorData(dataInicial,dataFinal,usuario, criarPageable(pagina,items));
 
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
+        Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
 
-        return paginacaoDeRespostaDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuario(int pagina, int items){
-
-        Usuario usuario = authService.me();
-
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuario(TipoDespesa.NAO_RECORRENTE, usuario, criarPageable(pagina, items));
-
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
-
-        return paginacaoDeRespostaDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuarioPagas(int pagina, int items){
-
-        Usuario usuario = authService.me();
-
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PAGA, criarPageable(pagina, items));
-
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
-
-        return paginacaoDeRespostaDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasNaoRecorrentesUsuarioPendentes(int pagina, int items){
-
-        Usuario usuario = authService.me();
-
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.NAO_RECORRENTE, usuario, DespesaStatus.PENDENTE, criarPageable(pagina, items));
-
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
-
-        return paginacaoDeRespostaDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasRecorrentesUsuarioPagas(int pagina, int items){
-
-        Usuario usuario = authService.me();
-
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PAGA, criarPageable(pagina, items));
-
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
-
-        return paginacaoDeRespostaDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<DespesaDtoResponse> despesasRecorrentesUsuarioPendentes(int pagina, int items){
-
-        Usuario usuario = authService.me();
-
-        Page<Despesa> paginacaoCriada = despesaRepository.findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa.RECORRENTE, usuario,DespesaStatus.PENDENTE, criarPageable(pagina, items));
-
-        Page<DespesaDtoResponse> paginacaoDeRespostaDTO = converterParaDTO(paginacaoCriada);
-
-        return paginacaoDeRespostaDTO;
+        return despesasBuscadasDto;
     }
 
     //Métodos responsaveis por verificar parâmentros de páginação

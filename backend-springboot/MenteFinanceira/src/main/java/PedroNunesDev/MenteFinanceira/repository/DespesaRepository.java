@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ public interface DespesaRepository extends JpaRepository<Despesa,Long> {
     Page<Despesa> findByTipoDespesaAndUsuario(TipoDespesa tipoDespesa, Usuario usuario, Pageable pageable);
 
     Page<Despesa> findByTipoDespesaAndUsuarioAndDespesaStatus(TipoDespesa tipoDespesa, Usuario usuario, DespesaStatus despesaStatus, Pageable pageable);
+
+    @Query("SELECT d FROM Despesa d WHERE d.usuario = :usuario AND d.dataCriacao BETWEEN :dataInicial AND :dataFinal")
+    Page<Despesa> findByDespesasPorData(@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate datafinal, @Param("usuario") Usuario usuario, Pageable pageable);
 
     Page<Despesa> findByUsuario(Usuario usuario, Pageable pageable);
 
