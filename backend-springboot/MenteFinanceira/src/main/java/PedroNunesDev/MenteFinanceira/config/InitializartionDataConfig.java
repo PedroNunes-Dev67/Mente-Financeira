@@ -45,9 +45,9 @@ public class InitializartionDataConfig implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4,categoria5,categoria6,categoria7,categoria8,categoria9,categoria10,
                 categoria11,categoria12,categoria13));
 
-        String senhaCripto = bCryptPasswordEncoder.encode("pedro1234");
+        String senhaCripto = bCryptPasswordEncoder.encode("exemplo1234");
 
-        Usuario usuarioAdmin = new Usuario("Pedro Nunes", "pedro@gmail.com", senhaCripto, UsuarioRole.ADMIN);
+        Usuario usuarioAdmin = new Usuario("Pedro Nunes", "exemplo@gmail.com", senhaCripto, UsuarioRole.ADMIN);
         usuarioAdmin.setVerificacaoEmail(true);
 
         usuarioRepository.save(usuarioAdmin);

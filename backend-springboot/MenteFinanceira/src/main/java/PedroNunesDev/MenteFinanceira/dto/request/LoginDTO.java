@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 public record LoginDTO(
         @NotBlank(message = "Email obrigatório")
         @Email(message = "Email inválido")
-        @Schema(example = "exemple@gmail.com")
+        @Schema(example = "exemplo@gmail.com")
         String email,
         @NotBlank(message = "Senha obrigatória")
         @Schema(example = "exemplo1234")

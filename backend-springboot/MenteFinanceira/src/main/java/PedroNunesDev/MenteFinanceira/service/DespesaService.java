@@ -13,10 +13,14 @@ import PedroNunesDev.MenteFinanceira.repository.CategoriaRepository;
 import PedroNunesDev.MenteFinanceira.repository.DespesaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -121,6 +125,18 @@ public class DespesaService {
     }
 
     @Transactional(readOnly = true)
+    public Page<DespesaDtoResponse> despesasPorStatus(String despesaStatus, int pagina, int items){
+
+        Usuario usuario = authService.me();
+
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesaStatusAndUsuario(DespesaStatus.from(despesaStatus), usuario, criarPageable(pagina,items));
+
+        Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
+
+        return despesasBuscadasDto;
+    }
+
+    @Transactional(readOnly = true)
     public Page<DespesaDtoResponse> despesasPorTipoEhStatus(String tipoDespesa, String statusDespesa,int pagina, int items){
 
         Usuario usuario = authService.me();
@@ -135,9 +151,65 @@ public class DespesaService {
     @Transactional(readOnly = true)
     public Page<DespesaDtoResponse> despesasPorData(LocalDate dataInicial, LocalDate dataFinal, int pagina, int items){
 
+        validarDatas(dataInicial,dataFinal);
+
         Usuario usuario = authService.me();
 
-        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesasPorData(dataInicial,dataFinal,usuario, criarPageable(pagina,items));
+        LocalDateTime dataInicialFormatada = dataInicial.atStartOfDay();
+        LocalDateTime dataFinalFormatada = dataFinal.atStartOfDay();
+
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesasPorData(dataInicialFormatada,dataFinalFormatada,usuario, criarPageable(pagina,items));
+
+        Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
+
+        return despesasBuscadasDto;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DespesaDtoResponse> despesasPorDataEhTipo(LocalDate dataInicial, LocalDate dataFinal, String tipoDespesa, int pagina, int items){
+
+        validarDatas(dataInicial,dataFinal);
+
+        Usuario usuario = authService.me();
+
+        LocalDateTime dataInicialFormatada = dataInicial.atStartOfDay();
+        LocalDateTime dataFinalFormatada = dataFinal.atStartOfDay();
+
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesaPorDataAndTipo(dataInicialFormatada,dataFinalFormatada,usuario,TipoDespesa.from(tipoDespesa), criarPageable(pagina,items));
+
+        Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
+
+        return despesasBuscadasDto;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DespesaDtoResponse> despesasPorDataEhDespesaStatus(LocalDate dataInicial, LocalDate dataFinal, String despesaStatus, int pagina, int items){
+
+        validarDatas(dataInicial,dataFinal);
+
+        Usuario usuario = authService.me();
+
+        LocalDateTime dataInicialFormatada = dataInicial.atStartOfDay();
+        LocalDateTime dataFinalFormatada = dataFinal.atStartOfDay();
+
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesaPorDataAndDespesaStatus(dataInicialFormatada,dataFinalFormatada,usuario,DespesaStatus.from(despesaStatus), criarPageable(pagina,items));
+
+        Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
+
+        return despesasBuscadasDto;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DespesaDtoResponse> despesasPorDataEhTipoDespesaEhDespesaStatus(LocalDate dataInicial, LocalDate dataFinal, String tipoDespesa, String despesaStatus, int pagina, int items){
+
+        validarDatas(dataInicial,dataFinal);
+
+        Usuario usuario = authService.me();
+
+        LocalDateTime dataInicialFormatada = dataInicial.atStartOfDay();
+        LocalDateTime dataFinalFormatada = dataFinal.atStartOfDay();
+
+        Page<Despesa> despesasBuscadas = despesaRepository.findByDespesaPorDataAndTipoDespesaAndDespesaStatus(dataInicialFormatada,dataFinalFormatada,usuario, TipoDespesa.from(tipoDespesa),DespesaStatus.from(despesaStatus), criarPageable(pagina,items));
 
         Page<DespesaDtoResponse> despesasBuscadasDto = converterParaDTO(despesasBuscadas);
 
@@ -169,7 +241,7 @@ public class DespesaService {
     private PageRequest criarPageable(int pagina, int items){
 
         //Faz normalização da pagina e items por página
-        return PageRequest.of(normalizaPagina(pagina), normalizaTamanhoDePagina(items));
+        return PageRequest.of(normalizaPagina(pagina), normalizaTamanhoDePagina(items), Sort.by("dataCriacao").descending());
     }
 
     private Despesa atualizarDadosDespesa(Despesa despesa, DespesaDTORequest despesaDTORequest){
@@ -188,5 +260,14 @@ public class DespesaService {
 
         despesaRepository.save(despesa);
         return despesa;
+    }
+
+    private void validarDatas(LocalDate dataInicial,LocalDate dataFinal){
+
+        if (dataInicial.isAfter(dataFinal)) throw new IllegalArgumentException("Data inicial não pode ser posterior a data final");
+
+        boolean intervaloDeMeses = ChronoUnit.MONTHS.between(dataInicial,dataFinal) > 3;
+
+        if (intervaloDeMeses) throw new IllegalArgumentException("Intervalo de meses superior ao suportado, busca de até 3 meses permitido");
     }
 }

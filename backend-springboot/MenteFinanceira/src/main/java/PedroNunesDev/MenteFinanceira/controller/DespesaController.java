@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Tag(name = "Despesa Controller",description = "Controlador de todas as funções relacionadas as despesas")
 @SecurityRequirement(name = SecurityConfiguration.SECURITY)
@@ -86,6 +87,14 @@ public class DespesaController {
         return ResponseEntity.ok(paginacao);
     }
 
+    @GetMapping("/me/status")
+    public ResponseEntity<Page<DespesaDtoResponse>> despesasPorStatus(@RequestParam String despesaStatus, @RequestParam int pagina, @RequestParam int items){
+
+        Page<DespesaDtoResponse> paginacao  = despesaService.despesasPorStatus(despesaStatus, pagina, items);
+
+        return ResponseEntity.ok(paginacao);
+    }
+
     @GetMapping("/me/tipo/status")
     public ResponseEntity<Page<DespesaDtoResponse>> despesasPorTipoEhStatus(@RequestParam String tipoDespesa, @RequestParam String statusDespesa, @RequestParam int pagina, @RequestParam int items) {
 
@@ -98,6 +107,30 @@ public class DespesaController {
     public ResponseEntity<Page<DespesaDtoResponse>> buscarDespesasPorData(@RequestParam LocalDate dataInicial, @RequestParam LocalDate dataFinal, @RequestParam int pagina, @RequestParam int items){
 
         Page<DespesaDtoResponse> despesas = despesaService.despesasPorData(dataInicial,dataFinal,pagina,items);
+
+        return ResponseEntity.ok(despesas);
+    }
+
+    @GetMapping("/me/data/tipo")
+    public ResponseEntity<Page<DespesaDtoResponse>> buscarDespesasPorDataEhTipo(@RequestParam LocalDate dataInicial, @RequestParam LocalDate dataFinal, @RequestParam String tipoDespesa , @RequestParam int pagina, @RequestParam int items){
+
+        Page<DespesaDtoResponse> despesas = despesaService.despesasPorDataEhTipo(dataInicial,dataFinal,tipoDespesa,pagina,items);
+
+        return ResponseEntity.ok(despesas);
+    }
+
+    @GetMapping("/me/data/status")
+    public ResponseEntity<Page<DespesaDtoResponse>> buscarDespesasPorDataEhDespesaStatus(@RequestParam LocalDate dataInicial, @RequestParam LocalDate dataFinal, @RequestParam String despesaStatus , @RequestParam int pagina, @RequestParam int items){
+
+        Page<DespesaDtoResponse> despesas = despesaService.despesasPorDataEhDespesaStatus(dataInicial,dataFinal,despesaStatus,pagina,items);
+
+        return ResponseEntity.ok(despesas);
+    }
+
+    @GetMapping("/me/data/tipo/status")
+    public ResponseEntity<Page<DespesaDtoResponse>> buscarDespesasPorDataEhTipoEhStatus(@RequestParam LocalDate dataInicial, @RequestParam LocalDate dataFinal, @RequestParam String tipoDespesa , @RequestParam String despesaStatus,  @RequestParam int pagina, @RequestParam int items){
+
+        Page<DespesaDtoResponse> despesas = despesaService.despesasPorDataEhTipoDespesaEhDespesaStatus(dataInicial,dataFinal,tipoDespesa,despesaStatus,pagina,items);
 
         return ResponseEntity.ok(despesas);
     }
