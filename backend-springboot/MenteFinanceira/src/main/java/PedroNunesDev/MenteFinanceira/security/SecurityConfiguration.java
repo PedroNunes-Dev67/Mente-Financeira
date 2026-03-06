@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                 .headers(hearder -> hearder.frameOptions(frame -> frame.sameOrigin()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers( "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios/login","/usuarios/cadastro", "/auth").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios/login","/usuarios/cadastro", "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/categorias").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/categorias/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/categorias/{id}").hasRole("ADMIN")
