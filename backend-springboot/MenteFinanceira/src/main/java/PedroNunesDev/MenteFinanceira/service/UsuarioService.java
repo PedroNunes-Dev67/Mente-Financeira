@@ -1,17 +1,15 @@
 package PedroNunesDev.MenteFinanceira.service;
 
-import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
-import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.request.LoginDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.request.UsuarioDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.LoginDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.TokenVerificacaoDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.mapper.TokenVerificacaoMapper;
 import PedroNunesDev.MenteFinanceira.mapper.UsuarioMapper;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
-import PedroNunesDev.MenteFinanceira.model.enums.UsuarioRole;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +46,7 @@ public class UsuarioService {
             usuario = new Usuario(
                     usuarioDTORequest.nome(),
                     usuarioDTORequest.email(),
-                    senha,
-                    UsuarioRole.USUARIO
+                    senha
             );
 
             usuario = usuarioRepository.save(usuario);
@@ -77,11 +74,11 @@ public class UsuarioService {
     }
 
     @Transactional
-    public TokenVerificacaoDtoResponse login(LoginDTO loginDTO){
+    public LoginDtoResponse login(LoginDTORequest loginDTORequest){
 
-        String token = authService.validarLogin(loginDTO);
+        LoginDtoResponse tokens = authService.validarLogin(loginDTORequest);
 
-        return new TokenVerificacaoDtoResponse(token);
+        return tokens;
     }
 
     @Transactional

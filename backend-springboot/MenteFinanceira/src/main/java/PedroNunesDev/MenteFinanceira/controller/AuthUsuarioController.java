@@ -1,6 +1,8 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
+import PedroNunesDev.MenteFinanceira.dto.request.RefreshDtoRequest;
 import PedroNunesDev.MenteFinanceira.dto.request.TokenVerificacaoDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.LoginDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
 import PedroNunesDev.MenteFinanceira.service.AuthService;
@@ -31,11 +33,27 @@ public class AuthUsuarioController {
     @Operation(summary = "Valida token de verificação de email",
             description = "Token passado passa por validações para verificar usuário" +
                     " `ABERTO`")
-    @PostMapping
+    @PostMapping("/email")
     public ResponseEntity<UsuarioDTOResponse> validarTokenValidacaoEmail(@RequestBody @Valid TokenVerificacaoDTORequest tokenVerificacaoDTORequest){
 
         UsuarioDTOResponse usuarioDTOResponse = authService.confirmarValidacaoDeEmail(tokenVerificacaoDTORequest);
 
         return ResponseEntity.ok(usuarioDTOResponse);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginDtoResponse> refresh(@RequestBody @Valid RefreshDtoRequest refreshDtoRequest){
+
+        LoginDtoResponse loginDtoResponse = authService.refreshToken(refreshDtoRequest);
+
+        return ResponseEntity.ok(loginDtoResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody @Valid RefreshDtoRequest refreshDtoRequest){
+
+        authService.logout(refreshDtoRequest);
+
+        return ResponseEntity.noContent().build();
     }
 }

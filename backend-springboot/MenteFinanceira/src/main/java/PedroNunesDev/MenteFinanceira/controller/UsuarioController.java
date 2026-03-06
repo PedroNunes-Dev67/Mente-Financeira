@@ -1,7 +1,8 @@
 package PedroNunesDev.MenteFinanceira.controller;
 
-import PedroNunesDev.MenteFinanceira.dto.request.LoginDTO;
+import PedroNunesDev.MenteFinanceira.dto.request.LoginDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.request.UsuarioDTORequest;
+import PedroNunesDev.MenteFinanceira.dto.response.LoginDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.TokenVerificacaoDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
 import PedroNunesDev.MenteFinanceira.security.SecurityConfiguration;
@@ -42,11 +43,11 @@ public class UsuarioController {
             description = "Realiza o login do usuário" +
                     " `ABERTO`")
     @PostMapping("/login")
-    public ResponseEntity<TokenVerificacaoDtoResponse> login(@RequestBody @Valid LoginDTO loginDTO){
+    public ResponseEntity<LoginDtoResponse> login(@RequestBody @Valid LoginDTORequest loginDTORequest){
 
-        TokenVerificacaoDtoResponse token = usuarioService.login(loginDTO);
+        LoginDtoResponse tokens = usuarioService.login(loginDTORequest);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(tokens);
     }
 
     @Operation(summary = "Cadastrar Usuário",

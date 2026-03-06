@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.security;
 
+import PedroNunesDev.MenteFinanceira.exception.RecursoInvalidoException;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -26,7 +27,7 @@ public class TokenService {
                     .sign(algorithm);
             return token;
         }catch (JWTCreationException e){
-            throw new RuntimeException("Error ao gerar token");
+            throw new RecursoInvalidoException("Error ao gerar token:" + e.getMessage());
         }
     }
 
@@ -41,11 +42,11 @@ public class TokenService {
                     .getSubject();
 
         }catch (JWTVerificationException e){
-                return "";
+                return null;
         }
     }
 
     private Instant tokenExpired(){
-        return Instant.now().plusSeconds(1296000);
+        return Instant.now().plusSeconds(3600);
     }
 }
