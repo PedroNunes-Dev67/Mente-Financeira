@@ -1,7 +1,10 @@
 package PedroNunesDev.MenteFinanceira.security;
 
+import PedroNunesDev.MenteFinanceira.security.exception.CustomAcessDeniedHandler;
+import PedroNunesDev.MenteFinanceira.security.exception.CustomAuthenticationEntryPoint;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +30,15 @@ public class SecurityConfiguration {
 
     public static final String SECURITY = "bearerSecurity";
 
-    @Autowired
-    private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAcessDeniedHandler customAcessDeniedHandler;
+
+    public SecurityConfiguration(SecurityFilter securityFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAcessDeniedHandler customAcessDeniedHandler) {
+        this.securityFilter = securityFilter;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAcessDeniedHandler = customAcessDeniedHandler;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -47,7 +57,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAcessDeniedHandler)
+                ).build();
     }
 
     @Bean
