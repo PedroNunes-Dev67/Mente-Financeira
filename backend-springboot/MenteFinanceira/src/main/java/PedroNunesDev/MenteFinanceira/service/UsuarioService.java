@@ -5,10 +5,13 @@ import PedroNunesDev.MenteFinanceira.dto.request.UsuarioDTORequest;
 import PedroNunesDev.MenteFinanceira.dto.response.LoginDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.TokenVerificacaoDtoResponse;
 import PedroNunesDev.MenteFinanceira.dto.response.UsuarioDTOResponse;
+import PedroNunesDev.MenteFinanceira.exception.ResourceNotFoundException;
 import PedroNunesDev.MenteFinanceira.mapper.TokenVerificacaoMapper;
 import PedroNunesDev.MenteFinanceira.mapper.UsuarioMapper;
+import PedroNunesDev.MenteFinanceira.model.Role;
 import PedroNunesDev.MenteFinanceira.model.TokenVerificacao;
 import PedroNunesDev.MenteFinanceira.model.Usuario;
+import PedroNunesDev.MenteFinanceira.repository.RoleRepository;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,14 +27,16 @@ public class UsuarioService {
     private AuthService authService;
     private UsuarioMapper usuarioMapper;
     private TokenVerificacaoMapper tokenVerificacaoMapper;
+    private final RoleRepository roleRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenVerificacaoService tokenVerificacaoService, BCryptPasswordEncoder bcrypt, AuthService authService, UsuarioMapper usuarioMapper, TokenVerificacaoMapper tokenVerificacaoMapper) {
-        this.usuarioRepository = usuarioRepository;
-        this.tokenVerificacaoService = tokenVerificacaoService;
-        this.bcrypt = bcrypt;
-        this.authService = authService;
-        this.usuarioMapper = usuarioMapper;
+    public UsuarioService(RoleRepository roleRepository, TokenVerificacaoMapper tokenVerificacaoMapper, UsuarioMapper usuarioMapper, AuthService authService, BCryptPasswordEncoder bcrypt, TokenVerificacaoService tokenVerificacaoService, UsuarioRepository usuarioRepository) {
+        this.roleRepository = roleRepository;
         this.tokenVerificacaoMapper = tokenVerificacaoMapper;
+        this.usuarioMapper = usuarioMapper;
+        this.authService = authService;
+        this.bcrypt = bcrypt;
+        this.tokenVerificacaoService = tokenVerificacaoService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional
@@ -41,6 +46,9 @@ public class UsuarioService {
 
         if (usuario == null){
 
+            Role role = roleRepository.findById((long)1)
+                    .orElseThrow(() -> new ResourceNotFoundException("Role não encontrada"));
+
             String senha = bcrypt.encode(usuarioDTORequest.senha());
 
             usuario = new Usuario(
@@ -48,6 +56,8 @@ public class UsuarioService {
                     usuarioDTORequest.email(),
                     senha
             );
+
+            usuario.getRoles().add(role);
 
             usuario = usuarioRepository.save(usuario);
 

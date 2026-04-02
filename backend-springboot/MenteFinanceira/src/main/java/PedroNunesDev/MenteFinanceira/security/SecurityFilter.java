@@ -1,5 +1,6 @@
 package PedroNunesDev.MenteFinanceira.security;
 
+import PedroNunesDev.MenteFinanceira.model.Usuario;
 import PedroNunesDev.MenteFinanceira.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -29,11 +32,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null){
             String email = tokenService.validationToken(token);
-            UserDetails userDetails = usuarioRepository.findByEmail(email).orElse(null);
 
-            if (userDetails != null) {
+            System.out.println("Email do toke: "+email);
+            Usuario usuario = usuarioRepository.buscarRolesDoUsuario(email).orElse(null);
+            System.out.println("Usuario: "+usuario);
 
-                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            if (usuario != null) {
+
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

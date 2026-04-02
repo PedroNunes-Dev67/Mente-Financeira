@@ -61,3 +61,14 @@ CREATE TABLE token_verificacao (
                                    duracao     DATETIME,
                                    id_usuario  BIGINT
 );
+
+CREATE TABLE refresh_token (
+                               id_refresh_token BIGINT NOT NULL AUTO_INCREMENT,
+                               token            VARCHAR(255) NOT NULL UNIQUE,
+                               id_usuario       BIGINT UNIQUE,
+                               expires_at       TIMESTAMP NOT NULL,
+
+                               CONSTRAINT pk_refresh_token PRIMARY KEY (id_refresh_token),
+                               CONSTRAINT fk_refresh_token_usuario
+                                   FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+);

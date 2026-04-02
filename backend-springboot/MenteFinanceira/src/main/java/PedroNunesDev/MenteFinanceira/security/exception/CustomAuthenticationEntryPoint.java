@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         DefaultExceptionModel exceptionModel = new DefaultExceptionModel(
                 Instant.now(),
-                "Usuário não autenticado",
+                "Usuario nao autenticado",
                 401,
                 authException.getMessage()
         );
