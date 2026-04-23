@@ -1,4 +1,4 @@
-CREATE TABLE role (
+    CREATE TABLE role (
                       id_role     BIGINT AUTO_INCREMENT PRIMARY KEY,
                       role_name   VARCHAR(255) NOT NULL
 );
@@ -36,9 +36,9 @@ CREATE TABLE despesa (
                          data_atualizacao_despesa DATETIME,
                          parcelas_totais_despesa INT NOT NULL,
                          parcelas_pagas_despesa  INT NOT NULL,
-                         idCategoria             BIGINT,
+                         id_categoria             BIGINT,
                          CONSTRAINT fk_despesa_usuario   FOREIGN KEY (id_usuario)  REFERENCES usuario(id_usuario),
-                         CONSTRAINT fk_despesa_categoria FOREIGN KEY (idCategoria) REFERENCES categoria(id_categoria)
+                         CONSTRAINT fk_despesa_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
 CREATE TABLE pagamento_despesa (

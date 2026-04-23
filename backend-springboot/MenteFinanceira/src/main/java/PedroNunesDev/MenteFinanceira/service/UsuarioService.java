@@ -67,8 +67,6 @@ public class UsuarioService {
         }
         else{
 
-            if (usuario.isVerificacaoEmail()) throw new RuntimeException();
-
             //Pega algum possivel token que ainda está para uso
             TokenVerificacao tokenVerificacaoExistente = tokenVerificacaoService.analisarTokenVerificacaoUsuario(usuario);
 
